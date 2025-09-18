@@ -1,24 +1,32 @@
 // app/components/Footer.tsx
-import { Facebook, Linkedin, Mail, MapPin, Phone, Twitter } from "lucide-react";
+import {
+  Facebook,
+  Instagram,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Twitter,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0347A7] text-white ">
-      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8 ">
+    <footer className=" ">
+      <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Logo + Name */}
         <div>
           <Link href="/" className="flex items-center space-x-3">
             <Image
-              src="/celgap logo.png" // place your logo inside /public
+              src="/logo3.png"
               alt="CELGAP"
               width={300}
               height={100}
-              className="rounded  p-1"
+              className="rounded p-1"
             />
           </Link>
-          <p className="mt-3 text-sm text-gray-300">
+          <p className="mt-3 text-sm text-gray-800">
             Advancing research, education, and policy in law and governance.
           </p>
         </div>
@@ -56,15 +64,15 @@ export default function Footer() {
         </div>
 
         {/* Contact Info */}
-        <div>
+        <div className="space-y-2">
           <h4 className="font-semibold text-lg mb-3">Contact</h4>
-          <p className="flex items-center gap-2 text-sm text-gray-300">
+          <p className="flex items-center gap-2 text-sm text-gray-800">
             <MapPin size={16} /> University Campus, Dhaka, Bangladesh
           </p>
-          <p className="flex items-center gap-2 text-sm text-gray-300">
+          <p className="flex items-center gap-2 text-sm text-gray-800">
             <Mail size={16} /> info@celgap.org
           </p>
-          <p className="flex items-center gap-2 text-sm text-gray-300">
+          <p className="flex items-center gap-2 text-sm text-gray-800">
             <Phone size={16} /> +880 1234 567890
           </p>
         </div>
@@ -72,27 +80,34 @@ export default function Footer() {
         {/* Social Media */}
         <div>
           <h4 className="font-semibold text-lg mb-3">Follow Us</h4>
-          <div className="flex space-x-4">
+          <div className="flex space-x-3">
             <Link
               href="#"
-              className="hover:text-yellow-400"
               aria-label="Facebook"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
             >
-              <Facebook size={20} />
+              <Facebook size={18} />
             </Link>
             <Link
               href="#"
-              className="hover:text-yellow-400"
               aria-label="Twitter"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
             >
-              <Twitter size={20} />
+              <Twitter size={18} />
             </Link>
             <Link
               href="#"
-              className="hover:text-yellow-400"
               aria-label="LinkedIn"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
             >
-              <Linkedin size={20} />
+              <Linkedin size={18} />
+            </Link>
+            <Link
+              href="#"
+              aria-label="Instagram"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
+            >
+              <Instagram size={18} />
             </Link>
           </div>
         </div>

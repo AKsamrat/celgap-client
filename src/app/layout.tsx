@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import { Merriweather, Montserrat } from "next/font/google";
+import { Merriweather, Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-montserrat",
-  weight: ["400"], // adjust as needed
+  weight: ["400", "900"], // adjust as needed
 });
 const merriweather = Merriweather({
   subsets: ["latin"],
   weight: ["400", "700"], // Regular + Bold
+});
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "700"],
 });
 
 export const metadata: Metadata = {
@@ -24,7 +28,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${montserrat.className}  antialiased`}>{children}</body>
+      <body
+        className={`${poppins.className} ${merriweather.className} antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
