@@ -255,12 +255,17 @@ const ContactUsPage: React.FC = () => {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-300 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-5xl font-bold mb-4">Get In Touch</h1>
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+      <div className="relative py-16 bg-[url('/banner1.jpg')] bg-cover bg-center">
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        {/* Glassmorphic Container */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
+            <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
+              Get In Touch
+            </h1>
+            <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               Connect with us for collaborations, partnerships, career
               opportunities, or to learn more about our work in law and policy
               research.

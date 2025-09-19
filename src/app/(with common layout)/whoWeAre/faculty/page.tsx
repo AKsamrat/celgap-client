@@ -1,5 +1,6 @@
 "use client";
 import { Award, BookOpen, Linkedin, Mail, Twitter, Users } from "lucide-react";
+import Image from "next/image";
 import React, { useState } from "react";
 
 interface TeamMember {
@@ -197,73 +198,73 @@ const OurTeamPage: React.FC = () => {
       isActive: true,
       joinedYear: 2021,
     },
-    {
-      id: 7,
-      name: "Payal Gaikwad",
-      position: "Projects Coordinator",
-      department: "Operations",
-      bio: "Payal Gaikwad coordinates various projects and initiatives at CLPR, ensuring smooth execution of programs and events.",
-      education: ["MBA, Pune University", "BA, Mumbai University"],
-      expertise: [
-        "Project Management",
-        "Event Coordination",
-        "Program Development",
-        "Operations",
-      ],
-      email: "payal@clpr.org.in",
-      image: "/api/placeholder/300/400",
-      isActive: true,
-      joinedYear: 2019,
-    },
-    {
-      id: 8,
-      name: "Shankar K",
-      position: "Finance Head",
-      department: "Operations",
-      bio: "Shankar K manages the financial operations of CLPR, ensuring compliance and efficient resource management.",
-      education: [
-        "M.Com, Bangalore University",
-        "CA, Institute of Chartered Accountants of India",
-      ],
-      expertise: [
-        "Financial Management",
-        "Compliance",
-        "Accounting",
-        "Resource Planning",
-      ],
-      email: "shankar@clpr.org.in",
-      image: "/api/placeholder/300/400",
-      isActive: true,
-      joinedYear: 2015,
-    },
-    {
-      id: 9,
-      name: "Dr. Sudhir Krishnaswamy",
-      position: "Senior Advisor",
-      department: "Leadership",
-      bio: "Dr. Sudhir Krishnaswamy is a renowned constitutional law expert and senior advisor to CLPR.",
-      education: [
-        "PhD, Oxford University",
-        "LLM, Harvard Law School",
-        "BA LLB, National Law School",
-      ],
-      expertise: [
-        "Constitutional Law",
-        "Comparative Constitutionalism",
-        "Legal Philosophy",
-        "Academic Research",
-      ],
-      publications: [
-        "Democracy and Constitutionalism in India",
-        "Constitutional Interpretation",
-      ],
-      awards: ["Distinguished Scholar Award", "Constitutional Law Excellence"],
-      email: "sudhir@clpr.org.in",
-      linkedin: "#",
-      image: "/api/placeholder/300/400",
-      isActive: false,
-      joinedYear: 2010,
-    },
+    // {
+    //   id: 7,
+    //   name: "Payal Gaikwad",
+    //   position: "Projects Coordinator",
+    //   department: "Operations",
+    //   bio: "Payal Gaikwad coordinates various projects and initiatives at CLPR, ensuring smooth execution of programs and events.",
+    //   education: ["MBA, Pune University", "BA, Mumbai University"],
+    //   expertise: [
+    //     "Project Management",
+    //     "Event Coordination",
+    //     "Program Development",
+    //     "Operations",
+    //   ],
+    //   email: "payal@clpr.org.in",
+    //   image: "/api/placeholder/300/400",
+    //   isActive: true,
+    //   joinedYear: 2019,
+    // },
+    // {
+    //   id: 8,
+    //   name: "Shankar K",
+    //   position: "Finance Head",
+    //   department: "Operations",
+    //   bio: "Shankar K manages the financial operations of CLPR, ensuring compliance and efficient resource management.",
+    //   education: [
+    //     "M.Com, Bangalore University",
+    //     "CA, Institute of Chartered Accountants of India",
+    //   ],
+    //   expertise: [
+    //     "Financial Management",
+    //     "Compliance",
+    //     "Accounting",
+    //     "Resource Planning",
+    //   ],
+    //   email: "shankar@clpr.org.in",
+    //   image: "/api/placeholder/300/400",
+    //   isActive: true,
+    //   joinedYear: 2015,
+    // },
+    // {
+    //   id: 9,
+    //   name: "Dr. Sudhir Krishnaswamy",
+    //   position: "Senior Advisor",
+    //   department: "Leadership",
+    //   bio: "Dr. Sudhir Krishnaswamy is a renowned constitutional law expert and senior advisor to CLPR.",
+    //   education: [
+    //     "PhD, Oxford University",
+    //     "LLM, Harvard Law School",
+    //     "BA LLB, National Law School",
+    //   ],
+    //   expertise: [
+    //     "Constitutional Law",
+    //     "Comparative Constitutionalism",
+    //     "Legal Philosophy",
+    //     "Academic Research",
+    //   ],
+    //   publications: [
+    //     "Democracy and Constitutionalism in India",
+    //     "Constitutional Interpretation",
+    //   ],
+    //   awards: ["Distinguished Scholar Award", "Constitutional Law Excellence"],
+    //   email: "sudhir@clpr.org.in",
+    //   linkedin: "#",
+    //   image: "/api/placeholder/300/400",
+    //   isActive: false,
+    //   joinedYear: 2010,
+    // },
   ];
 
   const filteredMembers = teamMembers.filter((member) => {
@@ -287,10 +288,10 @@ const OurTeamPage: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
             <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
-              Our Team
+              Our Faculty
             </h1>
             <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
-              CLPRs core purpose is to ensure that the Constitution works for
+              CELGAP core purpose is to ensure that the Constitution works for
               everyone through law & policy research and strategic impact
               litigation. Our diverse team of legal experts, researchers, and
               advocates work collectively to promote constitutional values and
@@ -361,7 +362,7 @@ const OurTeamPage: React.FC = () => {
         </div>
 
         {/* Team Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
           {filteredMembers.map((member) => (
             <div
               key={member.id}
@@ -371,18 +372,20 @@ const OurTeamPage: React.FC = () => {
               onClick={() => setSelectedMember(member)}
             >
               {/* Member Photo */}
-              <div className="relative h-64 bg-gradient-to-br from-blue-100 to-purple-100">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-full  object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                      member.name
-                    )}&size=300&background=3b82f6&color=fff`;
-                  }}
-                />
+              <div className="relative  mb-6 mx-auto w-48 h-48">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-orange-500 via-orange-400 to-orange-300 p-1">
+                  <div className="w-full h-full rounded-full bg-white p-2">
+                    <div className="relative w-full h-full rounded-full overflow-hidden">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
+                  </div>
+                </div>
                 {!member.isActive && (
                   <div className="absolute top-3 right-3">
                     <span className="bg-gray-600 text-white px-2 py-1 rounded-full text-xs">

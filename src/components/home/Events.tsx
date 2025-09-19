@@ -1,3 +1,7 @@
+"use client";
+
+import Marquee from "react-fast-marquee";
+
 export default function EventsSection() {
   const events = [
     {
@@ -64,22 +68,22 @@ export default function EventsSection() {
 
   return (
     <div className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
-        <h2 className="text-4xl font-bold text-blue-900 mb-16 tracking-wider">
+        <h2 className="text-4xl font-bold text-blue-900 mb-6 tracking-wider">
           EVENTS
         </h2>
 
-        {/* Events Grid */}
-        <div className="grid md:grid-cols-2 gap-12">
+        {/* Events Marquee */}
+        <Marquee pauseOnHover={true} speed={50} gradient={false}>
           {events.map((event) => (
             <div
               key={event.id}
-              className="bg-white rounded-lg shadow-lg p-6 flex gap-6"
+              className="min-w-[350px] max-w-sm mx-4 bg-white rounded-lg shadow-lg p-3 items-start h-[450px]"
             >
               {/* Date Circle */}
               <div
-                className={`flex-shrink-0 w-20 h-20 rounded-full border-4 ${event.color} bg-white flex flex-col items-center justify-center`}
+                className={`w-20 h-20 mb-4 rounded-full border-4 ${event.color} bg-white flex flex-col items-center justify-center`}
               >
                 <span className="text-2xl font-bold text-gray-800">
                   {event.date}
@@ -90,45 +94,43 @@ export default function EventsSection() {
               </div>
 
               {/* Event Details */}
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-gray-800 mb-3 leading-tight">
-                  {event.title}
-                </h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3 leading-tight">
+                {event.title}
+              </h3>
 
-                <div className="space-y-2 mb-4">
-                  <div className="flex items-start">
-                    <span
-                      className={`text-sm font-medium ${event.venueColor} mr-2`}
-                    >
-                      VENUE
-                    </span>
-                    <span className="text-sm text-gray-700 flex-1">
-                      {event.venue}
-                    </span>
-                  </div>
-                  <div className="flex items-start">
-                    <span
-                      className={`text-sm font-medium ${event.timeColor} mr-2`}
-                    >
-                      TIME
-                    </span>
-                    <span className="text-sm text-gray-700 flex-1">
-                      {event.time}
-                    </span>
-                  </div>
+              <div className="space-y-2 mb-4">
+                <div className="flex items-start">
+                  <span
+                    className={`text-sm font-medium ${event.venueColor} mr-2`}
+                  >
+                    VENUE
+                  </span>
+                  <span className="text-sm text-gray-700 flex-1">
+                    {event.venue}
+                  </span>
                 </div>
-
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed">
-                  {event.description}
-                </p>
-
-                <button className="border border-gray-400 text-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-100 transition-colors duration-200 rounded">
-                  READ MORE
-                </button>
+                <div className="flex items-start">
+                  <span
+                    className={`text-sm font-medium ${event.timeColor} mr-2`}
+                  >
+                    TIME
+                  </span>
+                  <span className="text-sm text-gray-700 flex-1">
+                    {event.time}
+                  </span>
+                </div>
               </div>
+
+              <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+                {event.description}
+              </p>
+
+              <button className="border border-gray-400 text-gray-700 px-4 py-2 text-sm font-medium hover:bg-gray-100 transition-colors duration-200 rounded">
+                READ MORE
+              </button>
             </div>
           ))}
-        </div>
+        </Marquee>
       </div>
     </div>
   );

@@ -106,10 +106,10 @@ export default function MegaMenu() {
     <>
       <nav
         className={`   w-full transition-all z-50 ${
-          isSticky ? "fixed top-0 shadow-md bg-black/70 text-white" : "relative"
+          isSticky ? "fixed top-0 shadow-md bg-white text-black" : "relative"
         }`}
       >
-        <div className="flex items-center justify-between px-6 py-2 max-w-7xl mx-auto font-light">
+        <div className="flex items-center justify-between px-6 py-2 max-w-7xl mx-auto font-light bg-white">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
             <img
@@ -133,7 +133,7 @@ export default function MegaMenu() {
                   href={item.href || "#"}
                   className={`px-2 py-1 font-normal transition ${
                     isParentActive(item)
-                      ? "text-[#0347A7] border-b-2 border-[#0347A7]"
+                      ? "text-[#0347A7] border-b-2 border-[#0347A7] font-bold"
                       : "hover:text-[#0347A7]"
                   }`}
                 >
@@ -144,11 +144,11 @@ export default function MegaMenu() {
                 {item.subMenu && (
                   <div
                     className={`absolute left-0 top-full bg-white/90 text-[#0347A7] shadow-lg min-w-[220px] z-10 rounded-md transition-all duration-300 ease-in-out transform origin-top
-      ${
-        active === item.title
-          ? "opacity-100 scale-100"
-          : "opacity-0 scale-95 pointer-events-none"
-      }`}
+                    ${
+                      active === item.title
+                        ? "opacity-100 scale-100"
+                        : "opacity-0 scale-95 pointer-events-none"
+                    }`}
                   >
                     <ul className="space-y-2 p-4">
                       {item.subMenu.map((sub) => (
