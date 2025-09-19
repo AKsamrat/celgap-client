@@ -26,7 +26,7 @@ export default function HeroSlider() {
       button: { text: "View Programs", href: "/programs" },
     },
     {
-      image: "/slider-3.webp",
+      image: "/slider-4.jpg",
       title: "Policy for a Better Future",
       description:
         "Engaging communities to design informed and impactful policies.",

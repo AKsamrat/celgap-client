@@ -84,28 +84,28 @@ export default function Footer() {
             <Link
               href="#"
               aria-label="Facebook"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#0347A7] hover:text-white transition"
             >
               <Facebook size={18} />
             </Link>
             <Link
               href="#"
               aria-label="Twitter"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#0347A7] hover:text-white transition"
             >
               <Twitter size={18} />
             </Link>
             <Link
               href="#"
               aria-label="LinkedIn"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#0347A7] hover:text-white transition"
             >
               <Linkedin size={18} />
             </Link>
             <Link
               href="#"
               aria-label="Instagram"
-              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-yellow-400 hover:text-black transition"
+              className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-[#0347A7] hover:text-white transition"
             >
               <Instagram size={18} />
             </Link>

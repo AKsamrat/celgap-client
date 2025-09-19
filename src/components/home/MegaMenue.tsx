@@ -41,10 +41,13 @@ const navItems = [
   {
     title: "Events",
     subMenu: [
-      { name: "Conferences", href: "/events/conferences" },
+      { name: "Conferences", href: "/events/confernces" },
       { name: "Webinars", href: "/events/webinars" },
-      { name: "News", href: "/events/news" },
     ],
+  },
+  {
+    title: "News & Media",
+    href: "/newsAndMedia",
   },
   {
     title: "Blog",
@@ -102,7 +105,7 @@ export default function MegaMenu() {
   return (
     <>
       <nav
-        className={` text-[#0347A7]  w-full transition-all z-50 ${
+        className={`   w-full transition-all z-50 ${
           isSticky ? "fixed top-0 shadow-md bg-black/70 text-white" : "relative"
         }`}
       >
@@ -130,8 +133,8 @@ export default function MegaMenu() {
                   href={item.href || "#"}
                   className={`px-2 py-1 font-normal transition ${
                     isParentActive(item)
-                      ? "text-yellow-400 border-b-2 border-yellow-400"
-                      : "hover:text-yellow-400"
+                      ? "text-[#0347A7] border-b-2 border-[#0347A7]"
+                      : "hover:text-[#0347A7]"
                   }`}
                 >
                   {item.title}
@@ -154,8 +157,8 @@ export default function MegaMenu() {
                             href={sub.href}
                             className={`block px-2 py-1 rounded-md transition ${
                               pathname === sub.href
-                                ? "text-yellow-400"
-                                : "hover:text-yellow-400 hover:bg-black/10"
+                                ? "text-[#0347A7]"
+                                : "hover:text-[#0347A7] hover:bg-black/10"
                             }`}
                           >
                             {sub.name}
@@ -174,7 +177,7 @@ export default function MegaMenu() {
             <button
               onClick={() => setShowSearch(!showSearch)}
               aria-label="Toggle search"
-              className="hover:text-yellow-400"
+              className="hover:text-[#0347A7]"
             >
               <Search size={22} />
             </button>
@@ -185,7 +188,7 @@ export default function MegaMenu() {
                 aria-label="Toggle mobile menu"
               >
                 <svg
-                  className="w-8 h-8 text-white"
+                  className="w-8 h-8 text-[#0347A7]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -239,8 +242,8 @@ export default function MegaMenu() {
                     }
                     className={`block w-full text-center py-3 font-normal ${
                       isParentActive(item)
-                        ? "bg-[#045CB0] text-yellow-400"
-                        : "hover:text-yellow-400"
+                        ? "bg-[#045CB0] text-[#0347A7]"
+                        : "hover:text-[#0347A7]"
                     }`}
                   >
                     {item.title}

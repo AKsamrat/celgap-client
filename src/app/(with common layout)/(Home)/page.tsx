@@ -1,4 +1,5 @@
 import AboutSection from "@/components/home/About";
+import EventsSection from "@/components/home/Events";
 import HeroSlider from "@/components/home/SLider";
 
 const page = () => {
@@ -7,6 +8,7 @@ const page = () => {
       {/* <Hero></Hero> */}
       <HeroSlider></HeroSlider>
       <AboutSection></AboutSection>
+      <EventsSection></EventsSection>
     </div>
   );
 };
