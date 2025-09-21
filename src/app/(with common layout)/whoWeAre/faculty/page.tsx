@@ -237,34 +237,6 @@ const OurTeamPage: React.FC = () => {
     //   isActive: true,
     //   joinedYear: 2015,
     // },
-    // {
-    //   id: 9,
-    //   name: "Dr. Sudhir Krishnaswamy",
-    //   position: "Senior Advisor",
-    //   department: "Leadership",
-    //   bio: "Dr. Sudhir Krishnaswamy is a renowned constitutional law expert and senior advisor to CLPR.",
-    //   education: [
-    //     "PhD, Oxford University",
-    //     "LLM, Harvard Law School",
-    //     "BA LLB, National Law School",
-    //   ],
-    //   expertise: [
-    //     "Constitutional Law",
-    //     "Comparative Constitutionalism",
-    //     "Legal Philosophy",
-    //     "Academic Research",
-    //   ],
-    //   publications: [
-    //     "Democracy and Constitutionalism in India",
-    //     "Constitutional Interpretation",
-    //   ],
-    //   awards: ["Distinguished Scholar Award", "Constitutional Law Excellence"],
-    //   email: "sudhir@clpr.org.in",
-    //   linkedin: "#",
-    //   image: "/api/placeholder/300/400",
-    //   isActive: false,
-    //   joinedYear: 2010,
-    // },
   ];
 
   const filteredMembers = teamMembers.filter((member) => {

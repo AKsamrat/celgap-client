@@ -157,7 +157,7 @@ export default function ProgramsSection() {
       <div className="container max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-blue-900 tracking-wide mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 tracking-wide mb-4">
             PROGRAMS & INITIATIVES
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-800 to-blue-400 mx-auto mb-6"></div>
@@ -205,6 +205,12 @@ export default function ProgramsSection() {
                 <p className="text-gray-600 text-sm mb-4 line-clamp-3">
                   {program.description}
                 </p>
+              </div>
+              <div className="ml-4">
+                <button className="border-2 border-blue-900 px-3 py-1 rounded-lg">
+                  {" "}
+                  Details
+                </button>
               </div>
             </div>
           ))}

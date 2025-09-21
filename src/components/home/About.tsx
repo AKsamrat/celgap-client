@@ -19,7 +19,7 @@ export default function AboutSection() {
 
         {/* Content */}
         <div>
-          <h2 className="text-3xl sm:text-4xl font-bold text-blue-900 mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-6 uppercase">
             About Us
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-6">

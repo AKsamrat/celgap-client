@@ -29,9 +29,11 @@ const workAreas = [
 const HowWork = () => {
   return (
     <div className="max-w-7xl mx-auto px-6">
-      <div className="mb-16">
+      <div className="mb-16 mt-20">
         <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold text-blue-900 mb-4">HOW WE WORK</h3>
+          <h3 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">
+            HOW WE WORK
+          </h3>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
             Our multi-faceted approach combines research, advocacy, and legal
             action to address systemic challenges and promote social justice

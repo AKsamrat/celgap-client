@@ -3,11 +3,11 @@ export default function NewsMediaSection() {
     {
       id: 1,
       category: "SUPREME COURT OBSERVER",
-      categoryColor: "bg-red-500",
+      categoryColor: "bg-blue-900",
       title:
         "Panel Discussion on the Role of the Media in Highlighting Gender Gaps in the Higher Judiciary",
       date: "MARCH 25, 2025",
-      dateColor: "text-red-500",
+      dateColor: "text-blue-500",
       description:
         'A two-day national consultation organised by the Centre for Law and Policy Research was held in Bengaluru on 22 and 23 March to address this issue. Titled "Equal Justice: Securing Equal Inclusion of Women in the Higher Judiciary," the consultation comprised four panel discussions which highlighted the systemic barriers that hinder women\'s advancement in the judiciary.',
       bgColor: "bg-gray-100",
@@ -15,7 +15,7 @@ export default function NewsMediaSection() {
     {
       id: 2,
       category: "LIVE LAW",
-      categoryColor: "bg-orange-500",
+      categoryColor: "bg-blue-900",
       title:
         "Supreme Court Reserves Treasurer Plus 30% EC/Councilor Posts For Women Lawyers In All Karnataka District Bar Associations",
       date: "MARCH 24, 2025",
@@ -39,7 +39,7 @@ export default function NewsMediaSection() {
     {
       id: 4,
       category: "DECCAN HERALD",
-      categoryColor: "bg-red-500",
+      categoryColor: "bg-blue-900",
       title:
         "Justice denied? Women Still a Minority in India's Higher Judiciary",
       date: "MARCH 24, 2025",
@@ -66,7 +66,11 @@ export default function NewsMediaSection() {
               className={`${article.bgColor} rounded-lg overflow-hidden shadow-sm`}
             >
               {/* Category Header */}
-              <div className={`${article.categoryColor} text-white px-6 py-3`}>
+              <div
+                className={`bg-gradient-to-r ${[
+                  article.categoryColor,
+                ]} to-blue-500 text-white px-6 py-3`}
+              >
                 <h3 className="text-sm font-bold tracking-wide uppercase">
                   {article.category}
                 </h3>

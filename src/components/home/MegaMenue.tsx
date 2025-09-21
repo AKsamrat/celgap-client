@@ -35,7 +35,7 @@ const navItems = [
     subMenu: [
       { name: "Articles", href: "/resources/articles" },
       { name: "Reports", href: "/resources/reports" },
-      { name: "Case Studies", href: "/resources/case-studies" },
+      { name: "Case Studies", href: "/resources/caseStudies" },
     ],
   },
   {
@@ -121,7 +121,7 @@ export default function MegaMenu() {
           </Link>
 
           {/* Desktop Navigation */}
-          <ul className="hidden md:flex space-x-2 ml-8 uppercase">
+          <ul className="hidden md:flex space-x-2 ml-8 uppercase text-slate-600">
             {navItems.map((item) => (
               <li
                 key={item.title}
