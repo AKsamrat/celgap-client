@@ -79,7 +79,7 @@ export default function Footer() {
 
         {/* Social Media */}
         <div>
-          <h4 className="font-semibold text-lg mb-3">Follow Us</h4>
+          <h4 className="font-semibold text-lg mb-3 ml-3">Follow Us</h4>
           <div className="flex space-x-3">
             <Link
               href="#"

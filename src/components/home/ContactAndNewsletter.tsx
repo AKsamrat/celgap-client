@@ -42,7 +42,7 @@ export default function ContactNewsletter() {
 
   return (
     <section className="py-8 bg-gray-50">
-      <div className="container mx-auto px-4">
+      <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-blue-900 tracking-wide mb-4">
@@ -55,7 +55,7 @@ export default function ContactNewsletter() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12  mx-auto">
           {/* Contact Form Section */}
           <div className="bg-white rounded-xl shadow-lg p-8">
             <div className="mb-8">
@@ -123,25 +123,6 @@ export default function ContactNewsletter() {
                     placeholder="your.email@example.com"
                   />
                 </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={contactForm.subject}
-                  onChange={handleContactChange}
-                  required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent transition-all duration-300"
-                  placeholder="What is this regarding?"
-                />
               </div>
 
               <div>

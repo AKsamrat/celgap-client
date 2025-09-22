@@ -12,14 +12,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 export default function HeroSlider() {
   const slides = [
     {
-      image: "/slider-1.png",
+      image: "/slide1.jpg",
       title: "Advancing Law and Justice",
       description:
         "Promoting research, education, and dialogue in law and governance.",
       button: { text: "Explore Research", href: "/research" },
     },
     {
-      image: "/slider-2.jpg",
+      image: "/slide6.jpg",
       title: "Shaping Governance",
       description:
         "Building policies that foster accountability, transparency, and progress.",
