@@ -187,14 +187,14 @@ export default function PublicationPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <div className="bg-blue-900 text-white py-16">
+      <div className="bg-gradient-to-r from-blue-900 to-blue-500 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex justify-center mb-6">
               <BookOpen className="w-16 h-16 text-blue-200" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Publications
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase">
+              Magazine
             </h1>
             <p className="text-xl text-blue-100 leading-relaxed">
               Access our comprehensive collection of research publications,
@@ -206,7 +206,7 @@ export default function PublicationPage() {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white ">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-4 mb-6">

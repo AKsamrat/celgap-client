@@ -260,7 +260,7 @@ const OurTeamPage: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
             <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
-              Our Faculty
+              Our Trustees
             </h1>
             <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               CELGAP core purpose is to ensure that the Constitution works for

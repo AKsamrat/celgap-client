@@ -1,5 +1,6 @@
 "use client";
 
+import BlogModal from "@/components/admin/blogModal";
 import AdminLayout from "@/components/admin/layout";
 import { Calendar, Edit, Eye, Plus, Search, Trash2, User } from "lucide-react";
 import { useState } from "react";
@@ -55,6 +56,14 @@ export default function AdminBlog() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>(mockBlogPosts);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    mode: "add" | "edit" | "preview";
+    post?: BlogPost;
+  }>({
+    isOpen: false,
+    mode: "add",
+  });
 
   const filteredPosts = blogPosts.filter((post) => {
     const matchesSearch =
@@ -84,6 +93,58 @@ export default function AdminBlog() {
     }
   };
 
+  const handleAddPost = () => {
+    setModalState({
+      isOpen: true,
+      mode: "add",
+    });
+  };
+
+  const handleEditPost = (post: BlogPost) => {
+    setModalState({
+      isOpen: true,
+      mode: "edit",
+      post,
+    });
+  };
+
+  const handlePreviewPost = (post: BlogPost) => {
+    setModalState({
+      isOpen: true,
+      mode: "preview",
+      post,
+    });
+  };
+
+  const handleSavePost = (postData: Partial<BlogPost>) => {
+    if (modalState.mode === "add") {
+      const newPost: BlogPost = {
+        id: Math.max(...blogPosts.map((p) => p.id)) + 1,
+        title: postData.title || "",
+        excerpt: postData.excerpt || "",
+        author: postData.author || "",
+        date: new Date().toISOString().split("T")[0],
+        status: postData.status || "draft",
+        views: 0,
+        category: postData.category || "",
+      };
+      setBlogPosts([newPost, ...blogPosts]);
+    } else if (modalState.mode === "edit" && modalState.post) {
+      setBlogPosts(
+        blogPosts.map((post) =>
+          post.id === modalState.post!.id ? { ...post, ...postData } : post
+        )
+      );
+    }
+  };
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      mode: "add",
+    });
+  };
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -97,7 +158,10 @@ export default function AdminBlog() {
               Manage your blog posts and articles
             </p>
           </div>
-          <button className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200">
+          <button
+            onClick={handleAddPost}
+            className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200"
+          >
             <Plus className="h-5 w-5 mr-2" />
             New Blog Post
           </button>
@@ -206,10 +270,16 @@ export default function AdminBlog() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900">
+                        <button
+                          onClick={() => handleEditPost(post)}
+                          className="text-blue-600 hover:text-blue-900"
+                        >
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button className="text-green-600 hover:text-green-900">
+                        <button
+                          onClick={() => handlePreviewPost(post)}
+                          className="text-green-600 hover:text-green-900"
+                        >
                           <Eye className="h-4 w-4" />
                         </button>
                         <button
@@ -242,6 +312,15 @@ export default function AdminBlog() {
           </div>
         )}
       </div>
+
+      {/* Blog Modal */}
+      <BlogModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        mode={modalState.mode}
+        post={modalState.post}
+        onSave={handleSavePost}
+      />
     </AdminLayout>
   );
 }

@@ -8,7 +8,7 @@ export default function TopMenuBar() {
           {/* Social Media Icons - Left Side */}
           <div className="flex items-center space-x-4 *:text-[#0347A7]">
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/share/p/1Ck288byeK"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-300 transition-colors duration-200"

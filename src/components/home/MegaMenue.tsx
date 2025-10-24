@@ -10,39 +10,35 @@ const navItems = [
     title: "WHO WE ARE",
     subMenu: [
       { name: "Our Story", href: "/whoWeAre/story" },
-      { name: "Faculty", href: "/whoWeAre/faculty" },
+      { name: "Board Of Trustees", href: "/whoWeAre/faculty" },
     ],
   },
   {
-    title: "Research",
+    title: "Publications",
     subMenu: [
-      { name: "Law", href: "/research/law" },
-      { name: "Governance", href: "/research/governance" },
-      { name: "Policy", href: "/research/policy" },
-      { name: "Publications", href: "/research/publications" },
+      { name: "Law Journal", href: "/publications/law" },
+      { name: "Magazine", href: "/publications/magazine" },
+      { name: "periodical", href: "/publications/periodical" },
     ],
   },
-  {
-    title: "Programs",
-    subMenu: [
-      { name: "Courses", href: "/programs/courses" },
-      { name: "Workshops", href: "/programs/workshops" },
-      { name: "Seminars", href: "/programs/seminars" },
-    ],
-  },
-  {
-    title: "Resources",
-    subMenu: [
-      { name: "Articles", href: "/resources/articles" },
-      { name: "Reports", href: "/resources/reports" },
-      { name: "Case Studies", href: "/resources/caseStudies" },
-    ],
-  },
+
+  // {
+  //   title: "Resources",
+  //   subMenu: [
+  //     { name: "Articles", href: "/resources/articles" },
+  //     { name: "Reports", href: "/resources/reports" },
+  //     { name: "Case Studies", href: "/resources/caseStudies" },
+  //   ],
+  // },
   {
     title: "Events",
     subMenu: [
       { name: "Conferences", href: "/events/confernces" },
       { name: "Webinars", href: "/events/webinars" },
+      { name: "Spring School", href: "/events/springSchool" },
+      { name: "Workshops", href: "/events/workshops" },
+      { name: "Seminars", href: "/events/seminars" },
+      { name: "Training", href: "/events/training" },
     ],
   },
   {
@@ -105,8 +101,8 @@ export default function MegaMenu() {
   return (
     <>
       <nav
-        className={`   w-full transition-all z-50 ${
-          isSticky ? "fixed top-0 shadow-md bg-white text-black" : "relative"
+        className={`   w-full z-50 transition-all duration-900 ease-in-out  ${
+          isSticky ? "fixed top-0 backdrop-blur-md shadow-md bg-white text-black" : "relative"
         }`}
       >
         <div className="flex items-center justify-between px-6 py-2 max-w-7xl mx-auto font-light bg-white">

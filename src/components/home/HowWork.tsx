@@ -14,7 +14,7 @@ const workAreas = [
   },
   {
     icon: <Gavel className="h-6 w-6" />,
-    title: "Legal Processes",
+    title: "Legal Awareness",
     description:
       "Utilizing legal mechanisms to effect necessary reforms and remedial measures",
   },

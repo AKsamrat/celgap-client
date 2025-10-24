@@ -2,17 +2,17 @@
 import ProgramCard from "@/components/cards/ProgramCard";
 import ProgramModal from "@/components/cards/ProgramModal";
 import { Program } from "@/types";
-import { Backpack } from "lucide-react";
+import { GroupIcon } from "lucide-react";
 import { useState } from "react";
-import { programs } from "../courses/page";
+import { programs } from "../training/page";
 
-export default function WorkShopPage() {
+export default function SeminarPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
 
   const filteredPrograms = programs
-    .filter((p) => p.type === "Workshop")
+    .filter((p) => p.type === "Seminar")
     .filter((p) => p.title.toLowerCase().includes(search.toLowerCase()))
     .filter((p) => statusFilter === "all" || p.status === statusFilter);
 
@@ -25,8 +25,8 @@ export default function WorkShopPage() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
             <div className="flex text-white items-center justify-center mb-4">
-              <Backpack className="h-12 w-12 mr-4" />
-              <h1 className="text-5xl font-bold">Work Shop</h1>
+              <GroupIcon className="h-12 w-12 mr-4" />
+              <h1 className="text-5xl font-bold">Seminar</h1>
             </div>
             <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               Explore upcoming courses to enhance your legal knowledge.

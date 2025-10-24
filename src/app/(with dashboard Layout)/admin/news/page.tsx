@@ -1,6 +1,8 @@
 "use client";
 
 import AdminLayout from "@/components/admin/layout";
+import NewsModal from "@/components/admin/newsModal";
+
 import {
   AlertCircle,
   Calendar,
@@ -82,6 +84,14 @@ export default function AdminNews() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedPriority, setSelectedPriority] = useState("all");
+  const [modalState, setModalState] = useState<{
+    isOpen: boolean;
+    mode: "add" | "edit" | "preview";
+    article?: NewsArticle;
+  }>({
+    isOpen: false,
+    mode: "add",
+  });
 
   const filteredArticles = newsArticles.filter((article) => {
     const matchesSearch =
@@ -126,6 +136,61 @@ export default function AdminNews() {
     }
   };
 
+  const handleAddArticle = () => {
+    setModalState({
+      isOpen: true,
+      mode: "add",
+    });
+  };
+
+  const handleEditArticle = (article: NewsArticle) => {
+    setModalState({
+      isOpen: true,
+      mode: "edit",
+      article,
+    });
+  };
+
+  const handlePreviewArticle = (article: NewsArticle) => {
+    setModalState({
+      isOpen: true,
+      mode: "preview",
+      article,
+    });
+  };
+
+  const handleSaveArticle = (articleData: Partial<NewsArticle>) => {
+    if (modalState.mode === "add") {
+      const newArticle: NewsArticle = {
+        id: Math.max(...newsArticles.map((a) => a.id)) + 1,
+        title: articleData.title || "",
+        excerpt: articleData.excerpt || "",
+        author: articleData.author || "",
+        date: new Date().toISOString().split("T")[0],
+        status: articleData.status || "draft",
+        views: 0,
+        category: articleData.category || "",
+        priority: articleData.priority || "medium",
+      };
+      setNewsArticles([newArticle, ...newsArticles]);
+    } else if (modalState.mode === "edit" && modalState.article) {
+      setNewsArticles(
+        newsArticles.map((article) =>
+          article.id === modalState.article!.id
+            ? { ...article, ...articleData }
+            : article
+        )
+      );
+    }
+  };
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      mode: "add",
+    });
+  };
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -139,7 +204,10 @@ export default function AdminNews() {
               Manage news articles and breaking news
             </p>
           </div>
-          <button className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200">
+          <button
+            onClick={handleAddArticle}
+            className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200"
+          >
             <Plus className="h-5 w-5 mr-2" />
             New News Article
           </button>
@@ -273,10 +341,16 @@ export default function AdminNews() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900">
+                        <button
+                          onClick={() => handleEditArticle(article)}
+                          className="text-blue-600 hover:text-blue-900"
+                        >
                           <Edit className="h-4 w-4" />
                         </button>
-                        <button className="text-green-600 hover:text-green-900">
+                        <button
+                          onClick={() => handlePreviewArticle(article)}
+                          className="text-green-600 hover:text-green-900"
+                        >
                           <Eye className="h-4 w-4" />
                         </button>
                         <button
@@ -309,6 +383,15 @@ export default function AdminNews() {
           </div>
         )}
       </div>
+
+      {/* News Modal */}
+      <NewsModal
+        isOpen={modalState.isOpen}
+        onClose={closeModal}
+        mode={modalState.mode}
+        article={modalState.article}
+        onSave={handleSaveArticle}
+      />
     </AdminLayout>
   );
 }

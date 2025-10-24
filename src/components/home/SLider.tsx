@@ -69,7 +69,7 @@ export default function HeroSlider() {
                 </p>
                 <Link
                   href={slide.button.href}
-                  className="inline-block px-6 py-3 bg-[#0347A7] text-white font-medium rounded-md shadow hover:bg-[#02357d] transition"
+                  className="inline-block px-6 py-3 bg-blue-900  text-white font-medium rounded-md shadow hover:bg-[#02357d] transition"
                 >
                   {slide.button.text}
                 </Link>

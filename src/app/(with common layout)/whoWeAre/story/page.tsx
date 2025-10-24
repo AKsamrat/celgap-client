@@ -68,9 +68,9 @@ const OurStorySection: React.FC = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4 tracking-wider">
-            OUR STORY
+            OVERVIEW
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-red-500 to-purple-600 mx-auto"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-blue-900 to-blue-600 mx-auto"></div>
         </div>
 
         {/* Who We Are Section */}

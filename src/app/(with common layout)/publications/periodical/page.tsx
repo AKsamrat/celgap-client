@@ -5,13 +5,12 @@ import {
   Download,
   ExternalLink,
   Filter,
-  Scale,
   Search,
   User,
 } from "lucide-react";
 import { useState } from "react";
 
-interface LawItem {
+interface GovernanceItem {
   id: number;
   title: string;
   description: string;
@@ -21,83 +20,69 @@ interface LawItem {
   tags: string[];
   downloadUrl?: string;
   externalUrl?: string;
-  caseNumber?: string;
 }
 
-const lawItems: LawItem[] = [
+const governanceItems: GovernanceItem[] = [
   {
     id: 1,
-    title: "Constitutional Interpretation in Digital Age",
+    title: "Digital Governance Framework for Public Services",
     description:
-      "Analysis of how constitutional principles apply to digital rights, privacy, and technology governance in the modern era.",
-    category: "Constitutional Law",
-    date: "2024-12-20",
-    author: "Justice (Retd.) Meera Sharma",
-    tags: ["Constitutional Law", "Digital Rights", "Privacy"],
+      "Comprehensive analysis of digital transformation in government services and its impact on citizen engagement and administrative efficiency.",
+    category: "Digital Governance",
+    date: "2024-12-15",
+    author: "Dr. Priya Sharma",
+    tags: ["Digital Transformation", "Public Services", "E-Governance"],
     downloadUrl: "#",
     externalUrl: "#",
   },
   {
     id: 2,
-    title: "Environmental Law and Climate Justice",
+    title: "Transparency and Accountability in Local Government",
     description:
-      "Comprehensive study on environmental legislation, climate change litigation, and the role of courts in environmental protection.",
-    category: "Environmental Law",
-    date: "2024-12-05",
-    author: "Prof. Vikram Singh",
-    tags: ["Environmental Law", "Climate Change", "Litigation"],
+      "Research study on implementing transparency measures and accountability mechanisms in municipal governance structures.",
+    category: "Local Governance",
+    date: "2024-11-28",
+    author: "Prof. Rajesh Kumar",
+    tags: ["Transparency", "Accountability", "Municipal Governance"],
     downloadUrl: "#",
-    caseNumber: "PIL 234/2024",
   },
   {
     id: 3,
-    title: "Corporate Criminal Liability Framework",
+    title: "Participatory Governance Models in Urban Planning",
     description:
-      "Examination of corporate criminal responsibility, compliance mechanisms, and enforcement strategies in business law.",
-    category: "Corporate Law",
-    date: "2024-11-18",
-    author: "Dr. Anita Desai",
-    tags: ["Corporate Law", "Criminal Liability", "Compliance"],
+      "Examination of citizen participation mechanisms in urban development projects and their effectiveness in democratic decision-making.",
+    category: "Urban Governance",
+    date: "2024-11-10",
+    author: "Dr. Meera Patel",
+    tags: ["Participatory Governance", "Urban Planning", "Citizen Engagement"],
     externalUrl: "#",
   },
   {
     id: 4,
-    title: "Human Rights in the Digital Era",
+    title: "Corporate Governance Standards in Public Enterprises",
     description:
-      "Research on the intersection of human rights law and digital technology, including data protection and online freedoms.",
-    category: "Human Rights Law",
-    date: "2024-11-02",
-    author: "Prof. Rajesh Khanna",
-    tags: ["Human Rights", "Digital Technology", "Data Protection"],
+      "Analysis of governance frameworks in state-owned enterprises and recommendations for improving corporate accountability.",
+    category: "Corporate Governance",
+    date: "2024-10-22",
+    author: "Prof. Anil Gupta",
+    tags: ["Corporate Governance", "Public Enterprises", "Accountability"],
     downloadUrl: "#",
     externalUrl: "#",
-  },
-  {
-    id: 5,
-    title: "Labor Law Reforms and Worker Protection",
-    description:
-      "Analysis of recent labor law amendments and their impact on worker rights, employment security, and industrial relations.",
-    category: "Labor Law",
-    date: "2024-10-15",
-    author: "Dr. Sunita Rao",
-    tags: ["Labor Law", "Worker Rights", "Employment"],
-    downloadUrl: "#",
   },
 ];
 
 const categories = [
   "All",
-  "Constitutional Law",
-  "Environmental Law",
-  "Corporate Law",
-  "Human Rights Law",
-  "Labor Law",
+  "Digital Governance",
+  "Local Governance",
+  "Urban Governance",
+  "Corporate Governance",
 ];
 
-export default function LawPage() {
+export default function GovernancePage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredItems, setFilteredItems] = useState(lawItems);
+  const [filteredItems, setFilteredItems] = useState(governanceItems);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -110,7 +95,7 @@ export default function LawPage() {
   };
 
   const filterItems = (search: string, category: string) => {
-    let filtered = lawItems;
+    let filtered = governanceItems;
 
     if (category !== "All") {
       filtered = filtered.filter((item) => item.category === category);
@@ -133,26 +118,23 @@ export default function LawPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <div className="bg-blue-900 text-white py-16">
+      <div className="bg-gradient-to-r from-blue-900 to-blue-500 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <Scale className="w-16 h-16 text-blue-200" />
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Law Research
+            <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase">
+              Periodical
             </h1>
             <p className="text-xl text-blue-100 leading-relaxed">
-              Comprehensive legal research covering constitutional law,
-              environmental law, corporate law, human rights, and emerging legal
-              frameworks.
+              Exploring governance frameworks, transparency mechanisms, and
+              accountability measures in public administration and institutional
+              management.
             </p>
           </div>
         </div>
       </div>
 
       {/* Search and Filter Section */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm ">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -161,7 +143,7 @@ export default function LawPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
-                  placeholder="Search legal research..."
+                  placeholder="Periodical research..."
                   value={searchTerm}
                   onChange={(e) => handleSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
@@ -187,8 +169,8 @@ export default function LawPage() {
 
             {/* Results Count */}
             <p className="text-gray-600">
-              Showing {filteredItems.length} of {lawItems.length} legal research
-              items
+              Showing {filteredItems.length} of {governanceItems.length}{" "}
+              research items
             </p>
           </div>
         </div>
@@ -216,15 +198,6 @@ export default function LawPage() {
                     <h3 className="text-2xl font-bold text-gray-900 mb-4">
                       {item.title}
                     </h3>
-
-                    {/* Case Number (if applicable) */}
-                    {item.caseNumber && (
-                      <div className="mb-4">
-                        <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                          Case: {item.caseNumber}
-                        </span>
-                      </div>
-                    )}
 
                     {/* Description */}
                     <p className="text-gray-600 mb-6 leading-relaxed">

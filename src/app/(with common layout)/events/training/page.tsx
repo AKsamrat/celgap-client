@@ -266,7 +266,7 @@ export default function CoursesPage() {
           <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
             <div className="flex text-white items-center justify-center mb-4">
               <Briefcase className="h-12 w-12 mr-4" />
-              <h1 className="text-5xl font-bold">Courses</h1>
+              <h1 className="text-5xl font-bold uppercase">Training</h1>
             </div>
             <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               Explore upcoming courses to enhance your legal knowledge.
