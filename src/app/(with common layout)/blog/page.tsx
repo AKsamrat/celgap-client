@@ -11,6 +11,7 @@ interface BlogPost {
   categoryColor: string;
   description: string;
   bgColor: string;
+  image?:string;
 }
 
 interface BlogSectionProps {

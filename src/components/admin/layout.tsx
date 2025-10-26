@@ -1,9 +1,11 @@
 "use client";
 
-import { getCurrentUser, User } from "@/lib/auth";
+
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import Sidebar from "./sidebar";
+import { getCurrentUser } from "@/service/AuthService";
+import { User } from "@/lib/auth";
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -13,15 +15,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-
+  
   useEffect(() => {
-    const currentUser = getCurrentUser();
-    if (!currentUser) {
-      router.push("/admin/login");
-    } else {
-      setUser(currentUser);
+  
+    const getUser=async()=>{
+
+      const currentUser =await getCurrentUser();
+      console.log(currentUser)
+      if (!currentUser) {
+        router.push("/admin/login");
+      } else {
+        setUser(currentUser);
+      }
+      setIsLoading(false);
     }
-    setIsLoading(false);
+    getUser();
   }, [router]);
 
   if (isLoading) {
@@ -48,11 +56,11 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               </h1>
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-gray-600">
-                  Welcome, {user.name}
+                  Welcome, {user?.name}
                 </span>
                 <div className="w-8 h-8 bg-blue-900 rounded-full flex items-center justify-center">
                   <span className="text-white text-sm font-medium">
-                    {user.name.charAt(0).toUpperCase()}
+                    {user.name.toUpperCase()}
                   </span>
                 </div>
               </div>

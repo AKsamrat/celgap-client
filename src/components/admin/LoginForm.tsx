@@ -1,9 +1,12 @@
 "use client";
 
-import { authenticate, setCurrentUser } from "@/lib/auth";
+// import { authenticate, setCurrentUser } from "@/lib/auth";
+import { getCurrentUser, loginUser } from "@/service/AuthService";
 import { AlertCircle, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+// export const userData
 
 export default function LoginForm() {
   const [credentials, setCredentials] = useState({
@@ -21,9 +24,10 @@ export default function LoginForm() {
     setError("");
 
     try {
-      const user = await authenticate(credentials);
-      if (user) {
-        setCurrentUser(user);
+      const data = await loginUser(credentials);
+      if (data) {
+        const user = await getCurrentUser();
+        console.log('Current user:', user);
         router.push("/admin/dashboard");
       } else {
         setError("Invalid email or password");
@@ -40,6 +44,7 @@ export default function LoginForm() {
       ...credentials,
       [e.target.name]: e.target.value,
     });
+    
   };
 
   return (

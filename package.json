@@ -9,13 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.6",
+    "axios": "^1.12.2",
     "clsx": "^2.1.1",
+    "js-cookie": "^3.0.5",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.544.0",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-fast-marquee": "^1.6.5",
+    "react-hot-toast": "^2.6.0",
     "shadcn-ui": "^0.9.5",
+    "sweetalert2": "^11.26.3",
     "swiper": "^12.0.1",
     "tailwind-merge": "^3.3.1"
   },

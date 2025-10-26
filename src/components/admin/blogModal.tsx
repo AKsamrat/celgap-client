@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { createBlog } from "@/service/Blog";
 import { Calendar, Eye, Save, User, X } from "lucide-react";
 import { useState } from "react";
 
@@ -31,31 +33,41 @@ export default function BlogModal({
   onSave,
 }: BlogModalProps) {
   const [formData, setFormData] = useState({
-    title: post?.title || "",
-    excerpt: post?.excerpt || "",
-    content:
-      post?.content ||
-      "This is the full content of the blog post. In a real implementation, this would be a rich text editor with formatting options, images, and other media.",
-    author: post?.author || "",
-    category: post?.category || "",
-    status: post?.status || ("draft" as const),
+    title: "",
+    description: "",
+    author: "",
+    image: null as File | null,
+    status: "draft",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSave(formData);
-    onClose();
+
+  const handleChange = (e: any) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    data.append("title", formData.title);
+    data.append("description", formData.description);
+    data.append("author", formData.author);
+    data.append("status", formData.status);
+    if (formData.image) data.append("image", formData.image);
+
+    for (let [key, value] of data.entries()) {
+      console.log(key, value);
+    }
+
+    const res = await createBlog(data);
+    console.log("createBlog response:", res);
+
+    if (res?.status === 201) {
+      onSave(formData);
+      onClose();
+    } else {
+      console.log("Error creating blog:", res);
+    }
   };
 
   if (!isOpen) return null;
@@ -158,31 +170,9 @@ export default function BlogModal({
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label
-                    htmlFor="category"
-                    className="block text-sm font-medium text-gray-700 mb-2"
-                  >
-                    Category *
-                  </label>
-                  <select
-                    id="category"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                  >
-                    <option value="">Select category</option>
-                    <option value="Constitutional Law">
-                      Constitutional Law
-                    </option>
-                    <option value="Environmental Law">Environmental Law</option>
-                    <option value="Corporate Law">Corporate Law</option>
-                    <option value="Human Rights">Human Rights</option>
-                    <option value="Digital Rights">Digital Rights</option>
-                  </select>
-                </div>
+
+
+                {/* status----------- */}
                 <div>
                   <label
                     htmlFor="status"
@@ -204,42 +194,45 @@ export default function BlogModal({
                   </select>
                 </div>
               </div>
-
               <div>
                 <label
-                  htmlFor="excerpt"
+                  htmlFor="image"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Excerpt *
+                  Image
                 </label>
-                <textarea
-                  id="excerpt"
-                  name="excerpt"
-                  value={formData.excerpt}
-                  onChange={handleChange}
-                  required
-                  rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                  placeholder="Enter a brief excerpt or summary"
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept="image/*"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      setFormData({ ...formData, image: e.target.files[0] });
+                    }
+                  }}
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
                 />
               </div>
 
+              {/* content------------ */}
+
               <div>
                 <label
-                  htmlFor="content"
+                  htmlFor="description"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Content *
+                  description *
                 </label>
                 <textarea
-                  id="content"
-                  name="content"
-                  value={formData.content}
+                  id="description"
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
                   required
                   rows={10}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                  placeholder="Enter the full blog post content"
+                  placeholder="Enter the full blog post description"
                 />
               </div>
             </form>

@@ -1,6 +1,7 @@
 "use client";
 
-import { logout } from "@/lib/auth";
+import { logout } from "@/service/AuthService";
+// import { logout } from "@/lib/auth";
 import {
   BookOpen,
   Calendar,
