@@ -2,58 +2,24 @@
 
 import BlogModal from "@/components/admin/blogModal";
 import AdminLayout from "@/components/admin/layout";
+import { deleteBlog, getAllBlogs, updateBlogStatus } from "@/service/Blog";
 import { Calendar, Edit, Eye, Plus, Search, Trash2, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface BlogPost {
   id: number;
   title: string;
-  excerpt: string;
+  description: string;
   author: string;
-  date: string;
+  created_at: Date;
   status: "published" | "draft" | "scheduled";
-  views: number;
-  category: string;
+  image: string
+  // views: number;
+  // category: string;
 }
 
-const mockBlogPosts: BlogPost[] = [
-  {
-    id: 1,
-    title: "Digital Rights and Constitutional Framework in India",
-    excerpt:
-      "A comprehensive analysis of how digital rights are being interpreted within India's constitutional framework...",
-    author: "Dr. Priya Sharma",
-    date: "2024-12-20",
-    status: "published",
-    views: 1250,
-    category: "Constitutional Law",
-  },
-  {
-    id: 2,
-    title: "Environmental Law and Climate Justice",
-    excerpt:
-      "Examining the role of environmental legislation in addressing climate change challenges...",
-    author: "Prof. Vikram Singh",
-    date: "2024-12-18",
-    status: "published",
-    views: 890,
-    category: "Environmental Law",
-  },
-  {
-    id: 3,
-    title: "Corporate Social Responsibility: Legal Framework",
-    excerpt:
-      "Analysis of CSR legal requirements and implementation effectiveness across sectors...",
-    author: "Dr. Anil Gupta",
-    date: "2024-12-15",
-    status: "draft",
-    views: 0,
-    category: "Corporate Law",
-  },
-];
-
 export default function AdminBlog() {
-  const [blogPosts, setBlogPosts] = useState<BlogPost[]>(mockBlogPosts);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [modalState, setModalState] = useState<{
@@ -64,19 +30,24 @@ export default function AdminBlog() {
     isOpen: false,
     mode: "add",
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [total, setTotal] = useState(0);
 
-  const filteredPosts = blogPosts.filter((post) => {
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.author.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      selectedStatus === "all" || post.status === selectedStatus;
-    return matchesSearch && matchesStatus;
-  });
 
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this blog post?")) {
-      setBlogPosts(blogPosts.filter((post) => post.id !== id));
+
+  //delete blog ===================
+  const handleDelete = async (id: number) => {
+    const confirmDelete = confirm("Are you sure you want to delete this blog?");
+    if (!confirmDelete) return;
+
+    const res = await deleteBlog(id);
+    if (res?.status === 200) {
+      alert("Blog deleted successfully!");
+      loadBlogs(); // Refresh the list
+    } else {
+      alert("Failed to delete blog.");
     }
   };
 
@@ -116,27 +87,7 @@ export default function AdminBlog() {
     });
   };
 
-  const handleSavePost = (postData: Partial<BlogPost>) => {
-    if (modalState.mode === "add") {
-      const newPost: BlogPost = {
-        id: Math.max(...blogPosts.map((p) => p.id)) + 1,
-        title: postData.title || "",
-        excerpt: postData.excerpt || "",
-        author: postData.author || "",
-        date: new Date().toISOString().split("T")[0],
-        status: postData.status || "draft",
-        views: 0,
-        category: postData.category || "",
-      };
-      setBlogPosts([newPost, ...blogPosts]);
-    } else if (modalState.mode === "edit" && modalState.post) {
-      setBlogPosts(
-        blogPosts.map((post) =>
-          post.id === modalState.post!.id ? { ...post, ...postData } : post
-        )
-      );
-    }
-  };
+
 
   const closeModal = () => {
     setModalState({
@@ -144,6 +95,29 @@ export default function AdminBlog() {
       mode: "add",
     });
   };
+  //load all blogs----------------
+  const loadBlogs = async () => {
+    const data = await getAllBlogs(searchTerm, selectedStatus, currentPage, perPage);
+    // console.log("Blogs loaded:", data.data);
+    if (data?.data?.data) {
+      setBlogs(data.data.data); // Laravel paginate() wraps data inside 'data.data'
+      setLastPage(data.data.last_page);
+      setCurrentPage(data.data.current_page);
+      setTotal(data.data.total);
+      setPerPage(data.data.per_page);
+
+    } else {
+      setBlogs([]);
+    }
+  };
+
+  useEffect(() => {
+    loadBlogs();
+
+  }, [searchTerm, selectedStatus, currentPage, perPage]);
+
+
+
 
   return (
     <AdminLayout>
@@ -188,7 +162,7 @@ export default function AdminBlog() {
               <option value="all">All Status</option>
               <option value="published">Published</option>
               <option value="draft">Draft</option>
-              <option value="scheduled">Scheduled</option>
+
             </select>
           </div>
         </div>
@@ -211,16 +185,14 @@ export default function AdminBlog() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Views
-                  </th>
+
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredPosts.map((post) => (
+                {blogs?.map((post) => (
                   <tr key={post.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div>
@@ -228,11 +200,9 @@ export default function AdminBlog() {
                           {post.title}
                         </div>
                         <div className="text-sm text-gray-500 mt-1">
-                          {post.excerpt}
+                          {post.description}
                         </div>
-                        <div className="text-xs text-gray-400 mt-1">
-                          {post.category}
-                        </div>
+
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -244,30 +214,34 @@ export default function AdminBlog() {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
-                          post.status
-                        )}`}
+                      <select
+                        value={post.status}
+                        onChange={async (e) => {
+                          const newStatus = e.target.value;
+                          const res = await updateBlogStatus(post.id, newStatus);
+                          if (res?.status === 200) {
+                            alert("Status updated successfully!");
+                            loadBlogs(); // reload table
+                          } else {
+                            alert("Failed to update status.");
+                          }
+                        }}
+                        className={`px-2 py-1 text-xs font-semibold rounded-full cursor-pointer focus:outline-none border ${getStatusColor(post.status)}`}
                       >
-                        {post.status}
-                      </span>
+                        <option value="draft">Draft</option>
+                        <option value="published">Published</option>
+
+                      </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 text-gray-400 mr-2" />
                         <span className="text-sm text-gray-900">
-                          {new Date(post.date).toLocaleDateString()}
+                          {new Date(post.created_at).toLocaleDateString()}
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <Eye className="h-4 w-4 text-gray-400 mr-2" />
-                        <span className="text-sm text-gray-900">
-                          {post.views.toLocaleString()}
-                        </span>
-                      </div>
-                    </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
                         <button
@@ -296,9 +270,74 @@ export default function AdminBlog() {
             </table>
           </div>
         </div>
+        {/* Pagination */}
+        {blogs.length > 0 && (
+          <div className="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
+            <div className="text-sm text-gray-600">
+              Showing <strong>{(currentPage - 1) * perPage + 1}</strong> to{" "}
+              <strong>{Math.min(currentPage * perPage, total)}</strong> of{" "}
+              <strong>{total}</strong> results
+            </div>
+            <div className="flex items-center space-x-2">
+              <label htmlFor="perPage" className="text-sm text-gray-600">Show:</label>
+              <select
+                id="perPage"
+                value={perPage}
+                onChange={(e) => {
+                  setPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
+                className="border border-gray-300 rounded-lg px-2 py-1 text-sm"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={20}>20</option>
+              </select>
+            </div>
+
+            <div className="flex space-x-2">
+              <button
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage(currentPage - 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === 1
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-blue-900 text-white hover:bg-blue-800"
+                  }`}
+              >
+                Previous
+              </button>
+
+              {[...Array(lastPage)].map((_, index) => (
+                <button
+                  key={index + 1}
+                  onClick={() => setCurrentPage(index + 1)}
+                  className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === index + 1
+                    ? "bg-blue-900 text-white"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                    }`}
+                >
+                  {index + 1}
+                </button>
+              ))}
+
+              <button
+                disabled={currentPage === lastPage}
+                onClick={() => setCurrentPage(currentPage + 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === lastPage
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-blue-900 text-white hover:bg-blue-800"
+                  }`}
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        )}
+
+
 
         {/* Empty State */}
-        {filteredPosts.length === 0 && (
+        {blogs?.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 mb-4">
               <Search className="h-12 w-12 mx-auto" />
@@ -319,7 +358,8 @@ export default function AdminBlog() {
         onClose={closeModal}
         mode={modalState.mode}
         post={modalState.post}
-        onSave={handleSavePost}
+        loadBlogs={loadBlogs}
+
       />
     </AdminLayout>
   );

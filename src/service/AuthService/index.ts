@@ -28,7 +28,10 @@ export const registerUser = async (userData: React.FormEvent) => {
   }
 };
 
-export const loginUser = async (userData: React.FormEvent) => {
+export const loginUser = async (userData: {
+  email: string;
+  password: string;
+}) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/login`, {
       method: "POST",

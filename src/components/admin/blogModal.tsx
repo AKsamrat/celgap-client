@@ -1,28 +1,29 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { createBlog } from "@/service/Blog";
+import { createBlog, updateBlog } from "@/service/Blog";
 import { Calendar, Eye, Save, User, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface BlogPost {
   id: number;
   title: string;
-  excerpt: string;
-  content?: string;
+  description: string;
   author: string;
-  date: string;
-  status: "published" | "draft" | "scheduled";
-  views: number;
-  category: string;
+  date: Date;
+  status: "published" | "draft";
+  image: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 interface BlogModalProps {
   isOpen: boolean;
   onClose: () => void;
   mode: "add" | "edit" | "preview";
-  post?: BlogPost;
-  onSave: (post: Partial<BlogPost>) => void;
+  post?: BlogPost | undefined;
+  loadBlogs: () => void;
+
 }
 
 export default function BlogModal({
@@ -30,7 +31,8 @@ export default function BlogModal({
   onClose,
   mode,
   post,
-  onSave,
+  loadBlogs,
+
 }: BlogModalProps) {
   const [formData, setFormData] = useState({
     title: "",
@@ -39,7 +41,38 @@ export default function BlogModal({
     image: null as File | null,
     status: "draft",
   });
+  // When modal opens in edit mode, fill form with existing post data
+  useEffect(() => {
+    if (mode === "edit" && post) {
+      setFormData({
+        title: post.title || "",
+        description: post.description || "",
+        author: post.author || "",
+        image: null,
+        status: post.status || "draft",
+      });
+    } else if (mode === "add") {
+      // Reset when adding new blog
+      setFormData({
+        title: "",
+        description: "",
+        author: "",
+        image: null,
+        status: "draft",
+      });
+    }
+  }, [mode, post]);
 
+  //create blog=============
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      author: "",
+      image: null,
+      status: "draft",
+    });
+  };
 
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -55,18 +88,26 @@ export default function BlogModal({
     data.append("status", formData.status);
     if (formData.image) data.append("image", formData.image);
 
-    for (let [key, value] of data.entries()) {
-      console.log(key, value);
+    // for (let [key, value] of data.entries()) {
+    //   console.log(key, value);
+    // }
+
+    let res;
+
+    if (mode === "edit" && post) {
+      res = await updateBlog(post.id, data);
+      console.log("Updating blog with ID:", data);
+    } else {
+      res = await createBlog(data);
+      console.log("Updating blog with ID:", res);
     }
 
-    const res = await createBlog(data);
-    console.log("createBlog response:", res);
-
-    if (res?.status === 201) {
-      onSave(formData);
+    if (res?.status === 200 || res?.status === 201) {
+      loadBlogs();
       onClose();
+      resetForm();
     } else {
-      console.log("Error creating blog:", res);
+      console.log("Error saving blog:", res);
     }
   };
 
@@ -190,7 +231,7 @@ export default function BlogModal({
                   >
                     <option value="draft">Draft</option>
                     <option value="published">Published</option>
-                    <option value="scheduled">Scheduled</option>
+
                   </select>
                 </div>
               </div>
