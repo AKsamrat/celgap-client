@@ -2,12 +2,12 @@
 "use server";
 import { cookies } from "next/headers";
 
-export const createBlog = async (data: any) => {
+export const createNews = async (data: any) => {
   const token = (await cookies()).get("accessToken")!.value;
-  console.log(token);
+  console.log(token, data);
   if (!token) return console.log("No token found");
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/news`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -24,14 +24,14 @@ export const createBlog = async (data: any) => {
   }
 };
 
-//GET SINGLE BLOG===========================================
+//GET SINGLE NEWS===========================================
 
-export const getSingleBlog = async (id: string) => {
+export const getSingleNews = async (id: string) => {
   const token = (await cookies()).get("accessToken")!.value;
   console.log(token);
   if (!token) return console.log("No token found");
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/news${id}`, {
       method: "GET",
       //   headers: {
       //     Authorization: `Bearer ${token}`,
@@ -48,17 +48,15 @@ export const getSingleBlog = async (id: string) => {
   }
 };
 
-export const getAllBlogs = async (
+export const getAllNews = async (
   search?: string,
-  status?: string,
   currentPage?: number,
   perPage?: number
 ) => {
   try {
-    let url = `${process.env.NEXT_PUBLIC_BASE_API}/blogs?page=${currentPage}&per_page=${perPage}&`;
+    let url = `${process.env.NEXT_PUBLIC_BASE_API}/news?page=${currentPage}&per_page=${perPage}&`;
 
     if (search) url += `search=${encodeURIComponent(search)}&`;
-    if (status) url += `status=${status}`;
 
     const res = await fetch(url, {
       credentials: "include",
@@ -72,42 +70,14 @@ export const getAllBlogs = async (
   }
 };
 
-//update blog status===========================================
+//update news ===========================================
 
-export const updateBlogStatus = async (id: number, status: string) => {
-  //   console.log(id, status);
-  const token = (await cookies()).get("accessToken")!.value;
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/blogs/${id}/status`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ status }),
-      }
-    );
-
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.error("Error updating blog status:", error);
-    return null;
-  }
-};
-//update blog ===========================================
-
-export const updateBlog = async (id: number, formData: FormData) => {
+export const updateNews = async (id: number, formData: FormData) => {
   const token = (await cookies()).get("accessToken")?.value;
   if (!token) return console.error("No token found");
-
+  console.log(id, token);
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/news/${id}`, {
       method: "POST", // 👈 if Laravel route uses POST with _method=PUT
       headers: {
         Authorization: `Bearer ${token}`,
@@ -124,13 +94,13 @@ export const updateBlog = async (id: number, formData: FormData) => {
   }
 };
 
-//DELETE BLOG===============
-export const deleteBlog = async (id: number) => {
+//DELETE news===============
+export const deleteNews = async (id: number) => {
   const token = (await cookies()).get("accessToken")!.value;
   console.log(token);
   if (!token) return console.log("No token found");
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/blogs/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/news/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

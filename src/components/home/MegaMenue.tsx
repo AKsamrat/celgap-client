@@ -33,11 +33,11 @@ const navItems = [
   {
     title: "Events",
     subMenu: [
-      { name: "Conferences", href: "/events/confernces" },
-      { name: "Webinars", href: "/events/webinars" },
       { name: "Spring School", href: "/events/springSchool" },
-      { name: "Workshops", href: "/events/workshops" },
-      { name: "Seminars", href: "/events/seminars" },
+      { name: "Seminar", href: "/events/seminars" },
+      { name: "Conference", href: "/events/confernces" },
+      { name: "Workshop", href: "/events/workshops" },
+      { name: "Webinar", href: "/events/webinars" },
       { name: "Training", href: "/events/training" },
     ],
   },
@@ -101,9 +101,8 @@ export default function MegaMenu() {
   return (
     <>
       <nav
-        className={`   w-full z-50 transition-all duration-900 ease-in-out  ${
-          isSticky ? "fixed top-0 backdrop-blur-md shadow-md bg-white text-black" : "relative"
-        }`}
+        className={`   w-full z-50 transition-all duration-900 ease-in-out  ${isSticky ? "fixed top-0 backdrop-blur-md shadow-md bg-white text-black" : "relative"
+          }`}
       >
         <div className="flex items-center justify-between px-6 py-2 max-w-7xl mx-auto font-light bg-white">
           {/* Logo */}
@@ -127,11 +126,10 @@ export default function MegaMenu() {
               >
                 <Link
                   href={item.href || "#"}
-                  className={`px-2 py-1 font-normal transition ${
-                    isParentActive(item)
-                      ? "text-[#0347A7] border-b-2 border-[#0347A7] font-bold"
-                      : "hover:text-[#0347A7]"
-                  }`}
+                  className={`px-2 py-1 font-normal transition ${isParentActive(item)
+                    ? "text-[#0347A7] border-b-2 border-[#0347A7] font-bold"
+                    : "hover:text-[#0347A7]"
+                    }`}
                 >
                   {item.title}
                 </Link>
@@ -140,22 +138,20 @@ export default function MegaMenu() {
                 {item.subMenu && (
                   <div
                     className={`absolute left-0 top-full bg-white/90 text-[#0347A7] shadow-lg min-w-[220px] z-10 rounded-md transition-all duration-300 ease-in-out transform origin-top
-                    ${
-                      active === item.title
+                    ${active === item.title
                         ? "opacity-100 scale-100"
                         : "opacity-0 scale-95 pointer-events-none"
-                    }`}
+                      }`}
                   >
                     <ul className="space-y-2 p-4">
                       {item.subMenu.map((sub) => (
                         <li key={sub.name}>
                           <Link
                             href={sub.href}
-                            className={`block px-2 py-1 rounded-md transition ${
-                              pathname === sub.href
-                                ? "text-[#0347A7]"
-                                : "hover:text-[#0347A7] hover:bg-black/10"
-                            }`}
+                            className={`block px-2 py-1 rounded-md transition ${pathname === sub.href
+                              ? "text-[#0347A7]"
+                              : "hover:text-[#0347A7] hover:bg-black/10"
+                              }`}
                           >
                             {sub.name}
                           </Link>
@@ -236,11 +232,10 @@ export default function MegaMenu() {
                         ? toggleMobileSubMenu(item.title)
                         : setIsMobileMenuOpen(false)
                     }
-                    className={`block w-full text-center py-3 font-normal ${
-                      isParentActive(item)
-                        ? "bg-[#045CB0] text-[#0347A7]"
-                        : "hover:text-[#0347A7]"
-                    }`}
+                    className={`block w-full text-center py-3 font-normal ${isParentActive(item)
+                      ? "bg-[#045CB0] text-[#0347A7]"
+                      : "hover:text-[#0347A7]"
+                      }`}
                   >
                     {item.title}
                   </Link>
@@ -252,11 +247,10 @@ export default function MegaMenu() {
                           <Link
                             href={sub.href}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className={`block px-6 py-2 ${
-                              pathname === sub.href
-                                ? "bg-gray-200 text-blue-600"
-                                : "hover:bg-gray-200"
-                            }`}
+                            className={`block px-6 py-2 ${pathname === sub.href
+                              ? "bg-gray-200 text-blue-600"
+                              : "hover:bg-gray-200"
+                              }`}
                           >
                             {sub.name}
                           </Link>

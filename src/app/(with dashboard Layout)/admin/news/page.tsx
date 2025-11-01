@@ -2,6 +2,7 @@
 
 import AdminLayout from "@/components/admin/layout";
 import NewsModal from "@/components/admin/newsModal";
+import { deleteNews, getAllNews } from "@/service/News";
 
 import {
   AlertCircle,
@@ -13,77 +14,29 @@ import {
   Trash2,
   User,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface NewsArticle {
   id: number;
   title: string;
-  excerpt: string;
+  description: string;
   author: string;
-  date: string;
-  status: "published" | "draft" | "breaking";
-  views: number;
-  category: string;
-  priority: "high" | "medium" | "low";
+  created_at?: string | null;
+
 }
 
-const mockNewsArticles: NewsArticle[] = [
-  {
-    id: 1,
-    title: "Supreme Court Ruling on Digital Privacy Rights",
-    excerpt:
-      "The Supreme Court has delivered a landmark judgment on digital privacy rights, setting new precedents...",
-    author: "Legal News Team",
-    date: "2024-12-20",
-    status: "breaking",
-    views: 2150,
-    category: "Court Decisions",
-    priority: "high",
-  },
-  {
-    id: 2,
-    title: "New Environmental Protection Act Passed",
-    excerpt:
-      "Parliament has passed comprehensive environmental protection legislation with stricter penalties...",
-    author: "Policy Reporter",
-    date: "2024-12-19",
-    status: "published",
-    views: 1680,
-    category: "Legislation",
-    priority: "high",
-  },
-  {
-    id: 3,
-    title: "Legal Education Reform Committee Report",
-    excerpt:
-      "The committee on legal education reform has submitted its recommendations for curriculum updates...",
-    author: "Education Correspondent",
-    date: "2024-12-18",
-    status: "published",
-    views: 920,
-    category: "Education",
-    priority: "medium",
-  },
-  {
-    id: 4,
-    title: "Corporate Governance Guidelines Updated",
-    excerpt:
-      "SEBI has released updated corporate governance guidelines for listed companies...",
-    author: "Business Law Reporter",
-    date: "2024-12-17",
-    status: "draft",
-    views: 0,
-    category: "Corporate Law",
-    priority: "medium",
-  },
-];
+
 
 export default function AdminNews() {
   const [newsArticles, setNewsArticles] =
-    useState<NewsArticle[]>(mockNewsArticles);
+    useState<NewsArticle[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("all");
-  const [selectedPriority, setSelectedPriority] = useState("all");
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [total, setTotal] = useState(0);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     mode: "add" | "edit" | "preview";
@@ -92,49 +45,42 @@ export default function AdminNews() {
     isOpen: false,
     mode: "add",
   });
+  //load all blogs----------------
+  const loadNews = async () => {
+    const data = await getAllNews(searchTerm, currentPage, perPage);
+    // console.log("Blogs loaded:", data.data);
+    if (data?.data?.data) {
+      setNewsArticles(data.data.data); // Laravel paginate() wraps data inside 'data.data'
+      setLastPage(data.data.last_page);
+      setCurrentPage(data.data.current_page);
+      setTotal(data.data.total);
+      setPerPage(data.data.per_page);
 
-  const filteredArticles = newsArticles.filter((article) => {
-    const matchesSearch =
-      article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      article.author.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      selectedStatus === "all" || article.status === selectedStatus;
-    const matchesPriority =
-      selectedPriority === "all" || article.priority === selectedPriority;
-    return matchesSearch && matchesStatus && matchesPriority;
-  });
-
-  const handleDelete = (id: number) => {
-    if (confirm("Are you sure you want to delete this news article?")) {
-      setNewsArticles(newsArticles.filter((article) => article.id !== id));
+    } else {
+      setNewsArticles([]);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "published":
-        return "bg-green-100 text-green-800";
-      case "draft":
-        return "bg-yellow-100 text-yellow-800";
-      case "breaking":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
+  useEffect(() => {
+    loadNews();
+
+  }, [searchTerm, currentPage, perPage]);
+
+  //delete news ===================
+  const handleDelete = async (id: number) => {
+    const confirmDelete = confirm("Are you sure you want to delete this news?");
+    if (!confirmDelete) return;
+
+    const res = await deleteNews(id);
+    if (res?.status === 200) {
+      alert("News deleted successfully!");
+      loadNews(); // Refresh the list
+    } else {
+      alert("Failed to delete news.");
     }
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "high":
-        return "bg-red-100 text-red-800";
-      case "medium":
-        return "bg-yellow-100 text-yellow-800";
-      case "low":
-        return "bg-green-100 text-green-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
+
 
   const handleAddArticle = () => {
     setModalState({
@@ -164,13 +110,10 @@ export default function AdminNews() {
       const newArticle: NewsArticle = {
         id: Math.max(...newsArticles.map((a) => a.id)) + 1,
         title: articleData.title || "",
-        excerpt: articleData.excerpt || "",
+        description: articleData.description || "",
         author: articleData.author || "",
-        date: new Date().toISOString().split("T")[0],
-        status: articleData.status || "draft",
-        views: 0,
-        category: articleData.category || "",
-        priority: articleData.priority || "medium",
+        created_at: new Date().toISOString().split("T")[0],
+
       };
       setNewsArticles([newArticle, ...newsArticles]);
     } else if (modalState.mode === "edit" && modalState.article) {
@@ -226,26 +169,8 @@ export default function AdminNews() {
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
               />
             </div>
-            <select
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-            >
-              <option value="all">All Status</option>
-              <option value="published">Published</option>
-              <option value="draft">Draft</option>
-              <option value="breaking">Breaking</option>
-            </select>
-            <select
-              value={selectedPriority}
-              onChange={(e) => setSelectedPriority(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-            >
-              <option value="all">All Priority</option>
-              <option value="high">High</option>
-              <option value="medium">Medium</option>
-              <option value="low">Low</option>
-            </select>
+
+
           </div>
         </div>
 
@@ -261,40 +186,29 @@ export default function AdminNews() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Author
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Priority
-                  </th>
+
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Views
-                  </th>
+
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredArticles.map((article) => (
+                {newsArticles?.map((article) => (
                   <tr key={article.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div>
                         <div className="text-sm font-medium text-gray-900 flex items-center">
-                          {article.status === "breaking" && (
-                            <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
-                          )}
+
                           {article.title}
                         </div>
                         <div className="text-sm text-gray-500 mt-1">
-                          {article.excerpt}
+                          {article.description}
                         </div>
-                        <div className="text-xs text-gray-400 mt-1">
-                          {article.category}
-                        </div>
+
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -305,40 +219,17 @@ export default function AdminNews() {
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
-                          article.status
-                        )}`}
-                      >
-                        {article.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPriorityColor(
-                          article.priority
-                        )}`}
-                      >
-                        {article.priority}
-                      </span>
-                    </td>
+
+
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 text-gray-400 mr-2" />
                         <span className="text-sm text-gray-900">
-                          {new Date(article.date).toLocaleDateString()}
+                          {new Date(article.created_at).toLocaleDateString()}
                         </span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <Eye className="h-4 w-4 text-gray-400 mr-2" />
-                        <span className="text-sm text-gray-900">
-                          {article.views.toLocaleString()}
-                        </span>
-                      </div>
-                    </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex space-x-2">
                         <button
@@ -369,7 +260,7 @@ export default function AdminNews() {
         </div>
 
         {/* Empty State */}
-        {filteredArticles.length === 0 && (
+        {newsArticles?.length === 0 && (
           <div className="text-center py-12">
             <div className="text-gray-400 mb-4">
               <Search className="h-12 w-12 mx-auto" />
@@ -383,6 +274,70 @@ export default function AdminNews() {
           </div>
         )}
       </div>
+      {/* Pagination */}
+      {newsArticles.length > 0 && (
+        <div className="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
+          <div className="text-sm text-gray-600">
+            Showing <strong>{(currentPage - 1) * perPage + 1}</strong> to{" "}
+            <strong>{Math.min(currentPage * perPage, total)}</strong> of{" "}
+            <strong>{total}</strong> results
+          </div>
+          <div className="flex items-center space-x-2">
+            <label htmlFor="perPage" className="text-sm text-gray-600">Show:</label>
+            <select
+              id="perPage"
+              value={perPage}
+              onChange={(e) => {
+                setPerPage(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+              className="border border-gray-300 rounded-lg px-2 py-1 text-sm"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+            </select>
+          </div>
+
+          <div className="flex space-x-2">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === 1
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-900 text-white hover:bg-blue-800"
+                }`}
+            >
+              Previous
+            </button>
+
+            {[...Array(lastPage)].map((_, index) => (
+              <button
+                key={index + 1}
+                onClick={() => setCurrentPage(index + 1)}
+                className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === index + 1
+                  ? "bg-blue-900 text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+
+            <button
+              disabled={currentPage === lastPage}
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === lastPage
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-blue-900 text-white hover:bg-blue-800"
+                }`}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      )}
+
 
       {/* News Modal */}
       <NewsModal
@@ -391,6 +346,7 @@ export default function AdminNews() {
         mode={modalState.mode}
         article={modalState.article}
         onSave={handleSaveArticle}
+        loadNews={loadNews}
       />
     </AdminLayout>
   );

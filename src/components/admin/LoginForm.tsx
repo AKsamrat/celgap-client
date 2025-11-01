@@ -5,6 +5,7 @@ import { getCurrentUser, loginUser } from "@/service/AuthService";
 import { AlertCircle, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 // export const userData
 
@@ -25,15 +26,16 @@ export default function LoginForm() {
 
     try {
       const data = await loginUser(credentials);
+      // console.log("Login response data:", data);
       if (data) {
         const user = await getCurrentUser();
         console.log('Current user:', user);
         router.push("/admin/dashboard");
       } else {
-        setError("Invalid email or password");
+        toast.error("Invalid email or password");
       }
     } catch (err) {
-      setError("Login failed. Please try again.");
+      toast.error("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +46,7 @@ export default function LoginForm() {
       ...credentials,
       [e.target.name]: e.target.value,
     });
-    
+
   };
 
   return (

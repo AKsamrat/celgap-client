@@ -94,7 +94,8 @@ export default function BlogModal({
 
     let res;
 
-    if (mode === "edit" && post) {
+    if (mode === "edit" && post?.id) {
+      data.append("_method", "PUT");
       res = await updateBlog(post.id, data);
       console.log("Updating blog with ID:", data);
     } else {
@@ -107,7 +108,7 @@ export default function BlogModal({
       onClose();
       resetForm();
     } else {
-      console.log("Error saving blog:", res);
+      console.log("Error saving blog:", res.message);
     }
   };
 
