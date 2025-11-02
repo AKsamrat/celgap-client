@@ -4,6 +4,7 @@
 
 import { createSpeaker, updateSpeaker } from "@/service/Speaker";
 import { Calendar, Eye, Save, User, X } from "lucide-react";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 interface SpeakerPost {
@@ -13,7 +14,7 @@ interface SpeakerPost {
     organization: string;
     bio: string;
     topic: string;
-    photo: File | null;
+    photo: string | null;
     created_at: Date;
     updated_at: Date;
 }
@@ -57,7 +58,7 @@ export default function SpeakerModal({
                 designation: speaker.designation,
                 organization: speaker.organization,
                 topic: speaker.topic,
-                photo: speaker.photo,
+                photo: null,
                 bio: speaker.bio || "",
             });
         } else if (mode === "add") {
@@ -67,7 +68,7 @@ export default function SpeakerModal({
                 designation: "",
                 organization: "",
                 bio: "",
-                photo: "" || null,
+                photo: null,
                 topic: "",
             });
         }
@@ -170,8 +171,14 @@ export default function SpeakerModal({
                                     </span>
                                 </div>
                                 <div className="flex items-center">
-                                    {/* <Eye className="h-4 w-4 mr-2" /> */}
-                                    <span>{speaker?.photo} views</span>
+                                    {/* <Eye className="h-4 w-4 mr-2" />   01402183896 */}
+                                    <img
+                                        src={(speaker?.photo) || '/placeholder-image.png'}
+                                        alt={speaker?.name}
+                                        width={16}
+                                        height={16}
+                                        className="h-4 w-4 mr-2" />
+                                    {/* <span>{speaker?.photo} views</span> */}
                                 </div>
                             </div>
                             <div className="prose max-w-none">

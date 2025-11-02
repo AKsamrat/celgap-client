@@ -2,7 +2,7 @@
 
 
 import AdminLayout from "@/components/admin/layout";
-import ConferenceModal from "@/components/admin/conferenceModal";
+import ConferenceModal, { Speaker } from "@/components/admin/conferenceModal";
 
 import { deleteConferenceAndSeminer, getAllConferenceAndSeminer } from "@/service/ConferenceAndSeminer";
 
@@ -21,6 +21,7 @@ interface ConferenceAndSeminer {
     status: 'upcoming' | 'ongoing' | 'completed' | string;
     category: string;
     speaker_id?: string;
+    speaker?: Speaker;
     created_at: Date;
     updated_at: Date;
 }
@@ -196,57 +197,50 @@ export default function AdminSpeaker() {
                         <table className="min-w-full border border-gray-300 divide-y divide-gray-200">
                             <thead className="bg-gray-100">
                                 <tr>
-                                    <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Photo</th>
-                                    <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
-                                    <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Designation</th>
-                                    <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Organization</th>
-                                    <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Bio</th>
-                                    <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Topic</th>
-                                    <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700">Actions</th>
+                                    <th className="border px-4 py-2 text-sm">Title</th>
+                                    <th className="border px-4 py-2 text-sm">Date</th>
+                                    <th className="border px-4 py-2 text-sm">Venue</th>
+                                    <th className="border px-4 py-2 text-sm">Time</th>
+                                    <th className="border px-4 py-2 text-sm">Description</th>
+                                    <th className="border px-4 py-2 text-sm">Status</th>
+                                    <th className="border px-4 py-2 text-sm">Category</th>
+                                    <th className="border px-4 py-2 text-sm">Speaker</th>
+                                    <th className="border px-4 py-2 text-sm">Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody className="divide-y divide-gray-200">
                                 {conferenceAndSeminers?.map((speaker) => (
                                     <tr key={speaker.id} className="hover:bg-gray-50">
-                                        <td className="px-4 py-2">
-                                            {speaker.photo ? (
-                                                <img
-                                                    src={speaker.photo}
-                                                    alt={speaker.name}
-                                                    className="w-12 h-12 rounded-full object-cover"
-                                                />
-                                            ) : (
-                                                <span className="text-gray-400 italic">No photo</span>
-                                            )}
-                                        </td>
-                                        <td className="px-4 py-2 font-medium">{speaker.name}</td>
-                                        <td className="px-4 py-2">{speaker.designation}</td>
-                                        <td className="px-4 py-2">{speaker.organization}</td>
-                                        <td className="px-4 py-2 text-sm text-gray-600">{speaker.bio || "N/A"}</td>
-                                        <td className="px-4 py-2 text-sm text-gray-600">{speaker.topic || "N/A"}</td>
-                                        <td className="px-4 py-2 text-center">
-                                            <div className="flex space-x-2">
-                                                <button
-                                                    onClick={() => handleEditSpeaker(speaker)}
-                                                    className="text-blue-600 hover:text-blue-900"
-                                                >
-                                                    <Edit className="h-4 w-4" />
-                                                </button>
-                                                <button
-                                                    onClick={() => handlePreviewSpeaker(speaker)}
-                                                    className="text-green-600 hover:text-green-900"
-                                                >
-                                                    <Eye className="h-4 w-4" />
-                                                </button>
-                                                <button
-                                                    onClick={() => handleDelete(speaker.id)}
-                                                    className="text-red-600 hover:text-red-900"
-                                                >
-                                                    <Trash2 className="h-4 w-4" />
-                                                </button>
-                                            </div>
-                                        </td>
+                                        <td className="border px-4 py-2">{speaker.title}</td>
+                                        <td className="border px-4 py-2">{speaker.date}</td>
+                                        <td className="border px-4 py-2">{speaker.venue}</td>
+                                        <td className="border px-4 py-2">{speaker.time}</td>
+                                        <td className="border px-4 py-2">{speaker.description}</td>
+                                        <td className="border px-4 py-2 capitalize">{speaker.status}</td>
+                                        <td className="border px-4 py-2">{speaker.category}</td>
+                                        <td className="border px-4 py-2">{speaker.speaker?.name || "No Speaker"}</td>
+                                        <div className="flex space-x-2 mt-2 ml-2">
+                                            <button
+                                                onClick={() => handleEditSpeaker(speaker)}
+                                                className="text-blue-600 hover:text-blue-900"
+                                            >
+                                                <Edit className="h-4 w-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => handlePreviewSpeaker(speaker)}
+                                                className="text-green-600 hover:text-green-900"
+                                            >
+                                                <Eye className="h-4 w-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(speaker.id)}
+                                                className="text-red-600 hover:text-red-900"
+                                            >
+                                                <Trash2 className="h-4 w-4" />
+                                            </button>
+                                        </div>
+
                                     </tr>
                                 ))}
                             </tbody>
@@ -347,6 +341,6 @@ export default function AdminSpeaker() {
             />
 
 
-        </AdminLayout>
+        </AdminLayout >
     );
 }

@@ -139,7 +139,7 @@ export default function BlogModal({
             <div className="p-6">
               <div className="mb-6">
                 <span className="bg-blue-100 text-blue-900 px-3 py-1 rounded-full text-sm font-medium">
-                  {post?.category}
+                  {/* {post?.category} */}
                 </span>
               </div>
               <h1 className="text-3xl font-bold text-gray-900 mb-4">
@@ -156,15 +156,15 @@ export default function BlogModal({
                     {post?.date && new Date(post.date).toLocaleDateString()}
                   </span>
                 </div>
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <Eye className="h-4 w-4 mr-2" />
                   <span>{post?.views} views</span>
-                </div>
+                </div> */}
               </div>
               <div className="prose max-w-none">
-                <p className="text-lg text-gray-600 mb-6">{post?.excerpt}</p>
+                {/* <p className="text-lg text-gray-600 mb-6">{post?.excerpt}</p> */}
                 <div className="text-gray-800 leading-relaxed">
-                  {post?.content ||
+                  {post?.description ||
                     "This is the full content of the blog post. In a real implementation, this would be a rich text editor with formatting options, images, and other media."}
                 </div>
               </div>

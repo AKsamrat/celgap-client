@@ -319,7 +319,7 @@ export default function AdminSpeaker() {
         onClose={closeModal}
         mode={modalState.mode}
         speaker={modalState.speaker}
-        loadSpeaker={loadSpeaker}
+        loadSpeakers={loadSpeaker}
 
       />
     </AdminLayout>
