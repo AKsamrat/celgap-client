@@ -42,7 +42,7 @@ interface SpeakerModalProps {
     speakers?: SpeakerPost[];
 }
 
-export default function ConferenceModal({
+export default function SpringTraineeWorkshopModal({
     isOpen,
     onClose,
     mode,

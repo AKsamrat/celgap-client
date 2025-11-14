@@ -5,6 +5,7 @@ import HowWork from "@/components/home/HowWork";
 import ProgramsSection from "@/components/home/Programs-sectins";
 import HeroSlider from "@/components/home/SLider";
 
+
 const page = () => {
   return (
     <div>
@@ -14,6 +15,7 @@ const page = () => {
       <ProgramsSection></ProgramsSection>
       <AboutSection></AboutSection>
       <EventsSection></EventsSection>
+
       <ContactNewsletter></ContactNewsletter>
     </div>
   );

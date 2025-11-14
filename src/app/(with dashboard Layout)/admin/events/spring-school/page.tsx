@@ -2,16 +2,14 @@
 
 
 import AdminLayout from "@/components/admin/layout";
-import ConferenceModal, { Speaker } from "@/components/admin/conferenceModal";
-
-import { deleteConferenceAndSeminer, getAllConferenceAndSeminer } from "@/service/ConferenceAndSeminer";
-
 import { Edit, Eye, Plus, Search, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { SpeakerPost } from "../../speaker/page";
 import { getAllSpeakers } from "@/service/Speaker";
+import { deleteSpringTraineeWorkshop, getAllSpringTraineeWorkshop } from './../../../../../service/SpringTraineeWorksop/index';
+import SpringTraineeWorkshopModal, { Speaker } from "@/components/admin/sprinTraineeWorkshopModal";
 
-interface ConferenceAndSeminer {
+interface SpringTraineeWorkshop {
     id: number;
     title: string;
     date: string;
@@ -22,18 +20,19 @@ interface ConferenceAndSeminer {
     category: string;
     speaker_id?: string;
     speaker?: Speaker;
+    duration?: string;
     created_at: Date;
     updated_at: Date;
 }
 
 export default function AdminSpeaker() {
-    const [conferenceAndSeminers, setConferenceAndSeminer] = useState<ConferenceAndSeminer[]>([]);
+    const [springTraineeWorkshops, setSpringTraineeWorkshop] = useState<SpringTraineeWorkshop[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("all");
     const [modalState, setModalState] = useState<{
         isOpen: boolean;
         mode: "add" | "edit" | "preview";
-        conferenceAndSeminer?: ConferenceAndSeminer;
+        springTraineeWorkshop?: SpringTraineeWorkshop;
     }>({
         isOpen: false,
         mode: "add",
@@ -64,19 +63,19 @@ export default function AdminSpeaker() {
         });
     };
 
-    const handleEditSpeaker = (conferenceAndSeminer: ConferenceAndSeminer) => {
+    const handleEditSpeaker = (springTraineeWorkshop: SpringTraineeWorkshop) => {
         setModalState({
             isOpen: true,
             mode: "edit",
-            conferenceAndSeminer,
+            springTraineeWorkshop,
         });
     };
 
-    const handlePreviewSpeaker = (conferenceAndSeminer: ConferenceAndSeminer) => {
+    const handlePreviewSpeaker = (springTraineeWorkshop: SpringTraineeWorkshop) => {
         setModalState({
             isOpen: true,
             mode: "preview",
-            conferenceAndSeminer,
+            springTraineeWorkshop,
         });
     };
 
@@ -106,39 +105,39 @@ export default function AdminSpeaker() {
 
     }, [searchTerm, currentPage, perPage]);
 
-    //load all ConferenceAndSeminer----------------
-    const loadConferenceAndSeminer = async () => {
-        const data = await getAllConferenceAndSeminer(searchTerm, currentPage, perPage);
-        console.log("ConferenceAndSeminer loaded:", data?.data);
+    //load all SpringTraineeWorkshop----------------
+    const loadSpringTraineeWorkshop = async () => {
+        const data = await getAllSpringTraineeWorkshop(searchTerm, currentPage, perPage);
+        console.log("SpringTraineeWorkshop loaded:", data?.data);
         if (data?.data?.data) {
-            setConferenceAndSeminer(data.data.data);
+            setSpringTraineeWorkshop(data.data.data);
             setLastPage(data.data.last_page);
             setCurrentPage(data.data.current_page);
             setTotal(data.data.total);
             setPerPage(data.data.per_page);
 
         } else {
-            setConferenceAndSeminer([]);
+            setSpringTraineeWorkshop([]);
         }
     };
 
     useEffect(() => {
-        loadConferenceAndSeminer();
+        loadSpringTraineeWorkshop();
 
     }, [searchTerm, selectedStatus, currentPage, perPage]);
 
 
-    //delete ConferenceAndSeminer ===================
+    //delete SpringTraineeWorkshop ===================
     const handleDelete = async (id: number) => {
         const confirmDelete = confirm("Are you sure you want to delete this blog?");
         if (!confirmDelete) return;
 
-        const res = await deleteConferenceAndSeminer(id);
+        const res = await deleteSpringTraineeWorkshop(id);
         if (res?.status === 200) {
-            alert("ConferenceAndSeminer deleted successfully!");
-            loadConferenceAndSeminer(); // Refresh the list
+            alert("SpringTraineeWorkshop deleted successfully!");
+            loadSpringTraineeWorkshop(); // Refresh the list
         } else {
-            alert("Failed to delete ConferenceAndSeminer.");
+            alert("Failed to delete SpringTraineeWorkshop.");
         }
     };
 
@@ -210,7 +209,7 @@ export default function AdminSpeaker() {
                             </thead>
 
                             <tbody className="divide-y divide-gray-200">
-                                {conferenceAndSeminers?.map((speaker) => (
+                                {springTraineeWorkshops?.map((speaker) => (
                                     <tr key={speaker.id} className="hover:bg-gray-50">
                                         <td className="border px-4 py-2">{speaker.title}</td>
                                         <td className="border px-4 py-2">{speaker.date}</td>
@@ -248,7 +247,7 @@ export default function AdminSpeaker() {
                     </div>
                 </div>
                 {/* Pagination */}
-                {conferenceAndSeminers.length > 0 && (
+                {springTraineeWorkshops.length > 0 && (
                     <div className="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
                         <div className="text-sm text-gray-600">
                             Showing <strong>{(currentPage - 1) * perPage + 1}</strong> to{" "}
@@ -314,7 +313,7 @@ export default function AdminSpeaker() {
 
 
                 {/* Empty State */}
-                {conferenceAndSeminers?.length === 0 && (
+                {springTraineeWorkshops?.length === 0 && (
                     <div className="text-center py-12">
                         <div className="text-gray-400 mb-4">
                             <Search className="h-12 w-12 mx-auto" />
@@ -330,12 +329,12 @@ export default function AdminSpeaker() {
             </div>
 
             {/* Conference Modal */}
-            <ConferenceModal
+            <SpringTraineeWorkshopModal
                 isOpen={modalState.isOpen}
                 onClose={closeModal}
                 mode={modalState.mode}
-                speaker={modalState.conferenceAndSeminer}
-                loadConferenceAndSeminar={loadConferenceAndSeminer}
+                speaker={modalState.springTraineeWorkshop}
+                loadConferenceAndSeminar={loadSpringTraineeWorkshop}
                 speakers={speakers}
 
             />
