@@ -1,99 +1,88 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { SpringTraineeWorkshop } from "@/app/(with dashboard Layout)/admin/events/spring-school/page";
-import { SpeakerPost } from "@/app/(with dashboard Layout)/admin/speaker/page";
-import { createSpringTraineeWorkshop, updateSpringTraineeWorkshop } from "@/service/SpringTraineeWorksop";
+import { createWebinars, updateWebinars } from "@/service/webinar";
+import { SpeakerModalProps } from "@/types";
 import { Save, X } from "lucide-react";
 import { useState, useEffect } from "react";
-export interface Speaker {
-    id: number;
-    name: string;
-    designation: string;
-    organization: string;
-    bio?: string;
-    photo: string;
-    topic?: string;
-}
-interface SpeakerModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    mode: "add" | "edit" | "preview";
-    speaker?: SpringTraineeWorkshop;
-    loadConferenceAndSeminar: () => Promise<void>;
-    speakers?: SpeakerPost[];
-}
 
-export default function SpringTraineeWorkshopModal({
+
+export default function WebinarsModal({
     isOpen,
     onClose,
     mode,
-    speaker,
-    loadConferenceAndSeminar,
-    speakers = [] as SpeakerPost[],
+    webinar,
+    loadWebinar,
+    speakers = [],
 
 }: SpeakerModalProps) {
     const [formData, setFormData] = useState<{
         title: string;
         date: string;
-        venue: string;
+        platform: string;
         time: string;
         duration: string | number;
         description: string;
         status: 'upcoming' | 'ongoing' | 'completed' | string;
         category: string;
+        attendees: string;
         speaker_id: string;
     }>({
         title: "",
         date: "",
-        venue: "",
+        platform: "",
         duration: "",
         time: "",
         description: "",
         status: "",
+        attendees: "",
         category: "",
         speaker_id: "",
     });
     // When modal opens in edit mode, fill form with existing post data
     useEffect(() => {
-        if (mode === "edit" && speaker) {
+        if (mode === "edit" && webinar) {
             setFormData({
-                title: speaker.title,
-                date: speaker.date,
-                description: speaker.description,
-                venue: speaker?.venue,
-                duration: speaker?.duration ?? "",
-                time: speaker.time,
-                status: speaker.status,
-                category: speaker.category || "",
-                speaker_id: speaker.speaker_id || "",
+                title: webinar.title,
+                date: webinar.date,
+                description: webinar.description,
+                platform: webinar?.platform,
+                duration: webinar?.duration,
+                time: webinar.time,
+                attendees: webinar.attendees,
+                status: webinar.status,
+                category: webinar.category || "",
+                speaker_id: webinar.speaker_id || "",
             });
         } else if (mode === "add") {
             // Reset when adding new Speaker
             setFormData({
                 title: "",
                 date: "",
-                venue: "",
+                platform: "",
                 duration: "",
                 time: "",
                 description: "",
                 status: "",
+                attendees: "",
                 category: "",
                 speaker_id: "",
             });
         }
-    }, [mode, speaker]);
+    }, [mode, webinar]);
 
     //create Speaker=============
+
     const resetForm = () => {
         setFormData({
             title: "",
             date: "",
-            venue: "",
+            platform: "",
             duration: "",
             time: "",
             description: "",
             status: "",
+            attendees: "",
             category: "",
             speaker_id: "",
         });
@@ -111,8 +100,9 @@ export default function SpringTraineeWorkshopModal({
         const data = new FormData();
         data.append("title", formData.title);
         data.append("description", formData.description);
-        data.append("venue", formData.venue);
         data.append("duration", String(formData.duration));
+        data.append("attendees", String(formData.attendees));
+        data.append("attendees", formData.attendees);
         data.append("time", formData.time);
         data.append("date", formData.date);
         data.append("status", formData.status);
@@ -121,22 +111,22 @@ export default function SpringTraineeWorkshopModal({
 
         let res;
 
-        if (mode === "edit" && speaker?.id) {
+        if (mode === "edit" && webinar?.id) {
             data.append("_method", "PUT");
-            res = await updateSpringTraineeWorkshop(speaker.id, data);
-            console.log("Updating springschool with ID:", data);
+            res = await updateWebinars(webinar.id, data);
+            console.log("Updating Webinar with ID:", data);
         } else {
-            res = await createSpringTraineeWorkshop(data);
-            console.log("Creating new springschool:", res);
+            res = await createWebinars(data);
+            console.log("Creating new Webinar:", res);
         }
 
         console.log(res?.status)
         if (res?.status === 200 || res?.status === 201) {
             onClose();
             resetForm();
-            loadConferenceAndSeminar();
+            loadWebinar();
         } else {
-            console.log("Error saving speaker:", res.message);
+            console.log("Error saving Webinar:", res.message);
         }
     };
 
@@ -165,37 +155,43 @@ export default function SpringTraineeWorkshopModal({
                     {mode === "preview" ? (
                         // Preview Mode
                         <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl mx-auto border">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4">{speaker?.title}</h2>
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4">{webinar?.title}</h2>
 
                             {/* Conference Info */}
                             <div className="space-y-2">
-                                <p><strong>Date:</strong> {speaker?.date}</p>
-                                <p><strong>Time:</strong> {speaker?.time}</p>
-                                <p><strong>Venue:</strong> {speaker?.venue}</p>
-                                <p><strong>Status:</strong> <span className="uppercase">{speaker?.status}</span></p>
-                                <p><strong>Category:</strong> {speaker?.category || "N/A"}</p>
-                                <p><strong>Description:</strong> {speaker?.description || "No Description Provided"}</p>
+                                <p><strong>Date:</strong> {webinar?.date}</p>
+                                <p><strong>Time:</strong> {webinar?.time}</p>
+                                <p><strong>platform:</strong> {webinar?.platform}</p>
+                                <p><strong>Status:</strong> <span className="uppercase">{webinar?.status}</span></p>
+                                <p><strong>Category:</strong> {webinar?.category || "N/A"}</p>
+                                <p><strong>Description:</strong> {webinar?.description || "No Description Provided"}</p>
                             </div>
 
                             <hr className="my-5" />
 
                             {/* Speaker Details */}
-                            {speaker?.speaker ? (
-                                <div className="flex items-start gap-4">
-                                    <img
-                                        src={speaker?.speaker.photo}
-                                        alt={speaker?.speaker.name}
-                                        className="w-24 h-24 rounded-full object-cover border"
-                                    />
-                                    <div>
-                                        <h3 className="text-lg font-semibold">{speaker?.speaker?.name}</h3>
-                                        <p className="text-sm text-gray-600">
-                                            {speaker?.speaker?.designation} at {speaker?.speaker?.organization}
-                                        </p>
-                                    </div>
-                                </div>
+                            {speakers && speakers.length > 0 ? (
+                                speakers.map((item, index) => (
+                                    item ? (
+                                        <div key={index} className="flex items-start gap-4">
+                                            <img
+                                                src={item.photo}
+                                                alt={item.name}
+                                                className="w-24 h-24 rounded-full object-cover border"
+                                            />
+                                            <div>
+                                                <h3 className="text-lg font-semibold">{item.name}</h3>
+                                                <p className="text-sm text-gray-600">
+                                                    {item.designation} at {item.organization}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <p key={index} className="text-gray-500">No Speaker Assigned</p>
+                                    )
+                                ))
                             ) : (
-                                <p className="text-gray-500">No Speaker Assigned</p>
+                                <p>No speakers found</p>
                             )}
                         </div>
                     ) : (
@@ -226,13 +222,13 @@ export default function SpringTraineeWorkshopModal({
                                     />
                                 </div>
 
-                                {/* Venue */}
+                                {/* platform */}
                                 <div>
-                                    <label className="block text-sm font-medium">Venue</label>
+                                    <label className="block text-sm font-medium">platform</label>
                                     <input
                                         type="text"
-                                        name="venue"
-                                        value={formData.venue}
+                                        name="platform"
+                                        value={formData.platform}
                                         onChange={handleChange}
                                         className="border p-2 w-full rounded"
                                     />
@@ -243,6 +239,16 @@ export default function SpringTraineeWorkshopModal({
                                         type="number"
                                         name="duration"
                                         value={formData.duration}
+                                        onChange={handleChange}
+                                        className="border p-2 w-full rounded"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium">Attendees</label>
+                                    <input
+                                        type="number"
+                                        name="attendees"
+                                        value={formData.attendees}
                                         onChange={handleChange}
                                         className="border p-2 w-full rounded"
                                     />

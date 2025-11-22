@@ -27,9 +27,7 @@ interface WebinarsPageProps {
   webinars?: Webinar[];
 }
 
-const WebinarsPage: React.FC<WebinarsPageProps> = ({
-  webinars: propWebinars,
-}) => {
+const WebinarsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
 
@@ -111,20 +109,7 @@ const WebinarsPage: React.FC<WebinarsPageProps> = ({
     },
   ];
 
-  const webinars = propWebinars || defaultWebinars;
-  const categories = [
-    "all",
-    ...Array.from(new Set(webinars.map((webinar) => webinar.category))),
-  ];
-  const statuses = ["all", "upcoming", "live", "recorded"];
 
-  const filteredWebinars = webinars.filter((webinar) => {
-    const categoryMatch =
-      selectedCategory === "all" || webinar.category === selectedCategory;
-    const statusMatch =
-      selectedStatus === "all" || webinar.status === selectedStatus;
-    return categoryMatch && statusMatch;
-  });
 
   const getStatusColor = (status: string): string => {
     switch (status) {
@@ -195,7 +180,7 @@ const WebinarsPage: React.FC<WebinarsPageProps> = ({
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-4 mb-12 justify-center">
+        {/* <div className="flex flex-wrap gap-4 mb-12 justify-center">
           <div className="flex items-center gap-2">
             <label
               htmlFor="category-filter"
@@ -239,11 +224,11 @@ const WebinarsPage: React.FC<WebinarsPageProps> = ({
               ))}
             </select>
           </div>
-        </div>
+        </div> */}
 
         {/* Webinars Grid */}
         <div className="grid lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredWebinars.map((webinar) => (
+          {defaultWebinars.map((webinar) => (
             <div
               key={webinar.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
@@ -368,7 +353,7 @@ const WebinarsPage: React.FC<WebinarsPageProps> = ({
           ))}
         </div>
 
-        {filteredWebinars.length === 0 && (
+        {defaultWebinars.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">
               No webinars found matching your filters.

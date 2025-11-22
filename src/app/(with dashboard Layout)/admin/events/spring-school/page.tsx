@@ -9,7 +9,7 @@ import { getAllSpeakers } from "@/service/Speaker";
 import { deleteSpringTraineeWorkshop, getAllSpringTraineeWorkshop } from './../../../../../service/SpringTraineeWorksop/index';
 import SpringTraineeWorkshopModal, { Speaker } from "@/components/admin/sprinTraineeWorkshopModal";
 
-interface SpringTraineeWorkshop {
+export interface SpringTraineeWorkshop {
     id: number;
     title: string;
     date: string;
@@ -25,7 +25,7 @@ interface SpringTraineeWorkshop {
     updated_at: Date;
 }
 
-export default function AdminSpeaker() {
+export default function SpringSchool() {
     const [springTraineeWorkshops, setSpringTraineeWorkshop] = useState<SpringTraineeWorkshop[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("all");
@@ -43,18 +43,6 @@ export default function AdminSpeaker() {
     const [total, setTotal] = useState(0);
     const [speakers, setSpeakers] = useState<SpeakerPost[]>([]);
 
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case "published":
-                return "bg-green-100 text-green-800";
-            case "draft":
-                return "bg-yellow-100 text-yellow-800";
-            case "scheduled":
-                return "bg-blue-100 text-blue-800";
-            default:
-                return "bg-gray-100 text-gray-800";
-        }
-    };
 
     const handleAddPost = () => {
         setModalState({
@@ -149,10 +137,10 @@ export default function AdminSpeaker() {
                 <div className="flex justify-between items-center">
                     <div>
                         <h2 className="text-3xl font-bold text-gray-900">
-                            Conference & Seminer Management
+                            Spring School and Workshop Management
                         </h2>
                         <p className="text-gray-600 mt-2">
-                            Manage your Conference & Seminer posts here.
+                            Manage your Spring School and Workshop posts here.
                         </p>
                     </div>
                     <button
@@ -160,7 +148,7 @@ export default function AdminSpeaker() {
                         className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200"
                     >
                         <Plus className="h-5 w-5 mr-2" />
-                        Add Conference & Seminer
+                        Add Spring School and Workshop
                     </button>
                 </div>
 

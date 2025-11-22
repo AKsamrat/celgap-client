@@ -52,16 +52,16 @@ const menuItems = [
         href: "/admin/publications/Law-Journal",
         icon: ClipboardList,
       },
-      {
-        name: " Magazine",
-        href: "/admin/publications/magazine",
-        icon: BarChart3,
-      },
-      {
-        name: "Periodicals",
-        href: "/admin/publications/periodicals",
-        icon: Users,
-      },
+      // {
+      //   name: " Magazine",
+      //   href: "/admin/publications/magazine",
+      //   icon: BarChart3,
+      // },
+      // {
+      //   name: "Periodicals",
+      //   href: "/admin/publications/periodicals",
+      //   icon: Users,
+      // },
     ],
   },
   {
@@ -70,12 +70,12 @@ const menuItems = [
     icon: BookOpen,
     children: [
       {
-        name: "Conferences",
+        name: "Conferences & Seminars",
         href: "/admin/events/conferences",
         icon: FileSearch,
       },
       {
-        name: "Spring School",
+        name: "Spring School & Workshop",
         href: "/admin/events/spring-school",
         icon: FlaskConical,
       },
@@ -84,16 +84,16 @@ const menuItems = [
         href: "/admin/events/webinars",
         icon: Briefcase,
       },
-      {
-        name: "Workshops",
-        href: "/admin/events/workshops",
-        icon: Settings2,
-      },
-      {
-        name: "Seminars",
-        href: "/admin/events/seminars",
-        icon: FolderOpen,
-      },
+      // {
+      //   name: "Workshops",
+      //   href: "/admin/events/workshops",
+      //   icon: Settings2,
+      // },
+      // {
+      //   name: "Seminars",
+      //   href: "/admin/events/seminars",
+      //   icon: FolderOpen,
+      // },
     ],
   },
   {

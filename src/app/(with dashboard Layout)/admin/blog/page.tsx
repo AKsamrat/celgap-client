@@ -3,20 +3,11 @@
 import BlogModal from "@/components/admin/blogModal";
 import AdminLayout from "@/components/admin/layout";
 import { deleteBlog, getAllBlogs, updateBlogStatus } from "@/service/Blog";
+import { BlogPost } from "@/types";
 import { Calendar, Edit, Eye, Plus, Search, Trash2, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
-interface BlogPost {
-  id: number;
-  title: string;
-  description: string;
-  author: string;
-  created_at: Date;
-  status: "published" | "draft" | "scheduled";
-  image: string
-  // views: number;
-  // category: string;
-}
+
 
 export default function AdminBlog() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);

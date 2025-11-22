@@ -5,8 +5,10 @@ import Link from "next/link";
 
 export default function AboutSection() {
   return (
-    <section className="relative py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+    <section className="relative py-16 bg-gray-50 "
+
+    >
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1  lg:grid-cols-2 gap-12 items-center">
         {/* Image */}
         <div className="relative w-full h-[400px] lg:h-[500px] rounded-lg overflow-hidden shadow-lg">
           <Image

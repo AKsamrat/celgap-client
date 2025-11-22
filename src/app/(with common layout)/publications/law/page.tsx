@@ -13,14 +13,18 @@ import { useState } from "react";
 
 interface LawItem {
   id: number;
+
   title: string;
   description: string;
-  category: string;
-  date: string;
+  abstruct?: string;
   author: string;
+  date: string;
+  category: string;
   tags: string[];
+  keywords?: string[];
   downloadUrl?: string;
   externalUrl?: string;
+  status?: string;
   caseNumber?: string;
 }
 
@@ -47,7 +51,7 @@ const lawItems: LawItem[] = [
     author: "Prof. Vikram Singh",
     tags: ["Environmental Law", "Climate Change", "Litigation"],
     downloadUrl: "#",
-    caseNumber: "PIL 234/2024",
+
   },
   {
     id: 3,
@@ -218,10 +222,10 @@ export default function LawPage() {
                     </h3>
 
                     {/* Case Number (if applicable) */}
-                    {item.caseNumber && (
+                    {item?.caseNumber && (
                       <div className="mb-4">
                         <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
-                          Case: {item.caseNumber}
+                          Case: {item?.caseNumber}
                         </span>
                       </div>
                     )}

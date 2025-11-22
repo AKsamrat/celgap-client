@@ -1,10 +1,11 @@
 "use client";
+import { programs } from "@/app/assets/datas";
 import ProgramCard from "@/components/cards/ProgramCard";
 import ProgramModal from "@/components/cards/ProgramModal";
 import { Program } from "@/types";
 import { Backpack } from "lucide-react";
 import { useState } from "react";
-import { programs } from "../training/page";
+
 
 export default function WorkShopPage() {
   const [search, setSearch] = useState("");

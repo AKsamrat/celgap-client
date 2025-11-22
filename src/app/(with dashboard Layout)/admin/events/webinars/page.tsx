@@ -1,6 +1,11 @@
 "use client";
 
 import AdminLayout from "@/components/admin/layout";
+import WebinarsModal from "@/components/admin/WebinarsModal";
+
+import { getAllSpeakers } from "@/service/Speaker";
+import { deleteWebinars, getAllWebinars } from "@/service/webinar";
+import { Speaker, Webinar } from "@/types";
 import {
     Calendar,
     Clock,
@@ -13,146 +18,124 @@ import {
     Trash2,
     Users,
 } from "lucide-react";
-import { useState } from "react";
-
-interface Program {
-    id: number;
-    title: string;
-    description: string;
-    type: "Course" | "Workshop" | "Seminar";
-    date: string;
-    time: string;
-    duration: string;
-    location: string;
-    capacity: number;
-    enrolled: number;
-    price: string;
-    status: "upcoming" | "registration-open" | "full" | "completed";
-    instructor: string;
-    category: string;
-}
-
-const mockPrograms: Program[] = [
-    {
-        id: 1,
-        title: "Advanced Legal Research Methods",
-        description:
-            "Comprehensive course covering modern legal research techniques and database navigation.",
-        type: "Course",
-        date: "2025-02-15",
-        time: "10:00 AM",
-        duration: "8 weeks",
-        location: "Online",
-        capacity: 30,
-        enrolled: 18,
-        price: "$299",
-        status: "registration-open",
-        instructor: "Prof. Sarah Johnson",
-        category: "Legal Research",
-    },
-    {
-        id: 2,
-        title: "Constitutional Law Workshop",
-        description:
-            "Interactive workshop exploring recent constitutional developments and practical implications.",
-        type: "Workshop",
-        date: "2025-01-28",
-        time: "2:00 PM",
-        duration: "1 day",
-        location: "New Delhi",
-        capacity: 50,
-        enrolled: 35,
-        price: "$149",
-        status: "registration-open",
-        instructor: "Justice (Retd.) Rajesh Kumar",
-        category: "Constitutional Law",
-    },
-    {
-        id: 3,
-        title: "Digital Rights & Privacy Law",
-        description:
-            "Expert seminar discussing emerging challenges in digital rights and privacy legislation.",
-        type: "Seminar",
-        date: "2025-02-05",
-        time: "6:00 PM",
-        duration: "3 hours",
-        location: "Hybrid",
-        capacity: 100,
-        enrolled: 100,
-        price: "Free",
-        status: "full",
-        instructor: "Dr. Meera Patel",
-        category: "Digital Law",
-    },
-    {
-        id: 4,
-        title: "Human Rights Advocacy",
-        description:
-            "Intensive course on human rights law and advocacy strategies.",
-        type: "Course",
-        date: "2024-12-10",
-        time: "9:00 AM",
-        duration: "12 weeks",
-        location: "Mumbai",
-        capacity: 25,
-        enrolled: 25,
-        price: "$399",
-        status: "completed",
-        instructor: "Prof. Vikram Singh",
-        category: "Human Rights",
-    },
-];
+import { useEffect, useState } from "react";
 
 export default function AdminPrograms() {
-    const [programs, setPrograms] = useState<Program[]>(mockPrograms);
+    const [webinars, setWebinars] = useState<Webinar[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("all");
-    const [selectedType, setSelectedType] = useState("all");
-
-    const filteredPrograms = programs.filter((program) => {
-        const matchesSearch =
-            program.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            program.instructor.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            program.category.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesStatus =
-            selectedStatus === "all" || program.status === selectedStatus;
-        const matchesType = selectedType === "all" || program.type === selectedType;
-        return matchesSearch && matchesStatus && matchesType;
+    const [modalState, setModalState] = useState<{
+        isOpen: boolean;
+        mode: "add" | "edit" | "preview";
+        webinar?: Webinar;
+    }>({
+        isOpen: false,
+        mode: "add",
     });
-
-    const handleDelete = (id: number) => {
-        if (confirm("Are you sure you want to delete this program?")) {
-            setPrograms(programs.filter((program) => program.id !== id));
-        }
-    };
+    const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
+    const [perPage, setPerPage] = useState(10);
+    const [total, setTotal] = useState(0);
+    const [speakers, setSpeakers] = useState<Speaker[]>([]);
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case "upcoming":
-                return "bg-blue-100 text-blue-800";
-            case "registration-open":
+            case "published":
                 return "bg-green-100 text-green-800";
-            case "full":
-                return "bg-red-100 text-red-800";
-            case "completed":
-                return "bg-gray-100 text-gray-800";
+            case "draft":
+                return "bg-yellow-100 text-yellow-800";
+            case "scheduled":
+                return "bg-blue-100 text-blue-800";
             default:
                 return "bg-gray-100 text-gray-800";
         }
     };
 
-    const getTypeColor = (type: string) => {
-        switch (type) {
-            case "Course":
-                return "bg-blue-100 text-blue-800";
-            case "Workshop":
-                return "bg-green-100 text-green-800";
-            case "Seminar":
-                return "bg-purple-100 text-purple-800";
-            default:
-                return "bg-gray-100 text-gray-800";
+    const handleAddPost = () => {
+        setModalState({
+            isOpen: true,
+            mode: "add",
+        });
+    };
+
+    const handleEditSpeaker = (webinar: Webinar) => {
+        setModalState({
+            isOpen: true,
+            mode: "edit",
+            webinar,
+        });
+    };
+
+    const handlePreviewSpeaker = (webinar: Webinar) => {
+        setModalState({
+            isOpen: true,
+            mode: "preview",
+            webinar,
+        });
+    };
+
+
+
+    const closeModal = () => {
+        setModalState({
+            isOpen: false,
+            mode: "add",
+        });
+    };
+
+    //load all speaker----------------
+    const loadSpeaker = async () => {
+        const data = await getAllSpeakers(searchTerm, currentPage, perPage);
+        console.log("Speakers loaded:", data?.data);
+        if (data?.data?.data) {
+            setSpeakers(data.data.data);
+
+        } else {
+            setSpeakers([]);
         }
     };
+
+    useEffect(() => {
+        loadSpeaker();
+
+    }, [searchTerm, currentPage, perPage]);
+
+    //load all ConferenceAndSeminer----------------
+    const loadWebinars = async () => {
+        const data = await getAllWebinars(searchTerm, currentPage, perPage);
+        console.log("webinars loaded:", data?.data);
+        if (data?.data?.data) {
+            setWebinars(data.data.data);
+            setLastPage(data.data.last_page);
+            setCurrentPage(data.data.current_page);
+            setTotal(data.data.total);
+            setPerPage(data.data.per_page);
+
+        } else {
+            setWebinars([]);
+        }
+    };
+
+    useEffect(() => {
+        loadWebinars();
+
+    }, [searchTerm, selectedStatus, currentPage, perPage]);
+
+
+    //delete ConferenceAndSeminer ===================
+    const handleDelete = async (id: number) => {
+        const confirmDelete = confirm("Are you sure you want to delete this blog?");
+        if (!confirmDelete) return;
+
+        const res = await deleteWebinars(id);
+        if (res?.status === 200) {
+            alert("Webinars deleted successfully!");
+            loadWebinars(); // Refresh the list
+        } else {
+            alert("Failed to delete Webinars.");
+        }
+    };
+
 
     return (
         <AdminLayout>
@@ -161,15 +144,18 @@ export default function AdminPrograms() {
                 <div className="flex justify-between items-center">
                     <div>
                         <h2 className="text-3xl font-bold text-gray-900">
-                            Programs Management
+                            Webinar Management
                         </h2>
                         <p className="text-gray-600 mt-2">
-                            Manage courses, workshops, and seminars
+                            Manage your Webinars
                         </p>
                     </div>
-                    <button className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200">
+                    <button
+                        onClick={handleAddPost}
+                        className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200"
+                    >
                         <Plus className="h-5 w-5 mr-2" />
-                        New Program
+                        Add Webinar
                     </button>
                 </div>
 
@@ -197,16 +183,7 @@ export default function AdminPrograms() {
                             <option value="full">Full</option>
                             <option value="completed">Completed</option>
                         </select>
-                        <select
-                            value={selectedType}
-                            onChange={(e) => setSelectedType(e.target.value)}
-                            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
-                        >
-                            <option value="all">All Types</option>
-                            <option value="Course">Course</option>
-                            <option value="Workshop">Workshop</option>
-                            <option value="Seminar">Seminar</option>
-                        </select>
+
                     </div>
                 </div>
 
@@ -237,30 +214,19 @@ export default function AdminPrograms() {
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
-                                {filteredPrograms.map((program) => (
-                                    <tr key={program.id} className="hover:bg-gray-50">
+                                {webinars.map((webinar) => (
+                                    <tr key={webinar.id} className="hover:bg-gray-50">
                                         <td className="px-6 py-4">
                                             <div>
                                                 <div className="text-sm font-medium text-gray-900">
-                                                    {program.title}
+                                                    {webinar.title}
                                                 </div>
                                                 <div className="text-sm text-gray-500 mt-1">
-                                                    {program.description}
+                                                    {webinar.description}
                                                 </div>
-                                                <div className="flex items-center mt-2 space-x-2">
-                                                    <span
-                                                        className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getTypeColor(
-                                                            program.type
-                                                        )}`}
-                                                    >
-                                                        {program.type}
-                                                    </span>
-                                                    <span className="text-xs text-gray-400">
-                                                        {program.category}
-                                                    </span>
-                                                </div>
+
                                                 <div className="text-xs text-gray-400 mt-1">
-                                                    Instructor: {program.instructor}
+                                                    Instructor: {webinar.speaker_id}
                                                 </div>
                                             </div>
                                         </td>
@@ -268,18 +234,18 @@ export default function AdminPrograms() {
                                             <div className="text-sm text-gray-900">
                                                 <div className="flex items-center mb-1">
                                                     <Calendar className="h-4 w-4 text-gray-400 mr-2" />
-                                                    {new Date(program.date).toLocaleDateString()}
+                                                    {new Date(webinar.date).toLocaleDateString()}
                                                 </div>
                                                 <div className="flex items-center mb-1">
                                                     <Clock className="h-4 w-4 text-gray-400 mr-2" />
-                                                    {program.time}
+                                                    {webinar.time}
                                                 </div>
                                                 <div className="flex items-center mb-1">
                                                     <MapPin className="h-4 w-4 text-gray-400 mr-2" />
-                                                    {program.location}
+                                                    {webinar.platform}
                                                 </div>
                                                 <div className="text-xs text-gray-500">
-                                                    Duration: {program.duration}
+                                                    Duration: {webinar.duration}
                                                 </div>
                                             </div>
                                         </td>
@@ -288,23 +254,9 @@ export default function AdminPrograms() {
                                                 <Users className="h-4 w-4 text-gray-400 mr-2" />
                                                 <div>
                                                     <div className="text-sm text-gray-900">
-                                                        {program.enrolled}/{program.capacity}
+                                                        {webinar.attendees}
                                                     </div>
-                                                    <div className="w-20 bg-gray-200 rounded-full h-2 mt-1">
-                                                        <div
-                                                            className="bg-blue-900 h-2 rounded-full"
-                                                            style={{
-                                                                width: `${(program.enrolled / program.capacity) * 100
-                                                                    }%`,
-                                                            }}
-                                                        ></div>
-                                                    </div>
-                                                    <div className="text-xs text-gray-500 mt-1">
-                                                        {Math.round(
-                                                            (program.enrolled / program.capacity) * 100
-                                                        )}
-                                                        % full
-                                                    </div>
+
                                                 </div>
                                             </div>
                                         </td>
@@ -312,29 +264,35 @@ export default function AdminPrograms() {
                                             <div className="flex items-center">
                                                 <DollarSign className="h-4 w-4 text-gray-400 mr-1" />
                                                 <span className="text-sm font-medium text-gray-900">
-                                                    {program.price}
+                                                    {webinar.price}
                                                 </span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span
                                                 className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(
-                                                    program.status
+                                                    webinar.status
                                                 )}`}
                                             >
-                                                {program.status.replace("-", " ")}
+                                                {webinar.status.replace("-", " ")}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <div className="flex space-x-2">
-                                                <button className="text-blue-600 hover:text-blue-900">
+                                                <button
+                                                    onClick={() => handleEditSpeaker(webinar)}
+                                                    className="text-blue-600 hover:text-blue-900"
+                                                >
                                                     <Edit className="h-4 w-4" />
                                                 </button>
-                                                <button className="text-green-600 hover:text-green-900">
+                                                <button
+                                                    onClick={() => handlePreviewSpeaker(webinar)}
+                                                    className="text-green-600 hover:text-green-900"
+                                                >
                                                     <Eye className="h-4 w-4" />
                                                 </button>
                                                 <button
-                                                    onClick={() => handleDelete(program.id)}
+                                                    onClick={() => handleDelete(webinar.id)}
                                                     className="text-red-600 hover:text-red-900"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
@@ -349,7 +307,7 @@ export default function AdminPrograms() {
                 </div>
 
                 {/* Empty State */}
-                {filteredPrograms.length === 0 && (
+                {webinars.length === 0 && (
                     <div className="text-center py-12">
                         <div className="text-gray-400 mb-4">
                             <Search className="h-12 w-12 mx-auto" />
@@ -362,7 +320,82 @@ export default function AdminPrograms() {
                         </p>
                     </div>
                 )}
+
             </div>
+            {/* Pagination */}
+            {webinars.length > 0 && (
+                <div className="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
+                    <div className="text-sm text-gray-600">
+                        Showing <strong>{(currentPage - 1) * perPage + 1}</strong> to{" "}
+                        <strong>{Math.min(currentPage * perPage, total)}</strong> of{" "}
+                        <strong>{total}</strong> results
+                    </div>
+                    <div className="flex items-center space-x-2">
+                        <label htmlFor="perPage" className="text-sm text-gray-600">Show:</label>
+                        <select
+                            id="perPage"
+                            value={perPage}
+                            onChange={(e) => {
+                                setPerPage(Number(e.target.value));
+                                setCurrentPage(1);
+                            }}
+                            className="border border-gray-300 rounded-lg px-2 py-1 text-sm"
+                        >
+                            <option value={5}>5</option>
+                            <option value={10}>10</option>
+                            <option value={20}>20</option>
+                        </select>
+                    </div>
+
+                    <div className="flex space-x-2">
+                        <button
+                            disabled={currentPage === 1}
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === 1
+                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                : "bg-blue-900 text-white hover:bg-blue-800"
+                                }`}
+                        >
+                            Previous
+                        </button>
+
+                        {[...Array(lastPage)].map((_, index) => (
+                            <button
+                                key={index + 1}
+                                onClick={() => setCurrentPage(index + 1)}
+                                className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === index + 1
+                                    ? "bg-blue-900 text-white"
+                                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                                    }`}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
+
+                        <button
+                            disabled={currentPage === lastPage}
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === lastPage
+                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                : "bg-blue-900 text-white hover:bg-blue-800"
+                                }`}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Webinars Modal */}
+            <WebinarsModal
+                isOpen={modalState.isOpen}
+                onClose={closeModal}
+                mode={modalState.mode}
+                webinar={modalState.webinar}
+                loadWebinar={loadWebinars}
+                speakers={speakers}
+
+            />
         </AdminLayout>
     );
 }

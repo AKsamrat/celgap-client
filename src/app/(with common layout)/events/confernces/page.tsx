@@ -21,8 +21,8 @@ interface ConferencesPageProps {
   conferences?: Conference[];
 }
 
-const ConferencesPage: React.FC<ConferencesPageProps> = ({
-  conferences: propConferences,
+const ConferencesPage = ({
+
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
@@ -91,20 +91,7 @@ const ConferencesPage: React.FC<ConferencesPageProps> = ({
     },
   ];
 
-  const conferences = propConferences || defaultConferences;
-  const categories = [
-    "all",
-    ...Array.from(new Set(conferences.map((conf) => conf.category))),
-  ];
-  const statuses = ["all", "upcoming", "ongoing", "completed"];
 
-  const filteredConferences = conferences.filter((conf) => {
-    const categoryMatch =
-      selectedCategory === "all" || conf.category === selectedCategory;
-    const statusMatch =
-      selectedStatus === "all" || conf.status === selectedStatus;
-    return categoryMatch && statusMatch;
-  });
 
   const getStatusColor = (status: string): string => {
     switch (status) {
@@ -149,7 +136,7 @@ const ConferencesPage: React.FC<ConferencesPageProps> = ({
 
         {/* Filters */}
         <div className="flex flex-wrap gap-4 mb-12 justify-center">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <label
               htmlFor="category-filter"
               className="text-sm font-medium text-gray-700"
@@ -168,9 +155,9 @@ const ConferencesPage: React.FC<ConferencesPageProps> = ({
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
 
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <label
               htmlFor="status-filter"
               className="text-sm font-medium text-gray-700"
@@ -191,12 +178,12 @@ const ConferencesPage: React.FC<ConferencesPageProps> = ({
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
         </div>
 
         {/* Conferences Grid */}
         <div className="grid lg:grid-cols-2 gap-8">
-          {filteredConferences.map((conference) => (
+          {defaultConferences.map((conference) => (
             <div
               key={conference.id}
               className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
@@ -290,7 +277,7 @@ const ConferencesPage: React.FC<ConferencesPageProps> = ({
           ))}
         </div>
 
-        {filteredConferences.length === 0 && (
+        {defaultConferences.length === 0 && (
           <div className="text-center py-12">
             <p className="text-gray-500 text-lg">
               No conferences found matching your filters.

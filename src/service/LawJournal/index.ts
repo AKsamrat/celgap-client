@@ -2,13 +2,13 @@
 "use server";
 import { cookies } from "next/headers";
 
-export const createSpringTraineeWorkshop = async (data: any) => {
+export const createLawJournal = async (data: any) => {
   const token = (await cookies()).get("accessToken")!.value;
   console.log(token, data);
   if (!token) return console.log("No token found");
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/spring-workshop-trainees`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/law-journals`,
       {
         method: "POST",
         headers: {
@@ -29,13 +29,13 @@ export const createSpringTraineeWorkshop = async (data: any) => {
 
 //GET SINGLE SpringTraineeWorkshop===========================================
 
-export const getSingleSpeaker = async (id: string) => {
+export const getSingleLawJournal = async (id: string) => {
   const token = (await cookies()).get("accessToken")!.value;
   console.log(token);
   if (!token) return console.log("No token found");
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/spring-workshop-trainees/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/law-journals/${id}`,
       {
         method: "GET",
         //   headers: {
@@ -54,13 +54,13 @@ export const getSingleSpeaker = async (id: string) => {
   }
 };
 
-export const getAllSpringTraineeWorkshop = async (
+export const getAllLowJournal = async (
   search?: string,
   currentPage?: number,
   perPage?: number
 ) => {
   try {
-    let url = `${process.env.NEXT_PUBLIC_BASE_API}/spring-workshop-trainees?page=${currentPage}&per_page=${perPage}&`;
+    let url = `${process.env.NEXT_PUBLIC_BASE_API}/law-journals?page=${currentPage}&per_page=${perPage}&`;
 
     if (search) url += `search=${encodeURIComponent(search)}&`;
 
@@ -79,16 +79,13 @@ export const getAllSpringTraineeWorkshop = async (
 
 //update SpringTraineeWorkshop ===========================================
 
-export const updateSpringTraineeWorkshop = async (
-  id: number,
-  formData: FormData
-) => {
+export const updateLawJournal = async (id: number, formData: FormData) => {
   const token = (await cookies()).get("accessToken")?.value;
   if (!token) return console.error("No token found");
   console.log(id, token);
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/spring-workshop-trainees/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/law-journals/${id}`,
       {
         method: "POST",
         headers: {
@@ -108,13 +105,13 @@ export const updateSpringTraineeWorkshop = async (
 };
 
 //DELETE SpringTraineeWorkshop===============
-export const deleteSpringTraineeWorkshop = async (id: number) => {
+export const deleteLowJournal = async (id: number) => {
   const token = (await cookies()).get("accessToken")!.value;
-  console.log(token, id);
+  console.log(token);
   if (!token) return console.log("No token found");
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_API}/spring-workshop-trainees/${id}`,
+      `${process.env.NEXT_PUBLIC_BASE_API}/law-journals/${id}`,
       {
         method: "DELETE",
         headers: {

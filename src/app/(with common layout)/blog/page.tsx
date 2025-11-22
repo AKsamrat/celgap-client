@@ -11,7 +11,7 @@ interface BlogPost {
   categoryColor: string;
   description: string;
   bgColor: string;
-  image?:string;
+  image?: string;
 }
 
 interface BlogSectionProps {
@@ -19,9 +19,8 @@ interface BlogSectionProps {
   categories?: string[];
 }
 
-const BlogSection: React.FC<BlogSectionProps> = ({
-  posts,
-  categories: propCategories,
+const BlogSection = ({
+
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [showAllCategories, setShowAllCategories] = useState<boolean>(false);
@@ -109,8 +108,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
     },
   ];
 
-  const categories = propCategories || defaultCategories;
-  const blogPosts = posts || defaultBlogPosts;
+
 
   const handleCategoryChange = (category: string): void => {
     setSelectedCategories((prev) =>
@@ -120,14 +118,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
     );
   };
 
-  const filteredPosts: BlogPost[] =
-    selectedCategories.length === 0
-      ? blogPosts
-      : blogPosts.filter((post) => selectedCategories.includes(post.category));
 
-  const displayedCategories: string[] = showAllCategories
-    ? categories
-    : categories.slice(0, 5);
 
   const handleShowAllCategories = (): void => {
     setShowAllCategories(!showAllCategories);
@@ -150,7 +141,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
           <div className="lg:w-2/3">
             {/* Blog Posts Grid */}
             <div className="grid md:grid-cols-2 gap-8">
-              {filteredPosts.map((post: BlogPost) => (
+              {defaultBlogPosts.map((post: BlogPost) => (
                 <div
                   key={post.id}
                   className={`${post.bgColor} rounded-lg overflow-hidden shadow-sm`}
@@ -189,7 +180,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({
               ))}
             </div>
 
-            {filteredPosts.length === 0 && (
+            {defaultBlogPosts.length === 0 && (
               <div className="text-center py-12">
                 <p className="text-gray-500 text-lg">
                   No blog posts found for the selected categories.
@@ -214,14 +205,13 @@ const BlogSection: React.FC<BlogSectionProps> = ({
                 >
                   <span>CATEGORIES</span>
                   <ChevronDown
-                    className={`h-4 w-4 transition-transform ${
-                      showAllCategories ? "rotate-180" : ""
-                    }`}
+                    className={`h-4 w-4 transition-transform ${showAllCategories ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
 
                 <div id="categories-list" className="space-y-3">
-                  {displayedCategories.map((category: string) => (
+                  {defaultCategories.map((category: string) => (
                     <label
                       key={category}
                       className="flex items-center space-x-3 cursor-pointer"
@@ -247,12 +237,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({
                   ))}
                 </div>
 
-                {!showAllCategories && categories.length > 5 && (
+                {!showAllCategories && defaultCategories.length > 5 && (
                   <button
                     onClick={() => setShowAllCategories(true)}
                     className="text-sm text-red-500 hover:text-red-600 mt-3 font-medium"
                   >
-                    See {categories.length - 5} more
+                    See {defaultCategories.length - 5} more
                   </button>
                 )}
 

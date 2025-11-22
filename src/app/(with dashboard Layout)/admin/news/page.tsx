@@ -21,7 +21,7 @@ interface NewsArticle {
   title: string;
   description: string;
   author: string;
-  created_at?: string | null;
+  created_at?: string | null | undefined;
 
 }
 
@@ -225,7 +225,9 @@ export default function AdminNews() {
                       <div className="flex items-center">
                         <Calendar className="h-4 w-4 text-gray-400 mr-2" />
                         <span className="text-sm text-gray-900">
-                          {new Date(article.created_at).toLocaleDateString()}
+                          {article.created_at
+                            ? new Date(article.created_at).toLocaleDateString()
+                            : "N/A"}
                         </span>
                       </div>
                     </td>
