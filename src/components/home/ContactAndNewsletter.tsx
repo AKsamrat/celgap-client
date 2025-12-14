@@ -2,6 +2,7 @@
 
 import { CheckCircle, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState } from "react";
+import { Zoom } from "react-awesome-reveal";
 
 export default function ContactNewsletter() {
   const [contactForm, setContactForm] = useState({
@@ -45,9 +46,12 @@ export default function ContactNewsletter() {
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 tracking-wide mb-4">
-            CONTACT & NEWSLETTER
-          </h2>
+          <Zoom duration={1000}>
+
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 tracking-wide mb-4">
+              CONTACT & NEWSLETTER
+            </h2>
+          </Zoom>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-700 to-blue-400 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Get in touch with us or subscribe to our newsletter for the latest
@@ -138,7 +142,7 @@ export default function ContactNewsletter() {
                   value={contactForm.message}
                   onChange={handleContactChange}
                   required
-                  rows={5}
+                  rows={4}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent transition-all duration-300 resize-vertical"
                   placeholder="Please describe your inquiry in detail..."
                 />

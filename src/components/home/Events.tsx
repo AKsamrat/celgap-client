@@ -1,5 +1,6 @@
 "use client";
 
+import { Slide, Zoom } from "react-awesome-reveal";
 import Marquee from "react-fast-marquee";
 
 export default function EventsSection() {
@@ -70,9 +71,12 @@ export default function EventsSection() {
     <div className="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
-        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-6 tracking-wider">
-          EVENTS
-        </h2>
+        <Slide duration={1000} direction="left">
+
+          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-6 tracking-wider">
+            EVENTS
+          </h2>
+        </Slide>
 
         {/* Events Marquee */}
         <Marquee pauseOnHover={true} speed={50} gradient={false}>

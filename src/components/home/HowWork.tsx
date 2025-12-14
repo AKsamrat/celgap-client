@@ -1,4 +1,5 @@
 import { BookOpen, Gavel, Shield, Users } from "lucide-react";
+import { Fade, Slide, Zoom } from 'react-awesome-reveal';
 const workAreas = [
   {
     icon: <BookOpen className="h-6 w-6" />,
@@ -33,31 +34,40 @@ const HowWork = () => {
     >
       <div className="mb-16 mt-20">
         <div className="text-center mb-12">
-          <h3 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">
-            HOW WE WORK
-          </h3>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Our multi-faceted approach combines research, advocacy, and legal
-            action to address systemic challenges and promote social justice
-          </p>
+          <Slide direction="down" duration={1000}>
+
+            <h3 className="text-3xl md:text-4xl font-bold text-blue-900 mb-4">
+
+              HOW WE WORK
+            </h3>
+          </Slide>
+          <Zoom duration={1000}>
+
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Our multi-faceted approach combines research, advocacy, and legal
+              action to address systemic challenges and promote social justice
+            </p>
+          </Zoom>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 ">
           {workAreas.map((area, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow   duration-300 p-6"
-            >
-              <div className="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-lg mb-4">
-                {area.icon}
+            <Fade key={index} direction="up" duration={1500}>
+              <div
+                key={index}
+                className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-shadow   duration-300 p-6"
+              >
+                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-lg mb-4">
+                  {area.icon}
+                </div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">
+                  {area.title}
+                </h4>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  {area.description}
+                </p>
               </div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3">
-                {area.title}
-              </h4>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                {area.description}
-              </p>
-            </div>
+            </Fade>
           ))}
         </div>
       </div>

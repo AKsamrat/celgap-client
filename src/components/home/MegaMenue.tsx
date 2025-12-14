@@ -4,6 +4,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+export interface NavChild {
+  name: string;
+  href: string;
+}
+
+export interface NavSub {
+  name: string;
+  href: string;
+  subMenu?: NavChild[];
+}
+
+export interface NavItem {
+  title: string;
+  href?: string;
+  subMenu?: NavSub[];
+}
+
 const navItems = [
   { title: "Home", href: "/" },
   {
@@ -16,8 +33,16 @@ const navItems = [
   {
     title: "Publications",
     subMenu: [
-      { name: "Law Journal", href: "/publications/law" },
-      { name: "Magazine", href: "/publications/magazine" },
+      {
+        name: "Law Journal",
+        href: "",
+        subMenu: [
+          { name: "About Journal", href: "/publications/law/J-About" },
+          { name: "Journal", href: "/publications/law" },
+        ]
+      },
+      // { name: "Law Journal", href: "/publications/law" },
+      { name: "Magazine", href: "/publications/policy" },
       { name: "periodical", href: "/publications/periodical" },
     ],
   },
@@ -35,7 +60,7 @@ const navItems = [
     subMenu: [
       { name: "Spring School", href: "/events/springSchool" },
       { name: "Seminar", href: "/events/seminars" },
-      { name: "Conference", href: "/events/confernces" },
+      { name: "Conference", href: "/events/conferences" },
       { name: "Workshop", href: "/events/workshops" },
       { name: "Webinar", href: "/events/webinars" },
       { name: "Training", href: "/events/training" },
@@ -64,6 +89,8 @@ export default function MegaMenu() {
   );
   const [showSearch, setShowSearch] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
+  const [activeMain, setActiveMain] = useState<string | null>(null);
+  const [activeSub, setActiveSub] = useState<string | null>(null);
 
   // Detect scroll to make navbar sticky
   useEffect(() => {
@@ -116,45 +143,66 @@ export default function MegaMenu() {
           </Link>
 
           {/* Desktop Navigation */}
+
           <ul className="hidden md:flex space-x-2 ml-8 uppercase text-slate-600">
             {navItems.map((item) => (
               <li
                 key={item.title}
-                className="relative group"
-                onMouseEnter={() => item.subMenu && setActive(item.title)}
-                onMouseLeave={() => setActive(null)}
+                className="relative"
+                onMouseEnter={() => item.subMenu && setActiveMain(item.title)}
+                onMouseLeave={() => { setActiveMain(null); setActiveSub(null); }}
               >
+                {/* Main menu link */}
                 <Link
-                  href={item.href || "#"}
-                  className={`px-2 py-1 font-normal transition ${isParentActive(item)
-                    ? "text-[#0347A7] border-b-2 border-[#0347A7] font-bold"
-                    : "hover:text-[#0347A7]"
-                    }`}
+                  href={item.href || "/"}
+                  className="px-3 py-2 hover:text-[#0347A7]"
                 >
                   {item.title}
                 </Link>
 
-                {/* Only show submenu if exists */}
+                {/* LEVEL 1 DROPDOWN */}
                 {item.subMenu && (
                   <div
-                    className={`absolute left-0 top-full bg-white/90 text-[#0347A7] shadow-lg min-w-[220px] z-10 rounded-md transition-all duration-300 ease-in-out transform origin-top
-                    ${active === item.title
-                        ? "opacity-100 scale-100"
-                        : "opacity-0 scale-95 pointer-events-none"
+                    className={`absolute left-0 top-full bg-white shadow-lg rounded-md transition-all duration-300 min-w-[220px] ${activeMain === item.title ? "opacity-100 visiblex text-blue-600" : "opacity-0 invisible"
                       }`}
                   >
-                    <ul className="space-y-2 p-4">
+                    <ul className="p-3 space-y-2">
                       {item.subMenu.map((sub) => (
-                        <li key={sub.name}>
+                        <li
+                          key={sub.name}
+                          className="relative"
+                          onMouseEnter={() => sub.subMenu && setActiveSub(sub.name)}
+                          onMouseLeave={() => sub.subMenu && setActiveSub(null)}
+                        >
+                          {/* Level 1 submenu link */}
                           <Link
                             href={sub.href}
-                            className={`block px-2 py-1 rounded-md transition ${pathname === sub.href
-                              ? "text-[#0347A7]"
-                              : "hover:text-[#0347A7] hover:bg-black/10"
-                              }`}
+                            className="block px-2 py-1 hover:bg-gray-200 transition-shadow duration-300"
                           >
                             {sub.name}
                           </Link>
+
+                          {/* LEVEL 2 NESTED DROPDOWN */}
+                          {sub.subMenu && (
+                            <div
+                              className={`absolute left-full top-0 bg-white shadow-lg rounded-md min-w-[200px] transition-all duration-300 ${activeSub === sub.name ? "opacity-100 visible" : "opacity-0 invisible"
+                                }`}
+                            >
+                              <ul className="p-3 space-y-2">
+                                {sub.subMenu.map((child) => (
+                                  <li key={child.name}>
+                                    <Link
+                                      href={child.href}
+                                      className="block px-2 py-1 hover:bg-gray-200"
+                                    >
+                                      {child.name}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+
                         </li>
                       ))}
                     </ul>
@@ -163,6 +211,7 @@ export default function MegaMenu() {
               </li>
             ))}
           </ul>
+
 
           {/* Search + Mobile Menu Button */}
           <div className="flex items-center gap-4">
@@ -225,21 +274,32 @@ export default function MegaMenu() {
             <ul className="flex flex-col items-center">
               {navItems.map((item) => (
                 <li key={item.title} className="w-full">
-                  <Link
-                    href={item.href || "#"}
-                    onClick={() =>
-                      item.subMenu
-                        ? toggleMobileSubMenu(item.title)
-                        : setIsMobileMenuOpen(false)
-                    }
-                    className={`block w-full text-center py-3 font-normal ${isParentActive(item)
-                      ? "bg-[#045CB0] text-[#0347A7]"
-                      : "hover:text-[#0347A7]"
-                      }`}
-                  >
-                    {item.title}
-                  </Link>
 
+                  {/* Parent item */}
+                  {item.subMenu ? (
+                    <button
+                      onClick={() => toggleMobileSubMenu(item.title)}
+                      className={`block w-full text-center py-3 font-normal ${isParentActive(item)
+                        ? "bg-[#045CB0] text-[#0347A7]"
+                        : "hover:text-[#0347A7]"
+                        }`}
+                    >
+                      {item.title}
+                    </button>
+                  ) : (
+                    <Link
+                      href={item.href || "#"}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`block w-full text-center py-3 font-normal ${isParentActive(item)
+                        ? "bg-[#045CB0] text-[#0347A7]"
+                        : "hover:text-[#0347A7]"
+                        }`}
+                    >
+                      {item.title}
+                    </Link>
+                  )}
+
+                  {/* Submenu */}
                   {item.subMenu && activeMobileSubMenu === item.title && (
                     <ul className="bg-white text-black py-2">
                       {item.subMenu.map((sub) => (
@@ -262,6 +322,7 @@ export default function MegaMenu() {
               ))}
             </ul>
           </div>
+
         )}
       </nav>
     </>

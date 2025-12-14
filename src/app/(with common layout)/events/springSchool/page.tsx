@@ -232,8 +232,8 @@ export default function SpringSchoolPage() {
                                     key={status}
                                     onClick={() => setSelectedStatus(status)}
                                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedStatus === status
-                                            ? 'bg-blue-600 text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-blue-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                 >
                                     {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -248,8 +248,8 @@ export default function SpringSchoolPage() {
                                     key={category}
                                     onClick={() => setSelectedCategory(category)}
                                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedCategory === category
-                                            ? 'bg-purple-600 text-white'
-                                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                        ? 'bg-purple-600 text-white'
+                                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                                         }`}
                                 >
                                     {category.charAt(0).toUpperCase() + category.slice(1)}
@@ -333,7 +333,7 @@ export default function SpringSchoolPage() {
                                 )}
 
                                 {/* View Details Button */}
-                                <button className="mt-4 w-full bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 group">
+                                <button className="mt-4 w-full bg-[#0146A4] hover:bg-gray-800 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 group">
                                     <span>View Details</span>
                                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </button>

@@ -2,7 +2,9 @@ import Footer from "@/components/home/Footer";
 import MegaMenu from "@/components/home/MegaMenue";
 import TopMenuBar from "@/components/home/TopBar";
 
+
 const CommonLayout = ({ children }: { children: React.ReactNode }) => {
+
   return (
     <>
       <TopMenuBar></TopMenuBar>

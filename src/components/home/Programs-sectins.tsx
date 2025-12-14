@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import { Zoom } from "react-awesome-reveal";
 import Marquee from "react-fast-marquee";
 
 interface Program {
@@ -157,9 +158,12 @@ export default function ProgramsSection() {
       <div className="container max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-blue-900 tracking-wide mb-4">
-            PROGRAMS & INITIATIVES
-          </h2>
+          <Zoom duration={1000}>
+
+            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 tracking-wide mb-4">
+              PROGRAMS & INITIATIVES
+            </h2>
+          </Zoom>
           <div className="w-20 h-1 bg-gradient-to-r from-blue-800 to-blue-400 mx-auto mb-6"></div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Highlight Courses, Workshops, Seminars. Discover upcoming

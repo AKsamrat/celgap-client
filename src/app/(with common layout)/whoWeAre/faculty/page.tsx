@@ -197,46 +197,8 @@ const OurTeamPage: React.FC = () => {
       image: "/api/placeholder/300/400",
       isActive: true,
       joinedYear: 2021,
-    },
-    // {
-    //   id: 7,
-    //   name: "Payal Gaikwad",
-    //   position: "Projects Coordinator",
-    //   department: "Operations",
-    //   bio: "Payal Gaikwad coordinates various projects and initiatives at CLPR, ensuring smooth execution of programs and events.",
-    //   education: ["MBA, Pune University", "BA, Mumbai University"],
-    //   expertise: [
-    //     "Project Management",
-    //     "Event Coordination",
-    //     "Program Development",
-    //     "Operations",
-    //   ],
-    //   email: "payal@clpr.org.in",
-    //   image: "/api/placeholder/300/400",
-    //   isActive: true,
-    //   joinedYear: 2019,
-    // },
-    // {
-    //   id: 8,
-    //   name: "Shankar K",
-    //   position: "Finance Head",
-    //   department: "Operations",
-    //   bio: "Shankar K manages the financial operations of CLPR, ensuring compliance and efficient resource management.",
-    //   education: [
-    //     "M.Com, Bangalore University",
-    //     "CA, Institute of Chartered Accountants of India",
-    //   ],
-    //   expertise: [
-    //     "Financial Management",
-    //     "Compliance",
-    //     "Accounting",
-    //     "Resource Planning",
-    //   ],
-    //   email: "shankar@clpr.org.in",
-    //   image: "/api/placeholder/300/400",
-    //   isActive: true,
-    //   joinedYear: 2015,
-    // },
+    }
+
   ];
 
   const filteredMembers = teamMembers.filter((member) => {
@@ -311,11 +273,10 @@ const OurTeamPage: React.FC = () => {
               <button
                 key={dept.name}
                 onClick={() => setSelectedDepartment(dept.name)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
-                  selectedDepartment === dept.name
-                    ? `${dept.color} text-white`
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${selectedDepartment === dept.name
+                  ? `${dept.color} text-white`
+                  : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                  }`}
               >
                 {dept.description}
               </button>
@@ -338,9 +299,8 @@ const OurTeamPage: React.FC = () => {
           {filteredMembers.map((member) => (
             <div
               key={member.id}
-              className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer ${
-                !member.isActive ? "opacity-75" : ""
-              }`}
+              className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer ${!member.isActive ? "opacity-75" : ""
+                }`}
               onClick={() => setSelectedMember(member)}
             >
               {/* Member Photo */}
@@ -368,10 +328,9 @@ const OurTeamPage: React.FC = () => {
                 {/* Department Badge */}
                 <div className="absolute bottom-3 left-3">
                   <span
-                    className={`${
-                      departments.find((d) => d.name === member.department)
-                        ?.color || "bg-gray-500"
-                    } text-white px-2 py-1 rounded-full text-xs font-medium`}
+                    className={`${departments.find((d) => d.name === member.department)
+                      ?.color || "bg-gray-500"
+                      } text-white px-2 py-1 rounded-full text-xs font-medium`}
                   >
                     {member.department}
                   </span>

@@ -1,3 +1,4 @@
+
 import AboutSection from "@/components/home/About";
 import ContactNewsletter from "@/components/home/ContactAndNewsletter";
 import EventsSection from "@/components/home/Events";
@@ -6,7 +7,9 @@ import ProgramsSection from "@/components/home/Programs-sectins";
 import HeroSlider from "@/components/home/SLider";
 
 
-const page = () => {
+
+const Home = () => {
+
   return (
     <div>
       {/* <Hero></Hero> */}
@@ -21,4 +24,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Home;
