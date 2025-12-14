@@ -59,60 +59,28 @@ const OurTeamPage: React.FC = () => {
   const teamMembers: TeamMember[] = [
     {
       id: 1,
-      name: "Jayna Kothari",
-      position: "Executive Director",
-      department: "Leadership",
-      bio: "Jayna Kothari is the Executive Director of CLPR. She has extensive experience in constitutional law, human rights litigation, and policy advocacy. She has appeared before various High Courts and the Supreme Court of India.",
-      education: [
-        "LLM, Harvard Law School",
-        "LLB, National Law School of India University",
-      ],
+      name: "Mohammad Moshiur Rahman",
+      position: "Chairman",
+      department: "Research",
+      bio: "Mohammad Moshiur Rahman focuses on disability rights, accessibility issues, and inclusive policy development.",
+      education: ["LLM, Jamia Millia Islamia", "BBA LLB, Amity University"],
       expertise: [
-        "Constitutional Law",
-        "Human Rights",
-        "Gender Justice",
         "Disability Rights",
+        "Accessibility Law",
+        "Inclusive Policy",
+        "Human Rights",
       ],
-      publications: ["Constitutional Law & Policy", "Gender Justice in India"],
-      awards: ["Young Lawyer Award 2015", "Human Rights Advocate 2018"],
-      email: "jayna@clpr.org.in",
-      linkedin: "#",
-      image: "/team1.jpg",
+      email: "priya@clpr.org.in",
+      image: "/hasi.jpg",
       isActive: true,
-      joinedYear: 2012,
+      joinedYear: 2020,
     },
     {
       id: 2,
-      name: "Azizun Nahar",
-      position: "Senior Research Associate & Editor",
-      department: "Research",
-      bio: "Azizun Nahar is a Senior Research Associate and Editor at CLPR. His research focuses on constitutional culture, electoral reforms, and governance issues.",
-      education: [
-        "LLM, National University of Juridical Sciences",
-        "BA LLB, NALSAR University of Law",
-      ],
-      expertise: [
-        "Constitutional Culture",
-        "Electoral Reforms",
-        "Governance",
-        "Legal Research",
-      ],
-      publications: [
-        "Electoral Reforms in India",
-        "Constitutional Culture Studies",
-      ],
-      email: "vineeth@clpr.org.in",
-      linkedin: "#",
-      image: "/moon.jpg",
-      isActive: true,
-      joinedYear: 2018,
-    },
-    {
-      id: 3,
-      name: "Aparna Mehrotra",
-      position: "Senior Litigation Associate",
+      name: "Ehsan Abdullah Siddiq",
+      position: "Vice Chairman",
       department: "Litigation",
-      bio: "Aparna Mehrotra leads the litigation efforts at CLPR, focusing on strategic impact litigation in areas of disability rights, gender justice, and constitutional matters.",
+      bio: "Ehsan Abdullah Siddiq leads the litigation efforts at CLPR, focusing on strategic impact litigation in areas of disability rights, gender justice, and constitutional matters.",
       education: [
         "LLM, Jindal Global Law School",
         "BBA LLB, Symbiosis Law School",
@@ -133,11 +101,59 @@ const OurTeamPage: React.FC = () => {
       joinedYear: 2016,
     },
     {
+      id: 3,
+      name: "Foyez Uddin Ahmed",
+      position: "Treasurer",
+      department: "Leadership",
+      bio: "Foyez Uddin Ahmed is the Treasurer of CELGAP. She has extensive experience in constitutional law, human rights litigation, and policy advocacy. She has appeared before various High Courts and the Supreme Court of India.",
+      education: [
+        "LLM, Harvard Law School",
+        "LLB, National Law School of India University",
+      ],
+      expertise: [
+        "Constitutional Law",
+        "Human Rights",
+        "Gender Justice",
+        "Disability Rights",
+      ],
+      publications: ["Constitutional Law & Policy", "Gender Justice in India"],
+      awards: ["Young Lawyer Award 2015", "Human Rights Advocate 2018"],
+      email: "jayna@clpr.org.in",
+      linkedin: "#",
+      image: "/team2.png",
+      isActive: true,
+      joinedYear: 2012,
+    },
+
+
+    {
       id: 4,
-      name: "Nithya Rajshekhar",
-      position: "Senior Research Associate",
+      name: "Imran Abdullah Siddiq",
+      position: "Trustee",
       department: "Research",
-      bio: "Nithya Rajshekhar works on gender and sexuality rights, with particular focus on reproductive rights and violence against women.",
+      bio: "Imran Abdullah Siddiq works on transgender rights, LGBTQ+ issues, and discrimination law.",
+      education: [
+        "LLM, University of Delhi",
+        "BA LLB, Rajiv Gandhi School of IP Law",
+      ],
+      expertise: [
+        "Transgender Rights",
+        "LGBTQ+ Law",
+        "Anti-discrimination Law",
+        "Constitutional Rights",
+      ],
+      email: "saumya@clpr.org.in",
+      linkedin: "#",
+      image: "/team4.png",
+      isActive: true,
+      joinedYear: 2021,
+    },
+    {
+      id: 5,
+      name: "Dr. Chowdhury Israk Ahmed Siddiky",
+      position: "Trustee",
+      department: "Research",
+      bio: "Dr. Chowdhury Israk Ahmed Siddiky works on gender and sexuality rights, with particular focus on reproductive rights and violence against women.",
       education: [
         "LLM, National Law School of India University",
         "BA LLB, Christ University",
@@ -154,50 +170,38 @@ const OurTeamPage: React.FC = () => {
       ],
       email: "nithya@clpr.org.in",
       twitter: "#",
-      image: "/team2.png",
+      image: "/team1.jpg",
       isActive: true,
       joinedYear: 2019,
     },
     {
-      id: 5,
-      name: "Priya Chaudhary",
-      position: "Research Associate",
-      department: "Research",
-      bio: "Priya Chaudhary focuses on disability rights, accessibility issues, and inclusive policy development.",
-      education: ["LLM, Jamia Millia Islamia", "BBA LLB, Amity University"],
-      expertise: [
-        "Disability Rights",
-        "Accessibility Law",
-        "Inclusive Policy",
-        "Human Rights",
-      ],
-      email: "priya@clpr.org.in",
-      image: "/hasi.jpg",
-      isActive: true,
-      joinedYear: 2020,
-    },
-    {
       id: 6,
-      name: "Saumya Singh",
-      position: "Research Associate",
+      name: "Azizun Nahar",
+      position: "Trustee",
       department: "Research",
-      bio: "Saumya Singh works on transgender rights, LGBTQ+ issues, and discrimination law.",
+      bio: "Azizun Nahar is a Senior Research Associate and Editor at CELGAP. His research focuses on constitutional culture, electoral reforms, and governance issues.",
       education: [
-        "LLM, University of Delhi",
-        "BA LLB, Rajiv Gandhi School of IP Law",
+        "LLM, National University of Juridical Sciences",
+        "BA LLB, NALSAR University of Law",
       ],
       expertise: [
-        "Transgender Rights",
-        "LGBTQ+ Law",
-        "Anti-discrimination Law",
-        "Constitutional Rights",
+        "Constitutional Culture",
+        "Electoral Reforms",
+        "Governance",
+        "Legal Research",
       ],
-      email: "saumya@clpr.org.in",
+      publications: [
+        "Electoral Reforms in India",
+        "Constitutional Culture Studies",
+      ],
+      email: "vineeth@clpr.org.in",
       linkedin: "#",
-      image: "/api/placeholder/300/400",
+      image: "/moon.jpg",
       isActive: true,
-      joinedYear: 2021,
-    }
+      joinedYear: 2018,
+    },
+
+
 
   ];
 
@@ -301,7 +305,7 @@ const OurTeamPage: React.FC = () => {
               key={member.id}
               className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer ${!member.isActive ? "opacity-75" : ""
                 }`}
-              onClick={() => setSelectedMember(member)}
+            // onClick={() => setSelectedMember(member)}
             >
               {/* Member Photo */}
               <div className="relative  mb-6 mx-auto w-48 h-48">
@@ -342,7 +346,7 @@ const OurTeamPage: React.FC = () => {
                 <h3 className="text-xl font-bold text-gray-900 mb-2">
                   {member.name}
                 </h3>
-                <p className="text-blue-600 font-medium mb-3">
+                <p className="text-blue-600  mb-3 font-semibold">
                   {member.position}
                 </p>
                 <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
