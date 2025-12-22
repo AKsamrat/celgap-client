@@ -21,9 +21,7 @@ const JournalAbout = () => {
 
 
                     <p className='my-8 text-xl leading-relaxed text-gray-600 text-spacing-wide'>
-                        The CELGAP Journal of Law and Policy accepts English language submissions to be considered for publication. Submissions are accepted and reviewed on a rolling basis. The Journal is a generalist publication that welcomes submissions in all areas of law and Policy. The accepted papers are published online first and the hard copy once a year. The CELGAP Journal of Law and Policy encourages scholars and practitioners to submit manuscripts of different categories. The most common categories of submissions are Article, Book Review and Case Comments. <br />
-
-                        The submissions are subject to a rigorous review process, which includes peer review prior to acceptance. Submissions must respect the conditions outlined on this page to be considered.
+                        The CELGAP Journal of Law and Policy welcomes submissions in English for consideration for publication and reviews them on a rolling basis. As a generalist journal, it accepts manuscripts covering all areas of law and policy. Accepted papers are published online first, followed by an annual printed edition. The Journal encourages submissions from both scholars and practitioners across various categories, including Articles, Book Reviews, and Case Comments. All submissions undergo a rigorous review process, including peer review prior to acceptance, and must comply with the submission guidelines outlined on this page.
                     </p>
                 </div>
             </div>
@@ -40,7 +38,7 @@ const JournalAbout = () => {
                         </span>  <br />
                         <span className='text-2xl'>▸</span> Word Limit: 8000-12000 words (including footnotes and references). <br />
                         <span className='text-2xl'>▸</span> Font: Times New Roman, Size: 12, Line Spacing: 1.5, Alignment: Justified. <br />
-                        <span className='text-2xl'>▸</span> Authors must follow the required format strictly.<br />
+                        <span className='text-2xl'>▸</span> Authors are advised to review their manuscripts in accordance with the comments (if any) of the reviewers.<br />
                         <span className='text-2xl'>▸</span> Citations: Chicago Manual of Style (latest edition, footnotes system).<br />
                         <span className='text-2xl'>▸</span> All manuscripts will go through double-blind peer review by at least two reviewers.<br />
                         <span className='text-2xl'>▸</span> Revised submissions must include a point-by-point reply to reviewers comments.<br />
@@ -49,7 +47,7 @@ const JournalAbout = () => {
                         <h1 className='text-2xl font-medium text-blue-700 mt-4'>Title :</h1>
                         <p className='text-lg text-gray-600'>
 
-                            <span className='text-2xl'>▸</span>Concise, informative, reflective of the content, and written in academic language.
+                            <span className='text-2xl'>▸</span>Title must be concise, informative and appropriately reflective of the content.
                         </p>
 
                         <p className='text-2xl font-medium text-blue-700 mt-4'>Author Information :</p>
@@ -63,7 +61,7 @@ const JournalAbout = () => {
 
                         <p className='text-lg text-gray-600'>
 
-                            <span className='text-2xl'>▸</span> Maximum 200 words, single-spaced, 11-point font. Must include purpose, methodology, results, and conclusion emphasizing new contributions.
+                            <span className='text-2xl'>▸</span> Abstract must not exceed 200 words. It should be indented, single spaced and in 11 point font. Abstract should be structured and have the following elements: purpose, methodology, the results and a conclusion emphasising the contribution of the study.
                         </p>
 
                         <p className='text-2xl font-medium text-blue-700 mt-4'>Keywords :</p>
@@ -80,7 +78,7 @@ const JournalAbout = () => {
                             <span className='text-2xl'>▸</span> Quotes over 25 words: indented, 11pt, single-spaced<br />
                             <span className='text-2xl'>▸</span> Footnotes: 10pt font, 1.5 spacing<br />
                             <span className='text-2xl'>▸</span>  Citations<br />
-                            <span className='text-2xl'>▸</span> Chicago Manual of Style (latest edition), footnote system.<br />
+
                         </p>
                     </div>
                 </div>
