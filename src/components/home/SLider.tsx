@@ -35,7 +35,7 @@ export default function HeroSlider() {
   ];
 
   return (
-    <section className="relative max-w-7xl mx-auto h-[600px] mb-10 mt-6 px-6">
+    <section className="relative max-w-7xl mx-auto h-[400px] md:h-[600px] mb-10 mt-6 px-6">
       <Swiper
         modules={[Autoplay, Pagination, EffectFade]}
         autoplay={{ delay: 4000 }}
@@ -46,7 +46,7 @@ export default function HeroSlider() {
       >
         {slides.map((slide, idx) => (
           <SwiperSlide key={idx}>
-            <div className="relative w-full h-[600px] rounded-xl overflow-hidden ">
+            <div className="relative w-full h-[400px] md:h-[600px] rounded-xl overflow-hidden ">
               {/* Background Image with next/image */}
               <Image
                 src={slide.image}

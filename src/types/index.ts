@@ -71,3 +71,13 @@ export interface SpringSchoolEvent {
   speakerRole?: string;
   image?: string;
 }
+export interface IUser {
+  id: string;
+  image?: string;
+  name: string;
+  email: string;
+  isActive?: boolean;
+  role: "user" | "admin" | "reviewer";
+  createdAt?: string;
+  updatedAt?: string;
+}

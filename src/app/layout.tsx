@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Merriweather, Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import Providers from "./Provider/Provider";
 
 
 const montserrat = Montserrat({
@@ -34,8 +35,10 @@ export default function RootLayout({
       <body
         className={`${poppins.className} ${merriweather.className} antialiased`}
       >
-        <Toaster />
-        {children}
+        <Providers>
+          <Toaster />
+          {children}
+        </Providers>
       </body>
     </html>
   );

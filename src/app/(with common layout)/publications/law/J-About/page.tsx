@@ -30,7 +30,7 @@ const JournalAbout = () => {
                 <div className='mt-3 max-w-4xl mx-auto'>
 
                     <p className='text-2xl font-medium text-blue-700 mt-2'>General guidelines :</p>
-                    <p className='my-2 text-xl leading-relaxed text-gray-600 text-spacing-wide text-lg'>
+                    <p className='my-2  leading-relaxed text-gray-600 text-spacing-wide text-lg'>
                         <span className='text-2xl'>▸</span> The manuscript must be original and unpublished. <br />
                         <span className='text-2xl'>▸</span> Maximum number of authors: <span className='text-blue-800'>4</span>.<br />
                         <span className='text-2xl'>▸</span> Submit directly to Editor-in-Chief: <span className='text-blue-800 underline'>
@@ -88,7 +88,7 @@ const JournalAbout = () => {
                 <div className='mt-3 max-w-4xl mx-auto'>
 
 
-                    <p className='my-2 text-xl leading-relaxed text-gray-600 text-spacing-wide text-lg'>
+                    <p className='my-2  leading-relaxed text-gray-600 text-spacing-wide text-lg'>
                         <span className='text-2xl'>▸</span> Length: 1500–3000 words (including references, Chicago style). <br />
                         <span className='text-2xl'>▸</span> Book must contribute significantly to the field and academic discourse.<br />
                         <span className='text-2xl'>▸</span> Reviewer must provide full book details: title, author, year, publisher, pages, ISBN. <br />
