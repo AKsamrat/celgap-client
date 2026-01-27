@@ -77,10 +77,28 @@ export const loginUser = async (userData: {
 //   }
 // };
 export const getCurrentUser = async () => {
-  const token = (await cookies()).get("accessToken")!.value;
+  const token = (await cookies()).get("accessToken")?.value;
   if (!token) return console.log("No token found");
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/user`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+    },
+  });
+
+  if (!res.ok) return null;
+  const data = await res.json();
+
+  return data;
+};
+
+//get all users
+export const getAllUsers = async () => {
+  const token = (await cookies()).get("accessToken")?.value;
+  if (!token) return console.log("No token found");
+
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/allUser`, {
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
@@ -107,7 +125,7 @@ export const getNewToken = async () => {
           "Content-Type": "application/json",
           Authorization: (await cookies()).get("refreshToken")!.value,
         },
-      }
+      },
     );
 
     return res.json();

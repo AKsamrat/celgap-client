@@ -27,7 +27,7 @@ export default function LoginForm() {
 
     try {
       const data = await loginUser(credentials);
-      // console.log("Login response data:", data);
+      console.log(data);
       if (data) {
         const user = await getCurrentUser();
         console.log('Current user:', user);

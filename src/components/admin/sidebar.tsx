@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { useUser } from "@/Context/UserContext";
+import { filterMenu, MenuItem } from "@/Helper function";
 import { logout } from "@/service/AuthService";
 import {
   BookOpen,
@@ -21,36 +24,42 @@ import {
   Briefcase,
   Settings,
   Settings2,
+  Book,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
-const menuItems = [
+const menuItems: MenuItem[] = [
   {
     name: "Dashboard",
     href: "/admin/dashboard",
     icon: LayoutDashboard,
+    roles: ['admin', 'reviewer', 'user'],
   },
   {
     name: "Blog",
     href: "/admin/blog",
     icon: FileText,
+    roles: ['admin', 'reviewer', 'user'],
   },
   {
     name: "News",
     href: "/admin/news",
     icon: Newspaper,
+    roles: ['admin', 'reviewer', 'user'],
   },
   {
     name: "Publications",
     href: "/admin/publications",
     icon: Calendar,
+    roles: ['admin', 'user'],
     children: [
       {
         name: "Law Journal",
         href: "/admin/publications/Law-Journal",
         icon: ClipboardList,
+        roles: ['admin', 'user'],
       },
       // {
       //   name: " Magazine",
@@ -68,21 +77,26 @@ const menuItems = [
     name: "Events",
     href: "/admin/events",
     icon: BookOpen,
+    roles: ['admin'],
     children: [
       {
         name: "Conferences & Seminars",
         href: "/admin/events/conferences",
         icon: FileSearch,
+        roles: ['admin'],
+
       },
       {
         name: "Spring School & Workshop",
         href: "/admin/events/spring-school",
         icon: FlaskConical,
+        roles: ['admin'],
       },
       {
         name: "Webinars",
         href: "/admin/events/webinars",
         icon: Briefcase,
+        roles: ['admin'],
       },
       // {
       //   name: "Workshops",
@@ -97,19 +111,28 @@ const menuItems = [
     ],
   },
   {
+    name: "Journal For Review",
+    href: "/admin/journalForReview",
+    icon: Book,
+    roles: ['admin', 'reviewer'],
+  },
+  {
     name: "Speaker",
     href: "/admin/speaker",
     icon: GraduationCap,
+    roles: ['admin'],
   },
   {
     name: "Resources",
     href: "/admin/resources",
     icon: FolderOpen,
+    roles: ['admin'],
   },
   {
     name: "Home",
     href: "/",
     icon: Home,
+    roles: ['admin', 'reviewer', 'user'],
   },
 ];
 
@@ -118,11 +141,16 @@ export default function Sidebar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
   const router = useRouter();
-
+  const { user } = useUser();
+  const userRole = user?.role;
+  const visibleMenu: MenuItem[] = userRole
+    ? filterMenu(menuItems, userRole)
+    : [];
   const handleLogout = () => {
     logout();
-    router.push("/admin/login");
+    router.push("/login");
   };
+
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -147,51 +175,68 @@ export default function Sidebar() {
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center justify-center h-16 bg-blue-900 text-white">
-            <h1 className="text-xl font-bold">Admin Panel</h1>
+          <div className=" p-1 ml-4 mt-2">
+
+            <Link href="/">
+              <img src="/logo3.png" className="w-36 md:w-44" alt="Logo" />
+            </Link>
           </div>
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            {menuItems.map((item) => {
+            {visibleMenu.map((item: any) => {
               const Icon = item.icon;
               const isActive =
                 pathname === item.href ||
-                item.children?.some((child) => pathname === child.href);
+                item.children?.some((child: any) => pathname === child.href);
 
               return (
                 <div key={item.name}>
-                  <button
-                    onClick={() =>
-                      item.children
-                        ? toggleDropdown(item.name)
-                        : router.push(item.href)
-                    }
-                    className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
-                      ? "bg-blue-900 text-white"
-                      : "text-gray-700 hover:bg-gray-100"
-                      }`}
-                  >
-                    <div className="flex items-center">
+                  {/* 🔹 DIRECT MENU (NO CHILDREN) */}
+                  {item.href && !item.children && (
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
+                        ? "bg-blue-900 text-white"
+                        : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                    >
                       <Icon className="mr-3 h-5 w-5" />
                       {item.name}
-                    </div>
-                    {item.children && (
+                    </Link>
+                  )}
+
+                  {/* 🔹 PARENT MENU (WITH CHILDREN) */}
+                  {item.children && (
+                    <button
+                      type="button"
+                      onClick={() => toggleDropdown(item.name)}
+                      className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
+                        ? "bg-blue-900 text-white"
+                        : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                    >
+                      <div className="flex items-center">
+                        <Icon className="mr-3 h-5 w-5" />
+                        {item.name}
+                      </div>
                       <span
                         className={`transform transition-transform duration-200 ${openDropdown === item.name ? "rotate-90" : ""
                           }`}
                       >
                         ▶
                       </span>
-                    )}
-                  </button>
+                    </button>
+                  )}
 
-                  {/* Nested Children */}
+                  {/* 🔹 CHILD MENU */}
                   {item.children && openDropdown === item.name && (
                     <div className="ml-8 mt-1 space-y-1">
-                      {item.children.map((child) => {
+                      {item.children.map((child: any) => {
                         const ChildIcon = child.icon;
                         const isChildActive = pathname === child.href;
+
                         return (
                           <Link
                             key={child.name}
@@ -213,6 +258,7 @@ export default function Sidebar() {
               );
             })}
           </nav>
+
 
           {/* Logout */}
           <div className="p-4 border-t">

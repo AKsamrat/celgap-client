@@ -16,7 +16,7 @@ export const createLawJournal = async (data: any) => {
         },
         credentials: "include",
         body: data,
-      }
+      },
     );
 
     const datas = await res.json();
@@ -43,7 +43,7 @@ export const getSingleLawJournal = async (id: string) => {
         //   },
         //   credentials: "include",
         //   body: data,
-      }
+      },
     );
 
     const datas = await res.json();
@@ -57,7 +57,7 @@ export const getSingleLawJournal = async (id: string) => {
 export const getAllLowJournal = async (
   search?: string,
   currentPage?: number,
-  perPage?: number
+  perPage?: number,
 ) => {
   try {
     let url = `${process.env.NEXT_PUBLIC_BASE_API}/law-journals?page=${currentPage}&per_page=${perPage}&`;
@@ -79,10 +79,10 @@ export const getAllLowJournal = async (
 
 //update SpringTraineeWorkshop ===========================================
 
-export const updateLawJournal = async (id: number, formData: FormData) => {
+export const updateLawJournal = async (id: number, formData: any) => {
   const token = (await cookies()).get("accessToken")?.value;
   if (!token) return console.error("No token found");
-  console.log(id, token);
+  console.log(id, formData);
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/law-journals/${id}`,
@@ -93,13 +93,50 @@ export const updateLawJournal = async (id: number, formData: FormData) => {
           Accept: "application/json",
         },
         body: formData,
-      }
+      },
     );
     const data = await res.json();
     console.log(data);
     return data;
   } catch (error) {
     console.error("Error saving blog:", error);
+    return null;
+  }
+};
+
+//update status SpringTraineeWorkshop ===========================================
+export const updateLawJournalStatus = async (
+  id: number,
+  formData: FormData,
+) => {
+  const token = (await cookies()).get("accessToken")?.value;
+  if (!token) {
+    console.error("No token found");
+    return;
+  }
+
+  console.log("Sending:", [...formData.entries()]); // 🔍 debug
+
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/law-journals/${id}/status`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          // ❌ DO NOT set Content-Type for FormData
+        },
+        credentials: "include",
+        body: formData, // ✅ correct
+      },
+    );
+
+    const data = await res.json();
+    console.log("Journal", data);
+    return data;
+  } catch (error) {
+    console.error("Error saving Journal:", error);
     return null;
   }
 };
@@ -118,7 +155,33 @@ export const deleteLowJournal = async (id: number) => {
           Authorization: `Bearer ${token}`,
         },
         credentials: "include",
-      }
+      },
+    );
+
+    const datas = await res.json();
+    console.log(datas);
+    return datas;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+//asign reviewer to law journal
+export const asignLawJournal = async (data: any) => {
+  const token = (await cookies()).get("accessToken")!.value;
+  console.log(token, data);
+  if (!token) return console.log("No token found");
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/reviewer/assign`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: "include",
+        body: data,
+      },
     );
 
     const datas = await res.json();

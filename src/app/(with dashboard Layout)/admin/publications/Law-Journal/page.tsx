@@ -1,41 +1,49 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import LawJournalModal from "@/components/admin/lawJournalModal";
 import AdminLayout from "@/components/admin/layout";
-import { deleteLowJournal, getAllLowJournal } from "@/service/LawJournal";
+import { asignLawJournal, deleteLowJournal, getAllLowJournal } from "@/service/LawJournal";
 import { getAllSpeakers } from "@/service/Speaker";
 import {
     Calendar,
-    Download,
     Edit,
-    ExternalLink,
     Eye,
-    Filter,
+    PanelBottomOpenIcon,
     Plus,
-    Scale,
     Search,
     Trash2,
-    User,
+    Group,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Speaker } from './../../../../../components/admin/conferenceModal';
+import StatusControl from "@/components/admin/StatusControl";
+import { useUser } from "@/Context/UserContext";
+import { getAllUsers } from "@/service/AuthService";
+import AssignReviewerModal from "@/components/admin/JournalAsignModal";
+import toast from "react-hot-toast";
+import { User } from "@/lib/auth";
 
 export interface LawItem {
     id: number;
     title: string;
     description: string;
     abstract: string;
-    author: string;
+    speaker: Speaker;
     keywords: string[];
+    user?: User;
     downloadUrl?: string;
     externalUrl?: string;
     status?: string;
+    category?: string;
     speaker_id: string;
     created_at?: string;
 }
 
 
 export default function LawPage() {
+
+    const { user: currentUser } = useUser();
     const [lawJournals, setLawJournal] = useState<LawItem[]>([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedStatus, setSelectedStatus] = useState("all");
@@ -52,7 +60,9 @@ export default function LawPage() {
     const [perPage, setPerPage] = useState(10);
     const [total, setTotal] = useState(0);
     const [speakers, setSpeakers] = useState<LawItem[]>([]);
-
+    const [assignModalOpen, setAssignModalOpen] = useState(false);
+    const [selectedJournal, setSelectedJournal] = useState<any>(null);
+    const [reviewers, setReviewers] = useState<any[]>([]);
 
 
     const handleEditLawJournal = (LawJournal: LawItem) => {
@@ -118,11 +128,25 @@ export default function LawPage() {
             setLawJournal([]);
         }
     };
+    //load all LawJournal----------------
+    const loadAllUsers = async () => {
+        const data = await getAllUsers();
+        console.log("Users loaded:", data?.data);
+        if (data?.data) {
+            setReviewers(data.data);
+
+        }
+    };
 
     useEffect(() => {
         loadLawJournal();
 
     }, [searchTerm, selectedStatus, currentPage, perPage]);
+    useEffect(() => {
+
+        loadAllUsers();
+
+    }, []);
 
 
     //delete LowJournal ===================
@@ -139,6 +163,21 @@ export default function LawPage() {
         }
     };
 
+    //handle assign reviewer===================
+    const handleAssignReviewer = async (reviewerId: string) => {
+        if (!selectedJournal) return;
+        const formData = new FormData();
+        formData.append("reviewer_id", reviewerId);
+        formData.append("law_journal_id", selectedJournal.id.toString());
+        const res = await asignLawJournal(formData);
+        if (res?.status === 200) {
+            toast.success("Reviewer assigned successfully!");
+            setAssignModalOpen(false);
+            loadLawJournal(); // Refresh the list
+        } else {
+            alert("Failed to assign reviewer.");
+        }
+    };
 
 
     return (
@@ -193,6 +232,12 @@ export default function LawPage() {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Author
                                     </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Status
+                                    </th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Category
+                                    </th>
 
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Date
@@ -201,6 +246,16 @@ export default function LawPage() {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Actions
                                     </th>
+                                    {
+                                        currentUser?.role === "admin" && (
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Assign
+                                            </th>
+                                        )
+                                    }
+
+
+
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
@@ -213,16 +268,38 @@ export default function LawPage() {
                                                     {journal.title}
                                                 </div>
                                                 <div className="text-sm text-gray-500 mt-1">
-                                                    {journal.description}
+                                                    {journal?.description?.length > 50
+                                                        ? journal.description.slice(0, 90) + "..."
+                                                        : journal.description}
                                                 </div>
 
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <User className="h-4 w-4 text-gray-400 mr-2" />
+                                                <Group className="h-4 w-4 text-gray-400 mr-2" />
                                                 <span className="text-sm text-gray-900">
-                                                    {journal.author}
+                                                    {journal.speaker?.name || 'N/A'}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td className="px-4 py-2">
+                                            {
+                                                journal.status && currentUser?.role ? (
+
+                                                    <StatusControl
+                                                        status={journal.status ?? "draft"}
+                                                        journalId={journal.id}
+                                                        userRole={currentUser?.role}
+                                                        loadLawjournal={loadLawJournal}
+                                                    />
+                                                ) : ("")}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
+                                            <div className="flex items-center">
+
+                                                <span className="text-sm text-gray-900">
+                                                    {journal.category || 'N/A'}
                                                 </span>
                                             </div>
                                         </td>
@@ -259,10 +336,37 @@ export default function LawPage() {
                                                 </button>
                                             </div>
                                         </td>
+                                        <td className="items-center px-6 py-4 whitespace-nowrap">
+                                            {
+                                                currentUser?.role === "admin" && (
+                                                    <button
+                                                        onClick={() => {
+                                                            setSelectedJournal(journal);
+                                                            setAssignModalOpen(true);
+                                                        }}
+                                                        className="px-3 py-1 text-xs font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700"
+                                                    >
+                                                        <PanelBottomOpenIcon></PanelBottomOpenIcon>
+                                                    </button>
+                                                )
+                                            }
+
+                                        </td>
                                     </tr>
+
                                 ))}
                             </tbody>
                         </table>
+                        <AssignReviewerModal
+                            open={assignModalOpen}
+                            onClose={() => setAssignModalOpen(false)}
+                            journalTitle={selectedJournal?.title}
+                            reviewers={reviewers} // fetched reviewer list
+                            onAssign={(reviewerId) => {
+                                handleAssignReviewer(reviewerId.toString());
+                                setAssignModalOpen(false);
+                            }}
+                        />
                     </div>
                 </div>
 

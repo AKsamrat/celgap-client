@@ -12,11 +12,11 @@ const montserrat = Montserrat({
 });
 const merriweather = Merriweather({
   subsets: ["latin"],
-  weight: ["400", "700"], // Regular + Bold
+  weight: ["300", "400", "500", "700", "800"], // Regular + Bold
 });
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["300", "700"],
+  weight: ["300", "400", "500", "700", "800"],
 });
 
 export const metadata: Metadata = {

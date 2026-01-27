@@ -36,6 +36,7 @@ export default function LawJournalModal({
         keywordInput: "",
         description: article?.description || "",
         status: article?.status || "draft",
+        category: article?.category || "article",
         speaker_id: article?.speaker_id || "",
         downloadUrl: article?.downloadUrl || "",
         externalUrl: article?.externalUrl || "",
@@ -55,6 +56,7 @@ export default function LawJournalModal({
 
                 description: article.description || "",
                 status: article.status || "draft",
+                category: article.category || "article",
                 speaker_id: article.speaker_id || "",
                 downloadUrl: article.downloadUrl || "",
                 externalUrl: article.externalUrl || "",
@@ -68,6 +70,7 @@ export default function LawJournalModal({
                 keywordInput: "",
                 description: "",
                 status: "draft",
+                category: "",
                 speaker_id: "",
                 downloadUrl: "",
                 externalUrl: "",
@@ -85,6 +88,7 @@ export default function LawJournalModal({
             keywordInput: "",
             description: "",
             status: "draft",
+            category: "",
             speaker_id: "",
             downloadUrl: "",
             externalUrl: "",
@@ -121,7 +125,8 @@ export default function LawJournalModal({
         data.append("title", formData.title);
         data.append("abstract", formData.abstract);
         data.append("description", formData.description);
-        data.append("status", formData.status);
+        data.append("category", formData.category);
+        data.append("status", article?.status || "draft");
         data.append("speaker_id", String(formData.speaker_id));
         if (formData.externalUrl) {
             data.append("externalUrl", formData.externalUrl);
@@ -134,7 +139,7 @@ export default function LawJournalModal({
         let res;
 
         if (mode === "edit" && article?.id) {
-            data.append("_method", "PUT");
+            data.append("_method", "POST");
             res = await updateLawJournal(article.id, data);
             console.log("Updating news with ID:", data);
         } else {
@@ -161,9 +166,9 @@ export default function LawJournalModal({
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b">
                     <h2 className="text-2xl font-bold text-gray-900">
-                        {mode === "add" && "Add News Article"}
-                        {mode === "edit" && "Edit News Article"}
-                        {mode === "preview" && "Preview News Article"}
+                        {mode === "add" && "Add New Journal"}
+                        {mode === "edit" && "Edit New Journal"}
+                        {mode === "preview" && "Preview  Journal"}
                     </h2>
                     <button
                         onClick={onClose}
@@ -185,7 +190,7 @@ export default function LawJournalModal({
                             <div className="flex items-center gap-6 text-sm text-gray-500 mb-6">
                                 <div className="flex items-center">
                                     <User className="h-4 w-4 mr-2" />
-                                    <span>{article?.author}</span>
+                                    <span>{article?.speaker?.name || 'N/A'}</span>
                                 </div>
                                 <div className="flex items-center">
                                     <Calendar className="h-4 w-4 mr-2" />
@@ -290,17 +295,18 @@ export default function LawJournalModal({
                                 />
                             </div>
 
-                            {/* Status */}
+                            {/* category */}
                             <div>
-                                <label className="block font-medium mb-1">Status</label>
+                                <label className="block font-medium mb-1">Category</label>
                                 <select
-                                    name="status"
+                                    name="category"
                                     className="w-full border p-2 rounded"
-                                    value={formData.status}
+                                    value={formData.category}
                                     onChange={handleChange}
                                 >
-                                    <option value="draft">Draft</option>
-                                    <option value="published">Published</option>
+                                    <option value="article">Article</option>
+                                    <option value="case_comment">Case Comment</option>
+                                    <option value="review_book">Review Book</option>
                                 </select>
                             </div>
 

@@ -2,7 +2,7 @@
 
 
 import { useRouter } from "next/navigation";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "./sidebar";
 import { getCurrentUser } from "@/service/AuthService";
 import { User } from "@/lib/auth";
@@ -15,15 +15,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  
-  useEffect(() => {
-  
-    const getUser=async()=>{
 
-      const currentUser =await getCurrentUser();
+  useEffect(() => {
+
+    const getUser = async () => {
+
+      const currentUser = await getCurrentUser();
       console.log(currentUser)
       if (!currentUser) {
-        router.push("/admin/login");
+        router.push("/login");
       } else {
         setUser(currentUser);
       }
@@ -52,7 +52,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="px-6 py-4">
             <div className="flex items-center justify-between">
               <h1 className="text-2xl font-semibold text-gray-900">
-                Admin Dashboard
+                <span className="uppercase">{user?.role} </span> Dashboard
               </h1>
               <div className="flex items-center space-x-4">
                 <span className="text-sm text-gray-600">
