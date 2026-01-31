@@ -3,7 +3,7 @@
 
 import LawJournalModal from "@/components/admin/lawJournalModal";
 import AdminLayout from "@/components/admin/layout";
-import { asignLawJournal, deleteLowJournal, getAllLowJournal } from "@/service/LawJournal";
+import { asignLawJournal, deleteLowJournal, getAllLowJournal, getUserAllLowJournal } from "@/service/LawJournal";
 import { getAllSpeakers } from "@/service/Speaker";
 import {
     Calendar,
@@ -13,7 +13,8 @@ import {
     Plus,
     Search,
     Trash2,
-    Group,
+    GitCommit,
+    UserPen,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Speaker } from './../../../../../components/admin/conferenceModal';
@@ -23,6 +24,8 @@ import { getAllUsers } from "@/service/AuthService";
 import AssignReviewerModal from "@/components/admin/JournalAsignModal";
 import toast from "react-hot-toast";
 import { User } from "@/lib/auth";
+import CommentAssignModal from "@/components/admin/CommentAssignModal";
+import { getSingleJournalReview, submitJournalComment } from "@/service/Reviewer";
 
 export interface LawItem {
     id: number;
@@ -31,13 +34,14 @@ export interface LawItem {
     abstract: string;
     speaker: Speaker;
     keywords: string[];
+    comment?: string;
     user?: User;
     downloadUrl?: string;
     externalUrl?: string;
     status?: string;
     category?: string;
     speaker_id: string;
-    created_at?: string;
+    created_at?: Date;
 }
 
 
@@ -61,8 +65,10 @@ export default function LawPage() {
     const [total, setTotal] = useState(0);
     const [speakers, setSpeakers] = useState<LawItem[]>([]);
     const [assignModalOpen, setAssignModalOpen] = useState(false);
+    const [commentAssignModalOpen, setCommentAssignModalOpen] = useState(false);
     const [selectedJournal, setSelectedJournal] = useState<any>(null);
     const [reviewers, setReviewers] = useState<any[]>([]);
+    const [journalreview, setJournalReview] = useState<any[]>([]);
 
 
     const handleEditLawJournal = (LawJournal: LawItem) => {
@@ -115,8 +121,9 @@ export default function LawPage() {
 
     //load all LawJournal----------------
     const loadLawJournal = async () => {
-        const data = await getAllLowJournal(searchTerm, currentPage, perPage);
+        const data = await getUserAllLowJournal(searchTerm, currentPage, perPage);
         console.log("LawJournal loaded:", data?.data);
+
         if (data?.data?.data) {
             setLawJournal(data.data.data);
             setLastPage(data.data.last_page);
@@ -126,6 +133,7 @@ export default function LawPage() {
 
         } else {
             setLawJournal([]);
+
         }
     };
     //load all LawJournal----------------
@@ -138,10 +146,13 @@ export default function LawPage() {
         }
     };
 
+
+
     useEffect(() => {
         loadLawJournal();
 
     }, [searchTerm, selectedStatus, currentPage, perPage]);
+
     useEffect(() => {
 
         loadAllUsers();
@@ -178,6 +189,35 @@ export default function LawPage() {
             alert("Failed to assign reviewer.");
         }
     };
+    //handle provide comment to author===================
+    const handleProvideComment = async (comment: string) => {
+        if (!selectedJournal) return;
+        const formData = new FormData();
+        formData.append("comment", comment);
+        const id = selectedJournal.id;
+
+        const res = await submitJournalComment(formData, id);
+        if (res?.status === 200) {
+            toast.success("Comment submitted successfully!");
+            setAssignModalOpen(false);
+            loadLawJournal(); // Refresh the list
+        } else {
+            alert("Failed to submit comment.");
+        }
+    };
+    // const loadSingleJournalReviews = async () => {
+    //     const data = await getSingleJournalReview(selectedJournal.id.toString());
+    //     console.log("Journal review loaded:", data);
+    //     if (data && Array.isArray(data)) {
+    //         setJournalReview(data);
+
+    //     }
+    // };
+    // useEffect(() => {
+
+    //     loadSingleJournalReviews();
+
+    // }, [open]);
 
 
     return (
@@ -253,6 +293,13 @@ export default function LawPage() {
                                             </th>
                                         )
                                     }
+                                    {
+                                        currentUser?.role === "admin" && (
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Comment
+                                            </th>
+                                        )
+                                    }
 
 
 
@@ -267,19 +314,19 @@ export default function LawPage() {
 
                                                     {journal.title}
                                                 </div>
-                                                <div className="text-sm text-gray-500 mt-1">
+                                                {/* <div className="text-sm text-gray-500 mt-1">
                                                     {journal?.description?.length > 50
                                                         ? journal.description.slice(0, 90) + "..."
                                                         : journal.description}
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
-                                                <Group className="h-4 w-4 text-gray-400 mr-2" />
+                                                <UserPen className="h-4 w-4  mr-2 text-indigo-700" />
                                                 <span className="text-sm text-gray-900">
-                                                    {journal.speaker?.name || 'N/A'}
+                                                    {journal.user?.name || 'N/A'}
                                                 </span>
                                             </div>
                                         </td>
@@ -308,9 +355,11 @@ export default function LawPage() {
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
                                                 <Calendar className="h-4 w-4 text-gray-400 mr-2" />
-                                                {/* <span className="text-sm text-gray-900">
-                                                    {new Date(journal.created_at).toLocaleDateString()}
-                                                </span> */}
+                                                <span className="text-sm text-gray-900">
+                                                    {journal?.created_at && (
+                                                        <span>{new Date(journal.created_at).toLocaleDateString()}</span>
+                                                    )}
+                                                </span>
                                             </div>
                                         </td>
 
@@ -344,9 +393,25 @@ export default function LawPage() {
                                                             setSelectedJournal(journal);
                                                             setAssignModalOpen(true);
                                                         }}
-                                                        className="px-3 py-1 text-xs font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700"
+                                                        className="px-3 py-1 text-xs font-medium text-white bg-indigo-900 rounded hover:bg-indigo-700"
                                                     >
                                                         <PanelBottomOpenIcon></PanelBottomOpenIcon>
+                                                    </button>
+                                                )
+                                            }
+
+                                        </td>
+                                        <td className="items-center px-6 py-4 whitespace-nowrap">
+                                            {
+                                                currentUser?.role === "admin" && (
+                                                    <button
+                                                        onClick={() => {
+                                                            setSelectedJournal(journal);
+                                                            setCommentAssignModalOpen(true);
+                                                        }}
+                                                        className="px-3 py-1 text-xs font-medium text-white bg-blue-900 rounded hover:bg-indigo-700"
+                                                    >
+                                                        <GitCommit></GitCommit>
                                                     </button>
                                                 )
                                             }
@@ -360,12 +425,23 @@ export default function LawPage() {
                         <AssignReviewerModal
                             open={assignModalOpen}
                             onClose={() => setAssignModalOpen(false)}
+
                             journalTitle={selectedJournal?.title}
                             reviewers={reviewers} // fetched reviewer list
                             onAssign={(reviewerId) => {
                                 handleAssignReviewer(reviewerId.toString());
                                 setAssignModalOpen(false);
                             }}
+                        />
+                        <CommentAssignModal
+                            open={commentAssignModalOpen}
+                            onClose={() => setCommentAssignModalOpen(false)}
+                            journal={selectedJournal}
+                            reviews={journalreview} // fetched journal review list
+                        // onAssign={(reviewerId) => {
+                        //     handleProvideComment(reviewerId);
+                        //     setCommentAssignModalOpen(false);
+                        // }}
                         />
                     </div>
                 </div>

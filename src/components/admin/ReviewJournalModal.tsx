@@ -3,9 +3,12 @@
 
 import { LawItem } from "@/app/(with dashboard Layout)/admin/publications/Law-Journal/page";
 import { createLawJournal, updateLawJournal } from "@/service/LawJournal";
+import { submitJournalComment } from "@/service/Reviewer";
 import { JournalAssignment } from "@/types/Journal Reviewer";
 import { AlertCircle, Calendar, Eye, Save, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
 
 
 
@@ -64,6 +67,7 @@ export default function ReviewJournalModal({
 
 
     const handleChange = (e: any) => {
+
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
@@ -73,11 +77,18 @@ export default function ReviewJournalModal({
         const data = new FormData();
         data.append("comment", formData.comment);
 
+
+        for (const [key, value] of data.entries()) {
+            console.log(key, value);
+        }
+
         let res;
+        if (!article?.id) return;
 
         if (mode === "preview" && article?.id) {
-            data.append("_method", "POST");
-            res = await updateLawJournal(article.id, data);
+            res = await submitJournalComment(data, article.id);
+            // data.append("_method", "POST");
+            // res = await updateLawJournal(article.id, data);
             console.log("Updating news with ID:", data);
         }
 
@@ -85,6 +96,7 @@ export default function ReviewJournalModal({
             loadLawJournal();
             onClose();
             resetForm();
+            toast.success("Journal comment saved successfully!");
         } else {
             console.log("Error saving news:", res.message);
         }
@@ -221,7 +233,8 @@ export default function ReviewJournalModal({
                                 >
                                     <textarea
                                         rows={5}
-                                        value={formData.description}
+                                        name="comment"
+                                        value={formData.comment}
                                         onChange={handleChange}
                                         placeholder="Write your comment about this journal..."
                                         className="w-full p-3 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

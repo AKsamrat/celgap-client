@@ -139,9 +139,9 @@ export default function LawJournalModal({
         let res;
 
         if (mode === "edit" && article?.id) {
-            data.append("_method", "POST");
+            // data.append("_method", "POST");
             res = await updateLawJournal(article.id, data);
-            console.log("Updating news with ID:", data);
+            console.log("Updating news with ID:", article.id, data);
         } else {
             res = await createLawJournal(data);
             console.log("Creating new news:", res);

@@ -1,6 +1,8 @@
 "use client";
 
 import AdminLayout from "@/components/admin/layout";
+import { useUser } from "@/Context/UserContext";
+import { div } from "framer-motion/client";
 import {
   BookOpen,
   Calendar,
@@ -88,6 +90,8 @@ const recentActivity = [
 ];
 
 export default function AdminDashboard() {
+
+  const { user } = useUser()
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -175,12 +179,28 @@ export default function AdminDashboard() {
             <button className="bg-green-600/70 hover:bg-green-700 text-white text-lg font-bolt px-4 py-3 rounded-lg  transition-colors duration-200">
               Add News Article
             </button>
-            <button className="bg-purple-600/70 hover:bg-purple-700 text-white px-4 py-3 rounded-lg font-bolt transition-colors duration-200">
-              Schedule Event
-            </button>
-            <button className="bg-orange-600/60 hover:bg-orange-700 text-white text-lg px-4 py-3 rounded-lg font-medium transition-colors duration-200">
-              Upload Resource
-            </button>
+
+            {
+              user?.role === "admin" && (
+                <button className="bg-purple-600/70 hover:bg-purple-700 text-white px-4 py-3 rounded-lg font-bolt transition-colors duration-200">
+                  Schedule Event
+                </button>
+
+              )
+            }
+
+
+            {
+              user?.role === "admin" && (
+
+
+                <button className="bg-orange-600/60 hover:bg-orange-700 text-white text-lg px-4 py-3 rounded-lg font-medium transition-colors duration-200">
+                  Upload Resource
+                </button>
+
+
+              )
+            }
           </div>
         </div>
       </div>

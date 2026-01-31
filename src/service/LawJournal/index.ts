@@ -27,7 +27,7 @@ export const createLawJournal = async (data: any) => {
   }
 };
 
-//GET SINGLE SpringTraineeWorkshop===========================================
+//GET SINGLE LawJournal===========================================
 
 export const getSingleLawJournal = async (id: string) => {
   const token = (await cookies()).get("accessToken")!.value;
@@ -66,6 +66,34 @@ export const getAllLowJournal = async (
 
     const res = await fetch(url, {
       credentials: "include",
+    });
+
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    return null;
+  }
+};
+export const getUserAllLowJournal = async (
+  search?: string,
+  currentPage?: number,
+  perPage?: number,
+) => {
+  const token = (await cookies()).get("accessToken")!.value;
+  console.log(token);
+  if (!token) return console.log("No token found");
+  try {
+    let url = `${process.env.NEXT_PUBLIC_BASE_API}/user/law-journals?page=${currentPage}&per_page=${perPage}&`;
+
+    if (search) url += `search=${encodeURIComponent(search)}&`;
+
+    const res = await fetch(url, {
+      credentials: "include",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     const data = await res.json();
@@ -115,7 +143,7 @@ export const updateLawJournalStatus = async (
     return;
   }
 
-  console.log("Sending:", [...formData.entries()]); // 🔍 debug
+  console.log("Sending:", [...formData.entries()]); //  debug
 
   try {
     const res = await fetch(
@@ -125,10 +153,9 @@ export const updateLawJournalStatus = async (
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",
-          // ❌ DO NOT set Content-Type for FormData
         },
         credentials: "include",
-        body: formData, // ✅ correct
+        body: formData, //  correct
       },
     );
 
@@ -166,7 +193,7 @@ export const deleteLowJournal = async (id: number) => {
   }
 };
 
-//asign reviewer to law journal
+//asign reviewer to law journal=================
 export const asignLawJournal = async (data: any) => {
   const token = (await cookies()).get("accessToken")!.value;
   console.log(token, data);
@@ -174,6 +201,32 @@ export const asignLawJournal = async (data: any) => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_API}/reviewer/assign`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        credentials: "include",
+        body: data,
+      },
+    );
+
+    const datas = await res.json();
+    console.log(datas);
+    return datas;
+  } catch (error: any) {
+    return Error(error);
+  }
+};
+
+//provide comment to law journal==================
+export const provideCommentToLawJournal = async (data: any, id: number) => {
+  const token = (await cookies()).get("accessToken")!.value;
+  console.log(token, data);
+  if (!token) return console.log("No token found");
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API}/law-journals/${id}/admin-comment`,
       {
         method: "POST",
         headers: {

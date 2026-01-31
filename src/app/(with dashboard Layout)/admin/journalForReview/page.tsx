@@ -111,6 +111,20 @@ const JournalForReview = () => {
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Author
                                     </th>
+                                    {
+                                        currentUser?.role === "admin" && (
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Reviewer
+                                            </th>
+                                        )
+                                    }
+                                    {
+                                        currentUser?.role === "admin" && (
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Status
+                                            </th>
+                                        )
+                                    }
 
                                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Category
@@ -153,6 +167,29 @@ const JournalForReview = () => {
                                                 </span>
                                             </div>
                                         </td>
+
+                                        {currentUser?.role === "admin" && (
+
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="flex items-center">
+
+                                                    <span className="text-sm text-gray-900">
+                                                        {journal?.reviewer?.name || 'N/A'}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        )}
+                                        {currentUser?.role === "admin" && (
+
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <div className="flex items-center">
+
+                                                    <span className="text-sm text-gray-900">
+                                                        {journal?.status || 'N/A'}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                        )}
 
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center">
