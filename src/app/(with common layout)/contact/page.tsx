@@ -280,21 +280,19 @@ const ContactUsPage: React.FC = () => {
           <div className="flex space-x-8">
             <button
               onClick={() => setActiveTab("contact")}
-              className={`py-4 px-2 border-b-2 font-medium text-sm ${
-                activeTab === "contact"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
+              className={`py-4 px-2 border-b-2 font-medium text-sm ${activeTab === "contact"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+                }`}
             >
               Contact Us
             </button>
             <button
               onClick={() => setActiveTab("careers")}
-              className={`py-4 px-2 border-b-2 font-medium text-sm ${
-                activeTab === "careers"
-                  ? "border-blue-500 text-blue-600"
-                  : "border-transparent text-gray-500 hover:text-gray-700"
-              }`}
+              className={`py-4 px-2 border-b-2 font-medium text-sm ${activeTab === "careers"
+                ? "border-blue-500 text-blue-600"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+                }`}
             >
               Careers
             </button>
@@ -321,11 +319,7 @@ const ContactUsPage: React.FC = () => {
                       Address
                     </h3>
                     <p className="text-gray-600">
-                      D6, Donna Cynthia, 35, Primrose Road
-                      <br />
-                      Craig Park Layout, Ashok Nagar
-                      <br />
-                      Bengaluru, Karnataka 560025
+                      Green City Square,Suit A-12, <br />750 Satmasjid Road,Dhaka-1209
                     </p>
                   </div>
                 </div>
@@ -336,8 +330,8 @@ const ContactUsPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-medium text-gray-900">Email</h3>
-                    <p className="text-gray-600">centerforlaw@gmail.com</p>
-                    <p className="text-gray-600">info@clpr.org.in</p>
+                    <p className="text-gray-600">celgap.bd@gmail.com</p>
+                    {/* <p className="text-gray-600">info@clpr.org.in</p> */}
                   </div>
                 </div>
 
@@ -347,8 +341,8 @@ const ContactUsPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-medium text-gray-900">Phone</h3>
-                    <p className="text-gray-600">+91 80 4143 5060</p>
-                    <p className="text-gray-600">+91 80 4143 5061</p>
+                    <p className="text-gray-600">+8801712356955</p>
+
                   </div>
                 </div>
 
@@ -361,11 +355,9 @@ const ContactUsPage: React.FC = () => {
                       Office Hours
                     </h3>
                     <p className="text-gray-600">
-                      Monday - Friday: 9:00 AM - 6:00 PM
+                      Saturday - Thursday: 9:00 AM - 6:00 PM
                     </p>
-                    <p className="text-gray-600">
-                      Saturday: 10:00 AM - 2:00 PM
-                    </p>
+
                   </div>
                 </div>
               </div>
@@ -377,32 +369,32 @@ const ContactUsPage: React.FC = () => {
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <a
-                    href="#"
+                    href="/whoWeAre/story"
                     className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
                   >
                     <Building className="h-4 w-4" />
                     <span>About Us</span>
                   </a>
                   <a
-                    href="#"
+                    href="/whoWeAre/faculty"
                     className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
                   >
                     <Users className="h-4 w-4" />
                     <span>Our Team</span>
                   </a>
                   <a
-                    href="#"
+                    href="/publications/law"
                     className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
                   >
                     <FileText className="h-4 w-4" />
-                    <span>Publications</span>
+                    <span>Law Journal</span>
                   </a>
                   <a
-                    href="#"
+                    href="/blog"
                     className="flex items-center space-x-2 text-blue-600 hover:text-blue-800"
                   >
                     <Briefcase className="h-4 w-4" />
-                    <span>Work With Us</span>
+                    <span>Blog</span>
                   </a>
                 </div>
               </div>

@@ -1,9 +1,9 @@
 // Simple authentication utilities
 export interface User {
-  id: string;
+  id: number;
   email: string;
   name: string;
-  role: "admin" | "editor";
+  role: "user" | "admin" | "reviewer";
 }
 
 export interface LoginCredentials {
@@ -14,22 +14,22 @@ export interface LoginCredentials {
 // Mock user data - in production, this would come from a database
 const mockUsers: User[] = [
   {
-    id: "1",
+    id: 1,
     email: "admin@legalcenter.org",
     name: "Admin User",
     role: "admin",
   },
   {
-    id: "2",
+    id: 2,
     email: "editor@legalcenter.org",
     name: "Editor User",
-    role: "editor",
+    role: "reviewer",
   },
 ];
 
 // Mock authentication - in production, use proper authentication
 export const authenticate = async (
-  credentials: LoginCredentials
+  credentials: LoginCredentials,
 ): Promise<User | null> => {
   // Simple mock authentication
   if (

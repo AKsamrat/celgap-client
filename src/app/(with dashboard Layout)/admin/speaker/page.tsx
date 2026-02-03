@@ -122,104 +122,121 @@ export default function AdminSpeaker() {
 
   return (
     <AdminLayout>
-      <div className="space-y-6">
+      <div className="p-6 space-y-6">
         {/* Header */}
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">
-              Speaker Management
-            </h2>
-            <p className="text-gray-600 mt-2">
-              Manage your Speaker posts here.
-            </p>
+            <div className="flex items-center gap-3 mb-2">
+              <h2 className="text-3xl font-bold text-gray-900">Speaker Management</h2>
+              <div className="h-1 w-16 bg-gradient-to-r from-blue-900 to-blue-700 rounded-full"></div>
+            </div>
+            <p className="text-gray-600">Manage your speaker posts and profiles</p>
           </div>
           <button
             onClick={handleAddPost}
-            className="bg-blue-900 hover:bg-blue-800 text-white px-4 py-2 rounded-lg font-medium flex items-center transition-colors duration-200"
+            className="bg-gradient-to-r from-blue-900 to-blue-800 hover:from-blue-800 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 shadow-lg shadow-blue-900/30 hover:shadow-xl transition-all"
           >
-            <Plus className="h-5 w-5 mr-2" />
-            New Speaker Post
+            <Plus className="h-5 w-5" />
+            Add New Speaker
           </button>
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border p-6">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
               <input
                 type="text"
-                placeholder="Search blog posts..."
+                placeholder="Search speakers by name, designation, or organization..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent hover:border-gray-300 transition-all"
               />
             </div>
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
+              className="px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-900 focus:border-transparent hover:border-gray-300 transition-all font-medium bg-white"
             >
               <option value="all">All Status</option>
               <option value="published">Published</option>
               <option value="draft">Draft</option>
-
             </select>
           </div>
         </div>
 
-        {/* Blog Posts Table */}
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+        {/* Speaker Table */}
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
-            <table className="min-w-full border border-gray-300 divide-y divide-gray-200">
-              <thead className="bg-gray-100">
+            <table className="min-w-full">
+              <thead className="bg-gradient-to-r from-blue-900 to-blue-800">
                 <tr>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Photo</th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Name</th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Designation</th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Organization</th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Bio</th>
-                  <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700">Topic</th>
-                  <th className="px-4 py-2 text-center text-sm font-semibold text-gray-700">Actions</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-white">Photo</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-white">Name</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-white">Designation</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-white">Organization</th>
+                  <th className="px-6 py-4 text-left text-sm font-bold text-white">Topic</th>
+                  <th className="px-6 py-4 text-center text-sm font-bold text-white">Actions</th>
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-200">
-                {speakers?.map((speaker) => (
-                  <tr key={speaker.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-2">
+              <tbody className="divide-y divide-gray-100">
+                {speakers?.map((speaker, index) => (
+                  <tr key={speaker.id} className="hover:bg-blue-50/50 transition-colors">
+                    <td className="px-6 py-4">
                       {speaker.photo ? (
                         <img
                           src={speaker.photo}
                           alt={speaker.name}
-                          className="w-12 h-12 rounded-full object-cover"
+                          className="w-14 h-14 rounded-full object-cover border-2 border-blue-100 shadow-md"
                         />
                       ) : (
-                        <span className="text-gray-400 italic">No photo</span>
+                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center text-white font-bold text-lg shadow-md">
+                          {speaker.name?.charAt(0).toUpperCase()}
+                        </div>
                       )}
                     </td>
-                    <td className="px-4 py-2 font-medium">{speaker.name}</td>
-                    <td className="px-4 py-2">{speaker.designation}</td>
-                    <td className="px-4 py-2">{speaker.organization}</td>
-                    <td className="px-4 py-2 text-sm text-gray-600">{speaker.bio || "N/A"}</td>
-                    <td className="px-4 py-2 text-sm text-gray-600">{speaker.topic || "N/A"}</td>
-                    <td className="px-4 py-2 text-center">
-                      <div className="flex space-x-2">
+                    <td className="px-6 py-4">
+                      <div className="font-semibold text-gray-900">{speaker.name}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="text-sm text-gray-700">{speaker.designation}</span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="text-sm text-gray-700">{speaker.organization}</span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className="text-sm text-gray-600">
+                        {speaker.topic ? (
+                          <span className="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-900 font-medium">
+                            {speaker.topic}
+                          </span>
+                        ) : (
+                          <span className="text-gray-400 italic">No topic</span>
+                        )}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center justify-center gap-2">
                         <button
                           onClick={() => handleEditSpeaker(speaker)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="p-2 text-blue-600 hover:text-white hover:bg-blue-900 rounded-lg transition-all"
+                          title="Edit"
                         >
                           <Edit className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handlePreviewSpeaker(speaker)}
-                          className="text-green-600 hover:text-green-900"
+                          className="p-2 text-green-600 hover:text-white hover:bg-green-600 rounded-lg transition-all"
+                          title="Preview"
                         >
                           <Eye className="h-4 w-4" />
                         </button>
                         <button
                           onClick={() => handleDelete(speaker.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="p-2 text-red-600 hover:text-white hover:bg-red-600 rounded-lg transition-all"
+                          title="Delete"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -231,84 +248,103 @@ export default function AdminSpeaker() {
             </table>
           </div>
         </div>
+
         {/* Pagination */}
         {speakers.length > 0 && (
-          <div className="flex items-center justify-between px-6 py-4 border-t bg-gray-50">
-            <div className="text-sm text-gray-600">
-              Showing <strong>{(currentPage - 1) * perPage + 1}</strong> to{" "}
-              <strong>{Math.min(currentPage * perPage, total)}</strong> of{" "}
-              <strong>{total}</strong> results
-            </div>
-            <div className="flex items-center space-x-2">
-              <label htmlFor="perPage" className="text-sm text-gray-600">Show:</label>
-              <select
-                id="perPage"
-                value={perPage}
-                onChange={(e) => {
-                  setPerPage(Number(e.target.value));
-                  setCurrentPage(1);
-                }}
-                className="border border-gray-300 rounded-lg px-2 py-1 text-sm"
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={20}>20</option>
-              </select>
-            </div>
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 px-6 py-4">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-sm text-gray-600">
+                Showing <strong className="text-blue-900">{(currentPage - 1) * perPage + 1}</strong> to{" "}
+                <strong className="text-blue-900">{Math.min(currentPage * perPage, total)}</strong> of{" "}
+                <strong className="text-blue-900">{total}</strong> results
+              </div>
 
-            <div className="flex space-x-2">
-              <button
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage(currentPage - 1)}
-                className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === 1
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-blue-900 text-white hover:bg-blue-800"
-                  }`}
-              >
-                Previous
-              </button>
+              <div className="flex items-center gap-3">
+                <label htmlFor="perPage" className="text-sm font-medium text-gray-600">Show:</label>
+                <select
+                  id="perPage"
+                  value={perPage}
+                  onChange={(e) => {
+                    setPerPage(Number(e.target.value));
+                    setCurrentPage(1);
+                  }}
+                  className="border-2 border-gray-200 rounded-lg px-3 py-2 text-sm font-medium focus:ring-2 focus:ring-blue-900 focus:border-transparent hover:border-gray-300 transition-all"
+                >
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
+                </select>
+              </div>
 
-              {[...Array(lastPage)].map((_, index) => (
+              <div className="flex items-center gap-2">
                 <button
-                  key={index + 1}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === index + 1
-                    ? "bg-blue-900 text-white"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${currentPage === 1
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-blue-900 text-white hover:bg-blue-800 shadow-md hover:shadow-lg"
                     }`}
                 >
-                  {index + 1}
+                  Previous
                 </button>
-              ))}
 
-              <button
-                disabled={currentPage === lastPage}
-                onClick={() => setCurrentPage(currentPage + 1)}
-                className={`px-3 py-1 rounded-lg text-sm font-medium ${currentPage === lastPage
-                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-blue-900 text-white hover:bg-blue-800"
-                  }`}
-              >
-                Next
-              </button>
+                <div className="hidden md:flex items-center gap-1">
+                  {[...Array(lastPage)].map((_, index) => (
+                    <button
+                      key={index + 1}
+                      onClick={() => setCurrentPage(index + 1)}
+                      className={`w-10 h-10 rounded-lg text-sm font-semibold transition-all ${currentPage === index + 1
+                        ? "bg-blue-900 text-white shadow-lg"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="md:hidden">
+                  <span className="text-sm font-medium px-4 py-2 bg-blue-50 text-blue-900 rounded-lg border border-blue-200">
+                    {currentPage} / {lastPage}
+                  </span>
+                </div>
+
+                <button
+                  disabled={currentPage === lastPage}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${currentPage === lastPage
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-blue-900 text-white hover:bg-blue-800 shadow-md hover:shadow-lg"
+                    }`}
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </div>
         )}
 
-
-
         {/* Empty State */}
         {speakers?.length === 0 && (
-          <div className="text-center py-12">
-            <div className="text-gray-400 mb-4">
-              <Search className="h-12 w-12 mx-auto" />
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 text-center py-16">
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
+                <Search className="h-10 w-10 text-gray-400" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">No speakers found</h3>
+                <p className="text-gray-600 mb-6">
+                  Try adjusting your search or filter criteria, or add a new speaker
+                </p>
+                <button
+                  onClick={handleAddPost}
+                  className="bg-gradient-to-r from-blue-900 to-blue-800 hover:from-blue-800 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 shadow-lg shadow-blue-900/30 transition-all"
+                >
+                  <Plus className="h-5 w-5" />
+                  Add First Speaker
+                </button>
+              </div>
             </div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No speaker found
-            </h3>
-            <p className="text-gray-500">
-              Try adjusting your search or filter criteria
-            </p>
           </div>
         )}
       </div>

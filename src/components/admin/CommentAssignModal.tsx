@@ -23,7 +23,7 @@ interface Props {
     onClose: () => void;
     journal: LawItem;
     reviews: Reviews[];
-    onAssign: (reviewerId: number) => void;
+    // onAssign: (reviewerId: number) => void;
 }
 
 export default function CommentAssignModal({

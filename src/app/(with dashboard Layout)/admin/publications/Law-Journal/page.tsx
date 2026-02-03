@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Speaker } from './../../../../../components/admin/conferenceModal';
-import StatusControl from "@/components/admin/StatusControl";
+import StatusControl, { JournalStatus } from "@/components/admin/StatusControl";
 import { useUser } from "@/Context/UserContext";
 import { getAllUsers } from "@/service/AuthService";
 import AssignReviewerModal from "@/components/admin/JournalAsignModal";
@@ -36,9 +36,10 @@ export interface LawItem {
     keywords: string[];
     comment?: string;
     user?: User;
+    admin_comment?: string[];
     downloadUrl?: string;
     externalUrl?: string;
-    status?: string;
+    status?: JournalStatus;
     category?: string;
     speaker_id: string;
     created_at?: Date;
@@ -189,35 +190,7 @@ export default function LawPage() {
             alert("Failed to assign reviewer.");
         }
     };
-    //handle provide comment to author===================
-    const handleProvideComment = async (comment: string) => {
-        if (!selectedJournal) return;
-        const formData = new FormData();
-        formData.append("comment", comment);
-        const id = selectedJournal.id;
 
-        const res = await submitJournalComment(formData, id);
-        if (res?.status === 200) {
-            toast.success("Comment submitted successfully!");
-            setAssignModalOpen(false);
-            loadLawJournal(); // Refresh the list
-        } else {
-            alert("Failed to submit comment.");
-        }
-    };
-    // const loadSingleJournalReviews = async () => {
-    //     const data = await getSingleJournalReview(selectedJournal.id.toString());
-    //     console.log("Journal review loaded:", data);
-    //     if (data && Array.isArray(data)) {
-    //         setJournalReview(data);
-
-    //     }
-    // };
-    // useEffect(() => {
-
-    //     loadSingleJournalReviews();
-
-    // }, [open]);
 
 
     return (
@@ -332,6 +305,7 @@ export default function LawPage() {
                                         </td>
                                         <td className="px-4 py-2">
                                             {
+
                                                 journal.status && currentUser?.role ? (
 
                                                     <StatusControl

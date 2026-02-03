@@ -57,7 +57,7 @@ export interface SpeakerModalProps {
   speakers?: Speaker[];
 }
 export interface SpringSchoolEvent {
-  id: string;
+  id: number;
   title: string;
   date: string;
   venue: string;
@@ -72,12 +72,16 @@ export interface SpringSchoolEvent {
   image?: string;
 }
 export interface IUser {
-  id: string;
+  id: number;
   image?: string;
   name: string;
   email: string;
+  phone?: string;
+  institute?: string;
+  designation?: string;
+  address?: string;
   isActive?: boolean;
   role: "user" | "admin" | "reviewer";
-  createdAt?: string;
+  created_at?: string;
   updatedAt?: string;
 }

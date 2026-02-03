@@ -25,6 +25,7 @@ import {
   Settings,
   Settings2,
   Book,
+  User2,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -115,6 +116,12 @@ const menuItems: MenuItem[] = [
     href: "/admin/journalForReview",
     icon: Book,
     roles: ['admin', 'reviewer'],
+  },
+  {
+    name: "User Management",
+    href: "/admin/userManagement",
+    icon: User2,
+    roles: ['admin'],
   },
   {
     name: "Speaker",
