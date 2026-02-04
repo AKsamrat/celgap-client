@@ -46,7 +46,7 @@ const StatusControl = ({
         <select
             value={status}
             onChange={(e) => updateStatus(e.target.value as JournalStatus)}
-            className="border rounded px-2 py-1 text-sm"
+            className="border border-gray-300 rounded-xl px-2 py-1 text-sm"
         >
             <option value="draft">Draft</option>
             <option value="reviewing">Reviewing</option>

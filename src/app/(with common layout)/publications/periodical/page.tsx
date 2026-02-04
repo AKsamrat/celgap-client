@@ -118,13 +118,18 @@ export default function GovernancePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-500 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 uppercase">
+
+      <div className="relative py-16 bg-[url('/banner1.jpg')] bg-cover bg-center">
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        {/* Glassmorphic Container */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
+            <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
               Periodical
             </h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
+            <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
               Exploring governance frameworks, transparency mechanisms, and
               accountability measures in public administration and institutional
               management.

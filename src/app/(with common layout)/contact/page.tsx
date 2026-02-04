@@ -1,4 +1,6 @@
 "use client";
+import { createContact } from "@/service/Contact";
+import { Career, ContactForm, JobApplication } from "@/types/Contact";
 import {
   Briefcase,
   Building,
@@ -13,41 +15,9 @@ import {
   X,
 } from "lucide-react";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
-interface ContactForm {
-  name: string;
-  email: string;
-  phone: string;
-  subject: string;
-  message: string;
-  type: "general" | "legal" | "partnership" | "media";
-}
 
-interface JobApplication {
-  position: string;
-  name: string;
-  email: string;
-  phone: string;
-  experience: string;
-  coverLetter: string;
-  resume: File | null;
-  additionalDocs: File[];
-}
-
-interface Career {
-  id: number;
-  title: string;
-  department: string;
-  location: string;
-  type: "full-time" | "part-time" | "internship" | "contract";
-  experience: string;
-  description: string;
-  requirements: string[];
-  responsibilities: string[];
-  benefits: string[];
-  postedDate: string;
-  deadline: string;
-}
 
 const ContactUsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"contact" | "careers">("contact");
@@ -61,7 +31,7 @@ const ContactUsPage: React.FC = () => {
     phone: "",
     subject: "",
     message: "",
-    type: "general",
+    enquiry_type: "general",
   });
 
   const [jobApplication, setJobApplication] = useState<JobApplication>({
@@ -177,23 +147,29 @@ const ContactUsPage: React.FC = () => {
     },
   ];
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Contact form submitted:", contactForm);
+    const result = await createContact(contactForm);
+    if (result.status == true) {
+
+      toast.success("Thank you for your message. We will get back to you soon!");
+    }
     // Handle form submission
-    alert("Thank you for your message. We will get back to you soon!");
     setContactForm({
       name: "",
       email: "",
       phone: "",
       subject: "",
       message: "",
-      type: "general",
+      enquiry_type: "general",
     });
   };
 
-  const handleJobApplicationSubmit = (e: React.FormEvent) => {
+  const handleJobApplicationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+
     console.log("Job application submitted:", jobApplication);
     // Handle application submission
     alert("Your application has been submitted successfully!");
@@ -482,11 +458,11 @@ const ContactUsPage: React.FC = () => {
                     </label>
                     <select
                       id="type"
-                      value={contactForm.type}
+                      value={contactForm.enquiry_type}
                       onChange={(e) =>
                         setContactForm((prev) => ({
                           ...prev,
-                          type: e.target.value as ContactForm["type"],
+                          enquiry_type: e.target.value as ContactForm["enquiry_type"],
                         }))
                       }
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"

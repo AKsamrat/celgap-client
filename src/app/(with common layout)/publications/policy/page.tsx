@@ -235,23 +235,27 @@ export default function PolicyPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <div className="bg-blue-900 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="flex justify-center mb-6">
-              <FileText className="w-16 h-16 text-blue-200" />
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Policy Research
+
+      <div className="relative py-16 bg-[url('/banner1.jpg')] bg-cover bg-center">
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40" />
+
+        {/* Glassmorphic Container */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
+            <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
+              Magazine
             </h1>
-            <p className="text-xl text-blue-100 leading-relaxed">
-              Comprehensive policy research and analysis covering digital
+            <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
+              Comprehensive magazine covering digital
               governance, environmental protection, corporate accountability,
               and justice system reforms.
             </p>
           </div>
         </div>
       </div>
+
+
 
       {/* Search and Filter Section */}
       <div className="bg-white shadow-sm border-b">

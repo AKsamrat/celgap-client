@@ -29,6 +29,7 @@ const navItems = [
     subMenu: [
       { name: "Our Story", href: "/whoWeAre/story" },
       { name: "Board Of Trustees", href: "/whoWeAre/faculty" },
+      { name: "Editorial Board", href: "/whoWeAre/editorialBoard" },
     ],
   },
   {
@@ -39,7 +40,7 @@ const navItems = [
         href: "",
         subMenu: [
           { name: "About Journal", href: "/publications/law/J-About" },
-          { name: "Journal", href: "/publications/law" },
+          { name: "CELGAP Journal", href: "/publications/law" },
         ]
       },
       // { name: "Law Journal", href: "/publications/law" },
@@ -85,6 +86,7 @@ export default function MegaMenu() {
   const pathname = usePathname();
   const { user } = useUser();
 
+
   /* ---------- STATES ---------- */
   const [isSticky, setIsSticky] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
@@ -96,8 +98,14 @@ export default function MegaMenu() {
   const [activeMobileChild, setActiveMobileChild] = useState<string | null>(null);
 
   /* ---------- AUTH MOCK ---------- */
-  const [isLoggedIn, setIsLoggedIn] = useState(user !== null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  useEffect(() => {
+    if (user) {
+      setIsLoggedIn(true);
+    }
+  }, [user]);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
     setActiveMobileSubMenu(null);

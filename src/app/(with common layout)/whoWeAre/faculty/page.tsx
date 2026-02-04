@@ -79,7 +79,7 @@ const OurTeamPage: React.FC = () => {
       id: 2,
       name: "Ehsan Abdullah Siddiq",
       position: "Vice Chairman",
-      department: "Litigation",
+      department: "Editor in Chief",
       bio: "Ehsan Abdullah Siddiq leads the litigation efforts at CLPR, focusing on strategic impact litigation in areas of disability rights, gender justice, and constitutional matters.",
       education: [
         "LLM, Jindal Global Law School",
@@ -150,10 +150,10 @@ const OurTeamPage: React.FC = () => {
     },
     {
       id: 5,
-      name: "Dr. Chowdhury Israk Ahmed Siddiky",
+      name: "Dr. Chowdhury Israk Ahmed Siddiq",
       position: "Trustee",
       department: "Research",
-      bio: "Dr. Chowdhury Israk Ahmed Siddiky works on gender and sexuality rights, with particular focus on reproductive rights and violence against women.",
+      bio: "Dr. Chowdhury Israk Ahmed Siddiq works on gender and sexuality rights, with particular focus on reproductive rights and violence against women.",
       education: [
         "LLM, National Law School of India University",
         "BA LLB, Christ University",

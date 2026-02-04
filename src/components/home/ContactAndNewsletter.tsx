@@ -1,8 +1,10 @@
 "use client";
 
+import { createContact } from "@/service/Contact";
 import { CheckCircle, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { Zoom } from "react-awesome-reveal";
+import toast from "react-hot-toast";
 
 export default function ContactNewsletter() {
   const [contactForm, setContactForm] = useState({
@@ -16,9 +18,12 @@ export default function ContactNewsletter() {
   const [contactSubmitted, setContactSubmitted] = useState(false);
   const [newsletterSubmitted, setNewsletterSubmitted] = useState(false);
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Contact form submitted:", contactForm);
+    const result = await createContact(contactForm);
+    if (result.status == true) {
+      toast.success("Thank you for your message. We will get back to you soon!");
+    }
     setContactSubmitted(true);
     setTimeout(() => setContactSubmitted(false), 3000);
     setContactForm({ name: "", email: "", subject: "", message: "" });
@@ -75,15 +80,17 @@ export default function ContactNewsletter() {
               <div className="space-y-4 mb-8">
                 <div className="flex items-center text-gray-600">
                   <Mail className="w-5 h-5 mr-3 text-blue-900" />
-                  <span>info@celgap.org</span>
+                  <span>celgap.bd@gmail.com</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <Phone className="w-5 h-5 mr-3 text-blue-900" />
-                  <span>+880 11 2345 6789</span>
+                  <span>+880 1712356955</span>
                 </div>
                 <div className="flex items-center text-gray-600">
                   <MapPin className="w-5 h-5 mr-3 text-blue-900" />
-                  <span>Dhaka,Bangladesh</span>
+                  <span>Green City Square,Suit A-12,750 Satmasjid Road,Dhaka-1209
+
+                  </span>
                 </div>
               </div>
             </div>

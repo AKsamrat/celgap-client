@@ -26,6 +26,7 @@ import {
   Settings2,
   Book,
   User2,
+  Mailbox,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -121,6 +122,12 @@ const menuItems: MenuItem[] = [
     name: "User Management",
     href: "/admin/userManagement",
     icon: User2,
+    roles: ['admin'],
+  },
+  {
+    name: "Contact Messages",
+    href: "/admin/message",
+    icon: Mailbox,
     roles: ['admin'],
   },
   {
