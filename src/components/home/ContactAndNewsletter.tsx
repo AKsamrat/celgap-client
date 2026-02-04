@@ -1,6 +1,7 @@
 "use client";
 
 import { createContact } from "@/service/Contact";
+import { createNewsletter } from "@/service/Newsletter";
 import { CheckCircle, Mail, MapPin, Phone, Send } from "lucide-react";
 import { useState } from "react";
 import { Zoom } from "react-awesome-reveal";
@@ -29,12 +30,16 @@ export default function ContactNewsletter() {
     setContactForm({ name: "", email: "", subject: "", message: "" });
   };
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Newsletter subscription:", newsletterEmail);
-    setNewsletterSubmitted(true);
-    setTimeout(() => setNewsletterSubmitted(false), 3000);
-    setNewsletterEmail("");
+    const result = await createNewsletter({ "email": newsletterEmail });
+    console.log("Newsletter subscription:", result);
+    if (result.status == true) {
+      toast.success("Subscribed to newsletter successfully!");
+      setNewsletterSubmitted(true);
+      setTimeout(() => setNewsletterSubmitted(false), 3000);
+      setNewsletterEmail("");
+    }
   };
 
   const handleContactChange = (

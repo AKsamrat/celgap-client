@@ -27,6 +27,7 @@ import {
   Book,
   User2,
   Mailbox,
+  MailPlus,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -131,17 +132,23 @@ const menuItems: MenuItem[] = [
     roles: ['admin'],
   },
   {
+    name: "Newsletter Subscribers",
+    href: "/admin/newsletters",
+    icon: MailPlus,
+    roles: ['admin'],
+  },
+  {
     name: "Speaker",
     href: "/admin/speaker",
     icon: GraduationCap,
     roles: ['admin'],
   },
-  {
-    name: "Resources",
-    href: "/admin/resources",
-    icon: FolderOpen,
-    roles: ['admin'],
-  },
+  // {
+  //   name: "Resources",
+  //   href: "/admin/resources",
+  //   icon: FolderOpen,
+  //   roles: ['admin'],
+  // },
   {
     name: "Home",
     href: "/",
