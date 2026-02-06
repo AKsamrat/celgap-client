@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import Cookies from "js-cookie";
-import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 // import { FieldValues } from "react-hook-form";
 
@@ -11,6 +9,7 @@ export const registerUser = async (userData: React.FormEvent) => {
     console.log(userData);
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/register`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -38,6 +37,7 @@ export const loginUser = async (userData: {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
       credentials: "include",
       body: JSON.stringify(userData),
     });
@@ -85,6 +85,7 @@ export const getCurrentUser = async () => {
       Authorization: `Bearer ${token}`,
       Accept: "application/json",
     },
+    cache: "no-store",
   });
 
   if (!res.ok) return null;

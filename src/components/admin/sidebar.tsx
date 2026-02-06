@@ -30,10 +30,10 @@ import {
   MailPlus,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const menuItems: MenuItem[] = [
+export const menuItems: MenuItem[] = [
   {
     name: "Dashboard",
     href: "/admin/dashboard",
@@ -164,6 +164,23 @@ export default function Sidebar() {
   const router = useRouter();
   const { user } = useUser();
   const userRole = user?.role;
+  useEffect(() => {
+    if (!user) return;
+
+    const routes = getAllRoutes(menuItems);
+
+    const matchedRoute = routes.find(route =>
+      pathname.startsWith(route.href || "")
+    );
+
+    if (!matchedRoute || !matchedRoute.roles.includes(user.role)) {
+      handleLogout(); // or router.replace("/login")
+    }
+  }, [pathname, user]);
+
+
+  console.log(pathname)
+  if (!user) return null;
   const visibleMenu: MenuItem[] = userRole
     ? filterMenu(menuItems, userRole)
     : [];
@@ -171,6 +188,22 @@ export default function Sidebar() {
     logout();
     router.push("/login");
   };
+
+  const getAllRoutes = (items: MenuItem[]) => {
+    return items.flatMap(item => [
+      {
+        href: item.href,
+        roles: item.roles,
+      },
+      ...(item.children
+        ? item.children.map(child => ({
+          href: child.href,
+          roles: child.roles,
+        }))
+        : []),
+    ]);
+  };
+
 
 
   const toggleDropdown = (name: string) => {
@@ -205,79 +238,80 @@ export default function Sidebar() {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-6 space-y-2 overflow-y-auto">
-            {visibleMenu.map((item: any) => {
-              const Icon = item.icon;
-              const isActive =
-                pathname === item.href ||
-                item.children?.some((child: any) => pathname === child.href);
+            {visibleMenu.filter(item =>
+              item.roles.includes(userRole)).map((item: any) => {
+                const Icon = item.icon;
+                const isActive =
+                  pathname === item.href ||
+                  item.children?.some((child: any) => pathname === child.href);
 
-              return (
-                <div key={item.name}>
-                  {/* 🔹 DIRECT MENU (NO CHILDREN) */}
-                  {item.href && !item.children && (
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
-                        ? "bg-blue-900 text-white"
-                        : "text-gray-700 hover:bg-gray-100"
-                        }`}
-                    >
-                      <Icon className="mr-3 h-5 w-5" />
-                      {item.name}
-                    </Link>
-                  )}
-
-                  {/* 🔹 PARENT MENU (WITH CHILDREN) */}
-                  {item.children && (
-                    <button
-                      type="button"
-                      onClick={() => toggleDropdown(item.name)}
-                      className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
-                        ? "bg-blue-900 text-white"
-                        : "text-gray-700 hover:bg-gray-100"
-                        }`}
-                    >
-                      <div className="flex items-center">
-                        <Icon className="mr-3 h-5 w-5" />
-                        {item.name}
-                      </div>
-                      <span
-                        className={`transform transition-transform duration-200 ${openDropdown === item.name ? "rotate-90" : ""
+                return (
+                  <div key={item.name}>
+                    {/* 🔹 DIRECT MENU (NO CHILDREN) */}
+                    {item.href && !item.children && (
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className={`flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
+                          ? "bg-blue-900 text-white"
+                          : "text-gray-700 hover:bg-gray-100"
                           }`}
                       >
-                        ▶
-                      </span>
-                    </button>
-                  )}
+                        <Icon className="mr-3 h-5 w-5" />
+                        {item.name}
+                      </Link>
+                    )}
 
-                  {/* 🔹 CHILD MENU */}
-                  {item.children && openDropdown === item.name && (
-                    <div className="ml-8 mt-1 space-y-1">
-                      {item.children.map((child: any) => {
-                        const ChildIcon = child.icon;
-                        const isChildActive = pathname === child.href;
+                    {/* 🔹 PARENT MENU (WITH CHILDREN) */}
+                    {item.children && (
+                      <button
+                        type="button"
+                        onClick={() => toggleDropdown(item.name)}
+                        className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200 ${isActive
+                          ? "bg-blue-900 text-white"
+                          : "text-gray-700 hover:bg-gray-100"
+                          }`}
+                      >
+                        <div className="flex items-center">
+                          <Icon className="mr-3 h-5 w-5" />
+                          {item.name}
+                        </div>
+                        <span
+                          className={`transform transition-transform duration-200 ${openDropdown === item.name ? "rotate-90" : ""
+                            }`}
+                        >
+                          ▶
+                        </span>
+                      </button>
+                    )}
 
-                        return (
-                          <Link
-                            key={child.name}
-                            href={child.href}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className={`flex items-center px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${isChildActive
-                              ? "bg-blue-100 text-blue-900 font-medium"
-                              : "text-gray-600 hover:bg-gray-50"
-                              }`}
-                          >
-                            <ChildIcon className="mr-2 h-4 w-4" />
-                            {child.name}
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+                    {/* 🔹 CHILD MENU */}
+                    {item.children && openDropdown === item.name && (
+                      <div className="ml-8 mt-1 space-y-1">
+                        {item.children.map((child: any) => {
+                          const ChildIcon = child.icon;
+                          const isChildActive = pathname === child.href;
+
+                          return (
+                            <Link
+                              key={child.name}
+                              href={child.href}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className={`flex items-center px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${isChildActive
+                                ? "bg-blue-100 text-blue-900 font-medium"
+                                : "text-gray-600 hover:bg-gray-50"
+                                }`}
+                            >
+                              <ChildIcon className="mr-2 h-4 w-4" />
+                              {child.name}
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
           </nav>
 
 

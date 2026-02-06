@@ -21,16 +21,23 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     const getUser = async () => {
 
       const currentUser = await getCurrentUser();
-      console.log(currentUser)
+      console.log("layout", currentUser)
       if (!currentUser) {
         router.push("/login");
       } else {
         setUser(currentUser);
       }
+      if (!["admin", "reviewer", "user"].includes(currentUser?.role || "")) {
+        router.push("/login");
+      }
       setIsLoading(false);
     }
     getUser();
   }, [router]);
+  const path = "/admin"; // layout level (basic access)
+  // if (!["admin", "reviewer", "user"].includes(user?.role || "")) {
+  //   router.push("/unauthorized");
+  // }
 
   if (isLoading) {
     return (

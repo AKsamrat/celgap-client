@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-// import { authenticate, setCurrentUser } from "@/lib/auth";
+import { useUser } from "@/Context/UserContext";
 import { getCurrentUser, loginUser } from "@/service/AuthService";
 import { AlertCircle, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import Link from "next/link";
@@ -8,17 +9,13 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-// export const userData
-
 export default function LoginForm() {
-  const [credentials, setCredentials] = useState({
-    email: "",
-    password: "",
-  });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { setUser } = useUser();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,27 +24,24 @@ export default function LoginForm() {
 
     try {
       const data = await loginUser(credentials);
-      console.log(data);
       if (data) {
         const user = await getCurrentUser();
-        console.log('Current user:', user);
+        setUser(user);
         router.push("/admin/dashboard");
+        toast.success("Logged in successfully!");
       } else {
         toast.error("Invalid email or password");
       }
-    } catch (err) {
-      toast.error("Login failed. Please try again.");
+    } catch (err: any) {
+      console.error("Login error:", err);
+      toast.error(err.message || "Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCredentials({
-      ...credentials,
-      [e.target.name]: e.target.value,
-    });
-
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
   return (
@@ -75,10 +69,7 @@ export default function LoginForm() {
 
           <div className="space-y-4">
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email Address
               </label>
               <div className="mt-1 relative">
@@ -99,10 +90,7 @@ export default function LoginForm() {
             </div>
 
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
               <div className="mt-1 relative">
@@ -146,8 +134,13 @@ export default function LoginForm() {
 
           <div className="text-center">
             <div className="text-sm text-gray-600 p-4 rounded-lg">
-              <p className="font-medium mb-2">If you have no Account.Please  <Link href={"/register"} className="text-[18px]  text-blue-600">Register</Link> here</p>
-
+              <p className="font-medium mb-2">
+                If you have no Account. Please{" "}
+                <Link href={"/register"} className="text-[18px] text-blue-600">
+                  Register
+                </Link>{" "}
+                here
+              </p>
             </div>
           </div>
         </form>

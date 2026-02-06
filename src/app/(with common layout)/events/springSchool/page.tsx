@@ -24,7 +24,7 @@ export default function SpringSchoolPage() {
                 // Mock data for demonstration
                 const mockEvents: SpringSchoolEvent[] = [
                     {
-                        id: '1',
+                        id: 1,
                         title: 'Introduction to Machine Learning',
                         date: '2025-03-15',
                         venue: 'Main Auditorium, Building A',
@@ -39,7 +39,7 @@ export default function SpringSchoolPage() {
                         image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800'
                     },
                     {
-                        id: '2',
+                        id: 2,
                         title: 'Sustainable Architecture Workshop',
                         date: '2025-03-18',
                         venue: 'Design Studio, Building C',
@@ -54,7 +54,7 @@ export default function SpringSchoolPage() {
                         image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800'
                     },
                     {
-                        id: '3',
+                        id: 3,
                         title: 'Digital Marketing Strategies',
                         date: '2025-03-12',
                         venue: 'Conference Room 201',
@@ -69,7 +69,7 @@ export default function SpringSchoolPage() {
                         image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800'
                     },
                     {
-                        id: '4',
+                        id: 4,
                         title: 'Creative Writing Masterclass',
                         date: '2025-03-08',
                         venue: 'Library Hall',
@@ -84,7 +84,7 @@ export default function SpringSchoolPage() {
                         image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?w=800'
                     },
                     {
-                        id: '5',
+                        id: 5,
                         title: 'Data Science Fundamentals',
                         date: '2025-03-20',
                         venue: 'Computer Lab 3',
@@ -99,7 +99,7 @@ export default function SpringSchoolPage() {
                         image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800'
                     },
                     {
-                        id: '6',
+                        id: 6,
                         title: 'Entrepreneurship 101',
                         date: '2025-03-22',
                         venue: 'Business Center',

@@ -58,7 +58,7 @@ export default function TopMenuBar() {
               href="/profile"
               className="text-sm hover:text-blue-300 transition-colors duration-200"
             >
-              centerforlaw@gmail.com
+              celgap.bd@gmail.com
             </a>
           </div>
         </div>
