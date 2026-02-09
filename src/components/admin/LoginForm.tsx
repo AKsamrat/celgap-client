@@ -24,8 +24,9 @@ export default function LoginForm() {
 
     try {
       const data = await loginUser(credentials);
-      if (data) {
+      if (data.status == 200) {
         const user = await getCurrentUser();
+        console.log(user)
         setUser(user);
         router.push("/admin/dashboard");
         toast.success("Logged in successfully!");

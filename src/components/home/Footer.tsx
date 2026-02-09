@@ -41,23 +41,23 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/research" className="hover:text-[#0347A7]">
-                Research
+              <Link href="/blog" className="hover:text-[#0347A7]">
+                Blog
               </Link>
             </li>
             <li>
-              <Link href="/programs/courses" className="hover:text-[#0347A7]">
-                Programs
+              <Link href="/news" className="hover:text-[#0347A7]">
+                News
               </Link>
             </li>
             <li>
-              <Link href="/resources" className="hover:text-[#0347A7]">
-                Resources
+              <Link href="" className="hover:text-[#0347A7]">
+                Celgap Policy
               </Link>
             </li>
             <li>
-              <Link href="/events" className="hover:text-[#0347A7]">
-                Events
+              <Link href="" className="hover:text-[#0347A7]">
+                Terms & Condition
               </Link>
             </li>
           </ul>

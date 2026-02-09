@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { registerUser } from "@/service/AuthService";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false);
@@ -11,15 +14,20 @@ export default function RegisterPage() {
         email: "",
         password: "",
     });
+    const router = useRouter()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Register Data:", formData);
-        // 🔐 connect API / NextAuth here
+        const res = await registerUser(formData);
+        if (res.status === 201) {
+            toast.success("Registration successful! Please log in.");
+            router.push("/login");
+        }
     };
 
     return (

@@ -25,6 +25,7 @@ export default function AdminBlog() {
   const [lastPage, setLastPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
 
 
@@ -88,10 +89,12 @@ export default function AdminBlog() {
   };
   //load all blogs----------------
   const loadBlogs = async () => {
+    setIsLoading(true);
     const data = await getAllBlogs(searchTerm, selectedStatus, currentPage, perPage);
     // console.log("Blogs loaded:", data.data);
     if (data?.data?.data) {
       setBlogs(data.data.data); // Laravel paginate() wraps data inside 'data.data'
+      setIsLoading(false);
       setLastPage(data.data.last_page);
       setCurrentPage(data.data.current_page);
       setTotal(data.data.total);
@@ -107,7 +110,13 @@ export default function AdminBlog() {
 
   }, [searchTerm, selectedStatus, currentPage, perPage]);
 
-
+  // if (isLoading) {
+  //   return (
+  //     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+  //       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900"></div>
+  //     </div>
+  //   );
+  // }
 
 
   return (

@@ -123,7 +123,7 @@ export default function AdminDashboard() {
     <AdminLayout>
       <div className="space-y-8">
         {/* Page Header with Gradient */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600  to-blue-100 p-8 text-white shadow-xl">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600  to-blue-300 p-8 text-white shadow-xl">
           {/* Decorative circles */}
           <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>
           <div className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full bg-white/10 blur-3xl"></div>

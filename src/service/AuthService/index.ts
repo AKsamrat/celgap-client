@@ -4,7 +4,7 @@
 import { cookies } from "next/headers";
 // import { FieldValues } from "react-hook-form";
 
-export const registerUser = async (userData: React.FormEvent) => {
+export const registerUser = async (userData: any) => {
   try {
     console.log(userData);
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/register`, {
@@ -17,9 +17,9 @@ export const registerUser = async (userData: React.FormEvent) => {
     });
     const result = await res.json();
 
-    if (result.status === 200) {
-      (await cookies()).set("accessToken", result.token);
-    }
+    // if (result.status === 201) {
+    //   (await cookies()).set("accessToken", result.token);
+    // }
 
     return result;
   } catch (error: any) {
@@ -36,6 +36,7 @@ export const loginUser = async (userData: {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       cache: "no-store",
       credentials: "include",
