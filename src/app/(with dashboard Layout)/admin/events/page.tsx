@@ -140,7 +140,7 @@ export default function AdminEvents() {
   };
 
   return (
-    <AdminLayout>
+    <div>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
@@ -283,9 +283,8 @@ export default function AdminEvents() {
                             <div
                               className="bg-blue-900 h-1 rounded-full"
                               style={{
-                                width: `${
-                                  (event.registered / event.capacity) * 100
-                                }%`,
+                                width: `${(event.registered / event.capacity) * 100
+                                  }%`,
                               }}
                             ></div>
                           </div>
@@ -339,6 +338,6 @@ export default function AdminEvents() {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </div>
   );
 }

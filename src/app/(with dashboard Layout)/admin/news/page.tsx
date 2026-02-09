@@ -135,8 +135,8 @@ export default function AdminNews() {
   };
 
   return (
-    <AdminLayout>
-      <div className="p-6 space-y-6">
+    <>
+      <div className="p-2 space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div>
@@ -297,8 +297,8 @@ export default function AdminNews() {
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage(currentPage - 1)}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${currentPage === 1
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-blue-900 text-white hover:bg-blue-800 shadow-md hover:shadow-lg"
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-blue-900 text-white hover:bg-blue-800 shadow-md hover:shadow-lg"
                     }`}
                 >
                   Previous
@@ -310,8 +310,8 @@ export default function AdminNews() {
                       key={index + 1}
                       onClick={() => setCurrentPage(index + 1)}
                       className={`w-10 h-10 rounded-lg text-sm font-semibold transition-all ${currentPage === index + 1
-                          ? "bg-blue-900 text-white shadow-lg"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                        ? "bg-blue-900 text-white shadow-lg"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                         }`}
                     >
                       {index + 1}
@@ -329,8 +329,8 @@ export default function AdminNews() {
                   disabled={currentPage === lastPage}
                   onClick={() => setCurrentPage(currentPage + 1)}
                   className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${currentPage === lastPage
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-blue-900 text-white hover:bg-blue-800 shadow-md hover:shadow-lg"
+                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "bg-blue-900 text-white hover:bg-blue-800 shadow-md hover:shadow-lg"
                     }`}
                 >
                   Next
@@ -374,6 +374,6 @@ export default function AdminNews() {
         onSave={handleSaveArticle}
         loadNews={loadNews}
       />
-    </AdminLayout>
+    </>
   );
 }

@@ -120,7 +120,7 @@ export default function AdminDashboard() {
   const { user } = useUser();
 
   return (
-    <AdminLayout>
+    <>
       <div className="space-y-8">
         {/* Page Header with Gradient */}
         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600  to-blue-300 p-8 text-white shadow-xl">
@@ -304,6 +304,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </>
   );
 }

@@ -120,7 +120,7 @@ export default function UserManagementPage() {
     };
 
     return (
-        <AdminLayout>
+        <>
 
             <div className="p-6 space-y-6">
                 <div className="flex items-center justify-between">
@@ -304,6 +304,6 @@ export default function UserManagementPage() {
                     />
                 )}
             </div>
-        </AdminLayout>
+        </>
     );
 }

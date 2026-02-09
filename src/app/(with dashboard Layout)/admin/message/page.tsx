@@ -14,7 +14,7 @@ import {
     Filter,
     X,
 } from "lucide-react";
-import AdminLayout from "@/components/admin/layout";
+
 import { deleteContact, getAllContact } from "@/service/Contact";
 import toast from "react-hot-toast";
 
@@ -92,9 +92,9 @@ export default function ContactMessagesPage() {
     };
 
     return (
-        <AdminLayout>
+        <>
 
-            <div className="p-6 space-y-6">
+            <div className="p-2 space-y-6">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
@@ -440,6 +440,6 @@ export default function ContactMessagesPage() {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </>
     );
 }

@@ -138,8 +138,8 @@ export default function AdminPrograms() {
 
 
     return (
-        <AdminLayout>
-            <div className="p-6 space-y-6">
+        <>
+            <div className="p-2 space-y-6">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
@@ -513,6 +513,6 @@ export default function AdminPrograms() {
                 speakers={speakers}
 
             />
-        </AdminLayout>
+        </>
     );
 }

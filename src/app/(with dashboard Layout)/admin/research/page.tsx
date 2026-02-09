@@ -140,7 +140,7 @@ export default function AdminResearch() {
   };
 
   return (
-    <AdminLayout>
+    <>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
@@ -331,6 +331,6 @@ export default function AdminResearch() {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </>
   );
 }
