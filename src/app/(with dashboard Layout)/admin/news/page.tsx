@@ -1,6 +1,6 @@
 "use client";
 
-import AdminLayout from "@/components/admin/layout";
+
 import NewsModal from "@/components/admin/newsModal";
 import { deleteNews, getAllNews } from "@/service/News";
 
@@ -153,7 +153,7 @@ export default function AdminNews() {
             className="bg-gradient-to-r from-blue-900 to-blue-800 hover:from-blue-800 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 shadow-lg shadow-blue-900/30 hover:shadow-xl transition-all"
           >
             <Plus className="h-5 w-5" />
-            New News Article
+            Add New News
           </button>
         </div>
 
@@ -182,9 +182,9 @@ export default function AdminNews() {
                   <th className="px-6 py-4 text-left text-sm font-bold text-white">
                     Title
                   </th>
-                  <th className="px-6 py-4 text-left text-sm font-bold text-white">
+                  {/* <th className="px-6 py-4 text-left text-sm font-bold text-white">
                     Author
-                  </th>
+                  </th> */}
                   <th className="px-6 py-4 text-left text-sm font-bold text-white">
                     Date
                   </th>
@@ -211,7 +211,7 @@ export default function AdminNews() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    {/* <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-gradient-to-br from-blue-900 to-blue-700 rounded-full flex items-center justify-center text-white text-sm font-bold">
                           {article.author?.charAt(0).toUpperCase() || 'A'}
@@ -220,7 +220,7 @@ export default function AdminNews() {
                           {article.author || 'Unknown'}
                         </span>
                       </div>
-                    </td>
+                    </td> */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2 text-sm text-gray-700">
                         <Calendar className="h-4 w-4 text-gray-400" />

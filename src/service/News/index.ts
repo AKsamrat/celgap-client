@@ -51,7 +51,7 @@ export const getSingleNews = async (id: string) => {
 export const getAllNews = async (
   search?: string,
   currentPage?: number,
-  perPage?: number
+  perPage?: number,
 ) => {
   try {
     let url = `${process.env.NEXT_PUBLIC_BASE_API}/news?page=${currentPage}&per_page=${perPage}&`;
@@ -78,7 +78,7 @@ export const updateNews = async (id: number, formData: FormData) => {
   console.log(id, token);
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/news/${id}`, {
-      method: "POST", // 👈 if Laravel route uses POST with _method=PUT
+      method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",

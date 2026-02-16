@@ -4,6 +4,7 @@
 import { createNews, updateNews } from "@/service/News";
 import { AlertCircle, Calendar, Eye, Save, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 interface NewsArticle {
   id: number;
@@ -37,7 +38,7 @@ export default function NewsModal({
     description:
       article?.description ||
       "This is the full description of the news article.",
-    author: article?.author || "",
+
 
 
   });
@@ -47,14 +48,14 @@ export default function NewsModal({
       setFormData({
         title: article.title || "",
         description: article.description || "",
-        author: article.author || "",
+
       });
     } else if (mode === "add") {
       // Reset when adding new blog
       setFormData({
         title: "",
         description: "",
-        author: "",
+
 
       });
     }
@@ -65,7 +66,7 @@ export default function NewsModal({
     setFormData({
       title: "",
       description: "",
-      author: "",
+
 
     });
   };
@@ -80,16 +81,23 @@ export default function NewsModal({
     const data = new FormData();
     data.append("title", formData.title);
     data.append("description", formData.description);
-    data.append("author", formData.author);
+
 
     let res;
 
     if (mode === "edit" && article?.id) {
-      data.append("_method", "PUT");
+      // data.append("_method", "PUT");
       res = await updateNews(article.id, data);
+      console.log(res)
+      if (res.status === 200) {
+        toast.success("News Updated Successfully")
+      }
       console.log("Updating news with ID:", data);
     } else {
       res = await createNews(data);
+      if (res.status == 200) {
+        toast.success("News added Successfully")
+      }
       console.log("Creating new news:", res);
     }
 
@@ -134,10 +142,10 @@ export default function NewsModal({
                 {article?.title}
               </h1>
               <div className="flex items-center gap-6 text-sm text-gray-500 mb-6">
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <User className="h-4 w-4 mr-2" />
                   <span>{article?.author}</span>
-                </div>
+                </div> */}
                 <div className="flex items-center">
                   <Calendar className="h-4 w-4 mr-2" />
                   <span>
@@ -176,7 +184,7 @@ export default function NewsModal({
                     placeholder="Enter news article title"
                   />
                 </div>
-                <div>
+                {/* <div>
                   <label
                     htmlFor="author"
                     className="block text-sm font-medium text-gray-700 mb-2"
@@ -193,7 +201,7 @@ export default function NewsModal({
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-900 focus:border-transparent"
                     placeholder="Enter author name"
                   />
-                </div>
+                </div> */}
               </div>
               <div>
                 <label
@@ -232,7 +240,7 @@ export default function NewsModal({
               className="px-4 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors flex items-center"
             >
               <Save className="h-4 w-4 mr-2" />
-              {mode === "add" ? "Create Article" : "Save Changes"}
+              {mode === "add" ? "Create News" : "Save Changes"}
             </button>
           </div>
         )}

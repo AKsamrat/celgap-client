@@ -40,6 +40,7 @@ export default function AdminBlog() {
   const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [updatingStatusId, setUpdatingStatusId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // Delete blog with improved UX
   const handleDelete = async (id: number) => {
