@@ -28,6 +28,8 @@ import {
   User2,
   Mailbox,
   MailPlus,
+  UserCog,
+  CircleUserRound,
 } from "lucide-react";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -40,18 +42,7 @@ export const menuItems: MenuItem[] = [
     icon: LayoutDashboard,
     roles: ['admin', 'reviewer', 'user'],
   },
-  {
-    name: "Blog",
-    href: "/admin/blog",
-    icon: FileText,
-    roles: ['admin', 'reviewer', 'user'],
-  },
-  {
-    name: "News",
-    href: "/admin/news",
-    icon: Newspaper,
-    roles: ['admin', 'reviewer', 'user'],
-  },
+
   {
     name: "Publications",
     href: "/admin/publications",
@@ -122,7 +113,7 @@ export const menuItems: MenuItem[] = [
   {
     name: "User Management",
     href: "/admin/userManagement",
-    icon: User2,
+    icon: UserCog,
     roles: ['admin'],
   },
   {
@@ -142,6 +133,24 @@ export const menuItems: MenuItem[] = [
     href: "/admin/speaker",
     icon: GraduationCap,
     roles: ['admin'],
+  },
+  {
+    name: "Blog",
+    href: "/admin/blog",
+    icon: FileText,
+    roles: ['admin', 'reviewer', 'user'],
+  },
+  {
+    name: "News",
+    href: "/admin/news",
+    icon: Newspaper,
+    roles: ['admin', 'reviewer', 'user'],
+  },
+  {
+    name: "Profile",
+    href: "/admin/profile",
+    icon: CircleUserRound,
+    roles: ['admin', 'reviewer', 'user'],
   },
   // {
   //   name: "Resources",
@@ -179,7 +188,7 @@ export default function Sidebar() {
   }, [pathname, user]);
 
 
-  console.log(pathname)
+  // console.log(pathname)
   if (!user) return null;
   const visibleMenu: MenuItem[] = userRole
     ? filterMenu(menuItems, userRole)

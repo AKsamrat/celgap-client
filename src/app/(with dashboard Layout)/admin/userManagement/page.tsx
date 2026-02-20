@@ -2,33 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight, Edit, Eye, Trash2 } from "lucide-react";
-import AdminLayout from "@/components/admin/layout";
 import { deleteUser, getAllUser, updateUserProfile, updateUserRole } from "@/service/User";
 import toast from "react-hot-toast";
 
 import UserProfileModal, { User } from "@/components/admin/UserModal";
 import { IUser } from "@/types";
 
-
-
 export type UserRole = "user" | "admin" | "reviewer";
-
-// interface IUser {
-//     id: number;
-//     name: string;
-//     email: string;
-//     role: UserRole;
-//     created_at?: string;
-// }
-
-// interface ApiResponse {
-//     data: IUser[];
-//     meta: {
-//         current_page: number;
-//         last_page: number;
-//         total: number;
-//     };
-// }
 
 export default function UserManagementPage() {
     const [users, setUsers] = useState<IUser[]>([]);

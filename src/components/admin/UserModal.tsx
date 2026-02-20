@@ -268,7 +268,8 @@ export default function UserProfileModal({
                                         </div>
                                         <span className="text-xs font-semibold text-gray-500 uppercase">Institute</span>
                                     </div>
-                                    <p className="text-sm font-medium text-gray-900 ml-11">{user.institute || 'Not provided'}</p>
+                                    <p className="text-sm font-medium text-gray-900 ml-11">{user.institute
+                                        || 'Not provided'}</p>
                                 </div>
                                 {/* Designation*/}
                                 <div className="p-4 bg-gray-50 rounded-xl border-2 border-gray-100">
