@@ -29,22 +29,33 @@ const navItems = [
     subMenu: [
       { name: "Our Story", href: "/whoWeAre/story" },
       { name: "Board Of Trustees", href: "/whoWeAre/faculty" },
-      { name: "Editorial Board", href: "/whoWeAre/editorialBoard" },
+
     ],
   },
   {
     title: "Publications",
     subMenu: [
       {
-        name: "Law Journal",
+        name: "CELGAP Law Journal",
         href: "",
         subMenu: [
-          { name: "About Journal", href: "/publications/law/J-About" },
-          { name: "CELGAP Journal", href: "/publications/law" },
+          { name: "About ", href: "/publications/law/J-About" },
+          { name: "Submission Guideline ", href: "/publications/law/sguidelines" },
+          { name: "Volume", href: "/publications/law" },
+          { name: "Editorial Board", href: "/publications/law/editorialBoard" },
         ]
       },
       // { name: "Law Journal", href: "/publications/law" },
-      { name: "Magazine", href: "/publications/policy" },
+      {
+        name: "CELGAP Magazine", href: "",
+        subMenu: [
+          { name: "About ", href: "/publications/magazine/m-about" },
+          { name: "Submission Guideline ", href: "/publications/magazine/mGuidelines" },
+          { name: "Volume", href: "/publications/magazine" },
+          { name: "Editorial Board", href: "/publications/law/editorialBoard" },
+        ]
+
+      },
       { name: "periodical", href: "/publications/periodical" },
     ],
   },

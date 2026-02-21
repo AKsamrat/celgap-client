@@ -1,39 +1,39 @@
 "use client"
-import { BookOpen, FileText, Users, Award, CheckCircle, Globe, Link } from 'lucide-react';
+import { Newspaper, TrendingUp, Users, Zap, Globe, Award, Heart, Target } from 'lucide-react';
 import { useRouter } from "next/navigation";
 const features = [
     {
-        icon: BookOpen,
-        title: "Rolling Submissions",
-        description: "We review manuscripts on a rolling basis throughout the year"
+        icon: Newspaper,
+        title: "Diverse Content",
+        description: "From in-depth features to breaking news, we cover stories that matter"
     },
     {
-        icon: Globe,
-        title: "Generalist Journal",
-        description: "Covering all areas of law and policy without limitation"
-    },
-    {
-        icon: FileText,
-        title: "Multiple Categories",
-        description: "Articles, Book Reviews, and Case Comments welcome"
+        icon: TrendingUp,
+        title: "Trending Topics",
+        description: "Stay ahead with our coverage of emerging trends and hot topics"
     },
     {
         icon: Users,
-        title: "Diverse Contributors",
-        description: "Open to both scholars and practitioners worldwide"
+        title: "Expert Contributors",
+        description: "Written by industry leaders, journalists, and subject matter experts"
+    },
+    {
+        icon: Zap,
+        title: "Fresh Perspectives",
+        description: "Unique angles and thought-provoking insights on current affairs"
+    },
+    {
+        icon: Globe,
+        title: "Global Reach",
+        description: "Stories from around the world, connecting diverse communities"
     },
     {
         icon: Award,
-        title: "Rigorous Review",
-        description: "Comprehensive peer review process ensures quality"
-    },
-    {
-        icon: CheckCircle,
-        title: "Hybrid Publishing",
-        description: "Online first publication with annual printed edition"
+        title: "Award-Winning",
+        description: "Recognized for excellence in journalism and editorial quality"
     }
 ];
-const JournalAbout = () => {
+const MagazineAbout = () => {
 
     const router = useRouter();
     return (
@@ -45,11 +45,9 @@ const JournalAbout = () => {
 
                 {/* Glassmorphic Container */}
                 <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="relative text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full"></div>
-                        <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/10 to-transparent rounded-tr-full"></div>
+                    <div className="text-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl p-10">
                         <h1 className="text-5xl font-bold mb-6 text-white drop-shadow-lg">
-                            Journal About
+                            Magazine About
                         </h1>
                         <p className="text-xl text-blue-100 max-w-4xl mx-auto leading-relaxed">
                             CELGAP Journal of Law & Policy
@@ -63,26 +61,32 @@ const JournalAbout = () => {
                 <div className="mb-16">
                     <div className="text-center mb-12">
                         <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tight">
-                            About Our Journal
+                            About Our Magazine
                         </h2>
                         <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto rounded-full"></div>
                     </div>
 
-                    <div className="max-w-5xl mx-auto">
-                        <div className="relative rounded-3xl bg-gradient-to-br from-gray-50 to-blue-50/30 border-2 border-gray-200 p-10 shadow-lg hover:shadow-xl transition-all duration-300">
 
+                    <div className="max-w-5xl mx-auto">
+
+                        <div className="relative rounded-3xl bg-gradient-to-br from-gray-50 to-blue-50/30 border-2 border-blue-200 p-10 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full"></div>
                             <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-blue-500/10 to-transparent rounded-tr-full"></div>
+
                             <div className="relative z-10">
                                 <p className="text-2xl leading-relaxed text-gray-800 font-serif mb-8">
                                     <span className="text-5xl font-bold text-blue-900 float-left mr-3 mt-1 leading-none">T</span>
-                                    he CELGAP Journal of Law and Policy welcomes submissions in English for consideration for publication and reviews them on a rolling basis.
+                                    he CELGAP Law Magazine delivers authoritative insights on law, governance, and policy through quarterly publications released every four months.
                                 </p>
 
 
                             </div>
                             <p className="text-lg leading-loose text-gray-700 font-serif italic">
-                                As a <span className="font-semibold text-purple-900">generalist journal</span>, it accepts manuscripts covering all areas of law and policy. Accepted papers are published online first, followed by an annual printed edition. The Journal encourages submissions from both scholars and practitioners across various categories, including <span className="font-semibold">Articles</span>, <span className="font-semibold">Book Reviews</span>, and <span className="font-semibold">Case Comments</span>. All submissions undergo a rigorous review process, including peer review prior to acceptance, and must comply with the submission guidelines outlined on this page.
+                                Each edition presents rigorous analyses, distinguished expert perspectives, and comprehensive examinations of emerging trends that shape Bangladeshs evolving legal and policy landscape. <br /> <br />
+                                Our publications address multifaceted governance domains, encompassing digital rights protection, environmental justice frameworks, corporate accountability mechanisms, and equitable access to justice systems. CELGAP Magazine advances evidence-based, research-driven policy solutions that respond to contemporary governance challenges facing our nation.<br /> <br />
+                                This periodical serves as an indispensable resource for policymakers, legal practitioners, academics, civil society stakeholders, and informed citizens committed to substantive policy discourse and progressive institutional reform.<br /> <br />
+
+                                Creating a comprehensive and engaging content plan for CELGAP Law Magazine involves a mix of legal analysis, current events, and practical resources. Here’s a suggested outline for the magazines contents:
                             </p>
                         </div>
                     </div>
@@ -153,4 +157,4 @@ const JournalAbout = () => {
     )
 }
 
-export default JournalAbout
+export default MagazineAbout
